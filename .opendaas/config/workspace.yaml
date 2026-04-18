@@ -1,0 +1,8 @@
+requireDiffCheckBeforeTask: true
+docsSiteEnabled: true
+defaultDiffMode: line
+siteFramework: fumadocs
+packageManager: npm
+projectKind: general
+docsMode: standard
+workspaceSchemaVersion: 4

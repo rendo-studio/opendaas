@@ -1,0 +1,14 @@
+goalId: goal-opendaas-public-release-baseline
+name: OpenDaaS public release baseline
+summary: 将 OpenDaaS 推进到可对外发布的公开 alpha 基线，补齐可运行的 init/adopt、稳定的本地文档站运行时、最低可用的 Agent 接入路径、安装分发与更强的验证护栏。
+successCriteria:
+  - opendaas can initialize a new workspace and adopt an existing project with repeatable results
+  - opendaas can manage local docs site lifecycle and shared-doc diffs reliably
+  - opendaas ships baseline automated tests covering core control-plane and bootstrap flows
+  - opendaas provides a minimum agent adaptation path so developers can correctly use the framework
+  - opendaas has a documented and validated installation and release path for external users
+nonGoals:
+  - public hosted docs platform
+  - full SaaS control plane
+  - multi-agent orchestration
+  - cloud sync

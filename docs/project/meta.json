@@ -1,0 +1,12 @@
+{
+  "title": "Project",
+  "pages": [
+    "goal",
+    "status",
+    "current-work",
+    "tasks",
+    "changes",
+    "decisions",
+    "releases"
+  ]
+}

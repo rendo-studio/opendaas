@@ -1,0 +1,21 @@
+items:
+  - id: 0-1-0-alpha-1-public-alpha-baseline
+    version: 0.1.0-alpha.1
+    title: Public alpha baseline
+    summary: First externally trialable OpenDaaS baseline.
+    status: published
+    changeRefs:
+      - release-readiness-iteration-1
+    decisionRefs:
+      - introduce-public-alpha-install-path
+    highlights:
+      - Introduced init/adopt
+      - Added minimum agent adaptation
+      - Added generic decision CLI and decision records
+    breakingChanges: []
+    migrationNotes:
+      - Existing workspaces should run opendaas agent sync once.
+    validationSummary: Release record control plane, docs projection, and CLI flow validated.
+    startedAt: 2026-04-17T05:08:05.034Z
+    closedAt: 2026-04-17T05:08:05.821Z
+    publishedAt: 2026-04-17T05:08:06.561Z

@@ -1,0 +1,67 @@
+{
+  "project/status.md": {
+    "hash": "0c57374d8908ee1e160a19e864469ba2aee7e7d06c637b3d05d6c56d294e3649",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.528Z"
+  },
+  "index.md": {
+    "hash": "8ddea12087f053743a05e6249117ad21428acaa78ee5311c215aeca6bb0993a4",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.572Z"
+  },
+  "project/current-work.md": {
+    "hash": "dc5e6e5688de8473fddc26c3076683900cd46aae6a53f0c0cdf83a403abb22d2",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.546Z"
+  },
+  "project/goal.md": {
+    "hash": "0955a2354eebb818bdd966d5e05348caccb0ff5717ed7e70cda73f53f85391c8",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.569Z"
+  },
+  "engineering/agent.md": {
+    "hash": "ee6b03197b588c7187385c23007c0120bbc3b88781b7b5a46e813553a0dc19c6",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.604Z"
+  },
+  "engineering/development.md": {
+    "hash": "abafaf9ea5f7a695aad5f53f611193087f43eb29de92bfe096944cd38ba457ca",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.607Z"
+  },
+  "project/decisions/index.md": {
+    "hash": "debf02b2d896d5047bc0b0606ef77e364a79c8564f7bbbf76d9e1f6d0cfb38fe",
+    "source": "agent",
+    "recordedAt": "2026-04-17T08:45:10.003Z"
+  },
+  "project/decisions/introduce-public-alpha-install-path.md": {
+    "hash": "95c6561bba9d0fbcfdf0df05cdb40d24db8cd6d1379940abdc994de5c604d1e9",
+    "source": "agent",
+    "recordedAt": "2026-04-17T08:45:10.006Z"
+  },
+  "project/releases/index.md": {
+    "hash": "b9f30a6ee9e9c17bfc4c1c3d1f1a03629202d787615fd1a25e6edbf4e8150f46",
+    "source": "agent",
+    "recordedAt": "2026-04-17T08:45:49.907Z"
+  },
+  "project/releases/0-1-0-alpha-1-public-alpha-baseline.md": {
+    "hash": "47015511ef326e7771984ad8b0c1662122cffe5af015d9acd3baf96973b89971",
+    "source": "agent",
+    "recordedAt": "2026-04-17T08:45:49.911Z"
+  },
+  "project/changes/index.md": {
+    "hash": "118cd93ccb680253698659317060bf10812bd8260178dac89f09ab5da25f0731",
+    "source": "agent",
+    "recordedAt": "2026-04-17T07:55:40.244Z"
+  },
+  "project/tasks.md": {
+    "hash": "655817d6ebc83c89dac079780e0d7d0ec4ef349daf940d125ab5ea48fcee52b8",
+    "source": "agent",
+    "recordedAt": "2026-04-18T08:00:18.556Z"
+  },
+  "framework/PRD.md": {
+    "hash": "d5c0bf2e15196220d33822d0ce31dd8ac74f7c6542336e1421c0b62b4a0f63b6",
+    "source": "human",
+    "recordedAt": "2026-04-18T08:17:22.806Z"
+  }
+}

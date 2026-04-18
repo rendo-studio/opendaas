@@ -1,0 +1,30 @@
+{
+  "title": "Framework",
+  "pages": [
+    "index",
+    "---Core Model---",
+    "PRD",
+    "CONCEPTS",
+    "CLI-SPEC",
+    "DECISION-SPEC",
+    "GOAL-AND-PROGRESS-SPEC",
+    "TASK-AND-PLAN-SPEC",
+    "RELEASE-SPEC",
+    "---Docs And Runtime---",
+    "PROJECT-PACK-SPEC",
+    "NAMESPACE-SPEC",
+    "DOC-METADATA-SPEC",
+    "DOCS-DIRECTORY-SPEC",
+    "DOCS-TEMPLATE-SPEC",
+    "DOCS-SITE-SPEC",
+    "LIVE-DOCS-SPEC",
+    "SITE-RUNTIME-SPEC",
+    "WORKSPACE-SPEC",
+    "WORKSPACE-DATA-SPEC",
+    "---Adoption And History---",
+    "INIT-ADOPT-SPEC",
+    "SKILL-PACK-SPEC",
+    "TECH-DECISIONS",
+    "MVP-IMPLEMENTATION-PLAN"
+  ]
+}

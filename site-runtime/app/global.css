@@ -1,0 +1,46 @@
+@import "fumadocs-ui/css/style.css";
+@import "fumadocs-ui/css/vitepress.css";
+
+:root {
+  --color-background: #f6f8fb;
+  --color-foreground: #0f172a;
+  --color-card: rgba(255, 255, 255, 0.92);
+  --color-card-foreground: #0f172a;
+  --color-primary: #0f766e;
+  --color-primary-foreground: #f8fafc;
+  --color-secondary: #e2e8f0;
+  --color-secondary-foreground: #0f172a;
+  --color-muted: #eef2f7;
+  --color-muted-foreground: #526071;
+  --color-accent: #dbeafe;
+  --color-accent-foreground: #0f172a;
+  --color-border: rgba(148, 163, 184, 0.3);
+  --color-ring: rgba(15, 118, 110, 0.28);
+}
+
+html {
+  background:
+    radial-gradient(circle at top left, rgba(14, 165, 233, 0.16), transparent 32%),
+    radial-gradient(circle at top right, rgba(16, 185, 129, 0.14), transparent 30%),
+    linear-gradient(180deg, #f8fafc 0%, #eef4f8 100%);
+}
+
+body {
+  min-height: 100vh;
+  background: transparent;
+  color: var(--color-foreground);
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+}
+
+a {
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+code,
+pre {
+  font-feature-settings: "liga" 0;
+}

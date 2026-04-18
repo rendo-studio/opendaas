@@ -1,0 +1,2637 @@
+{
+  "items": [
+    {
+      "id": "diff-ack-2026-04-18T08:00:18.611Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T08:00:18.611Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T07:57:05.595Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T07:57:05.595Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:36:23.345Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:36:23.345Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:33:14.895Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:33:14.895Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:31:29.398Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:31:29.398Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:30:04.789Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:30:04.789Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:27:04.646Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:27:04.646Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:22:52.667Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:22:52.667Z",
+      "fileCount": 1,
+      "addedCount": 0,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-ack-2026-04-18T07:22:22.396Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T07:22:22.396Z",
+      "fileCount": 45,
+      "addedCount": 23,
+      "modifiedCount": 2,
+      "deletedCount": 20,
+      "files": [
+        {
+          "path": "framework/CLI-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 79
+            }
+          ]
+        },
+        {
+          "path": "framework/CONCEPTS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 103
+            }
+          ]
+        },
+        {
+          "path": "framework/DECISION-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 62
+            }
+          ]
+        },
+        {
+          "path": "framework/DOC-METADATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 251
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-DIRECTORY-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 363
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-SITE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 360
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-TEMPLATE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 417
+            }
+          ]
+        },
+        {
+          "path": "framework/GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 44
+            }
+          ]
+        },
+        {
+          "path": "framework/INIT-ADOPT-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 202
+            }
+          ]
+        },
+        {
+          "path": "framework/LIVE-DOCS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 90
+            }
+          ]
+        },
+        {
+          "path": "framework/MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 157
+            }
+          ]
+        },
+        {
+          "path": "framework/NAMESPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 253
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 99
+            }
+          ]
+        },
+        {
+          "path": "framework/PROJECT-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 367
+            }
+          ]
+        },
+        {
+          "path": "framework/RELEASE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 135
+            }
+          ]
+        },
+        {
+          "path": "framework/SITE-RUNTIME-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 279
+            }
+          ]
+        },
+        {
+          "path": "framework/SKILL-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 122
+            }
+          ]
+        },
+        {
+          "path": "framework/TASK-AND-PLAN-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 40
+            }
+          ]
+        },
+        {
+          "path": "framework/TECH-DECISIONS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 250
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-DATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 460
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 222
+            }
+          ]
+        },
+        {
+          "path": "framework/index.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 42
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 26,
+              "oldCount": 46,
+              "newStart": 26,
+              "newCount": 46
+            },
+            {
+              "oldStart": 73,
+              "oldCount": 1,
+              "newStart": 73,
+              "newCount": 1
+            },
+            {
+              "oldStart": 75,
+              "oldCount": 11,
+              "newStart": 75,
+              "newCount": 18
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 21
+            }
+          ]
+        },
+        {
+          "path": "CLI-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 79,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "CONCEPTS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 103,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DECISION-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 62,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOC-METADATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 251,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-DIRECTORY-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 363,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-SITE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 360,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-TEMPLATE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 417,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 44,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "INIT-ADOPT-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 202,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 157,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "NAMESPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 253,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PRD.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 99,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PROJECT-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 367,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "RELEASE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 135,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SITE-RUNTIME-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 279,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SKILL-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 122,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TASK-AND-PLAN-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 40,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TECH-DECISIONS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 250,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-DATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 460,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 222,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:13:27.808Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:13:27.808Z",
+      "fileCount": 45,
+      "addedCount": 23,
+      "modifiedCount": 2,
+      "deletedCount": 20,
+      "files": [
+        {
+          "path": "framework/CLI-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 79
+            }
+          ]
+        },
+        {
+          "path": "framework/CONCEPTS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 103
+            }
+          ]
+        },
+        {
+          "path": "framework/DECISION-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 62
+            }
+          ]
+        },
+        {
+          "path": "framework/DOC-METADATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 251
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-DIRECTORY-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 363
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-SITE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 360
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-TEMPLATE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 417
+            }
+          ]
+        },
+        {
+          "path": "framework/GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 44
+            }
+          ]
+        },
+        {
+          "path": "framework/INIT-ADOPT-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 202
+            }
+          ]
+        },
+        {
+          "path": "framework/LIVE-DOCS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 90
+            }
+          ]
+        },
+        {
+          "path": "framework/MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 157
+            }
+          ]
+        },
+        {
+          "path": "framework/NAMESPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 253
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 99
+            }
+          ]
+        },
+        {
+          "path": "framework/PROJECT-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 367
+            }
+          ]
+        },
+        {
+          "path": "framework/RELEASE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 135
+            }
+          ]
+        },
+        {
+          "path": "framework/SITE-RUNTIME-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 279
+            }
+          ]
+        },
+        {
+          "path": "framework/SKILL-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 122
+            }
+          ]
+        },
+        {
+          "path": "framework/TASK-AND-PLAN-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 40
+            }
+          ]
+        },
+        {
+          "path": "framework/TECH-DECISIONS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 250
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-DATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 460
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 222
+            }
+          ]
+        },
+        {
+          "path": "framework/index.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 42
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 26,
+              "oldCount": 46,
+              "newStart": 26,
+              "newCount": 46
+            },
+            {
+              "oldStart": 73,
+              "oldCount": 1,
+              "newStart": 73,
+              "newCount": 1
+            },
+            {
+              "oldStart": 75,
+              "oldCount": 11,
+              "newStart": 75,
+              "newCount": 18
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 21
+            }
+          ]
+        },
+        {
+          "path": "CLI-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 79,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "CONCEPTS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 103,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DECISION-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 62,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOC-METADATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 251,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-DIRECTORY-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 363,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-SITE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 360,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-TEMPLATE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 417,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 44,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "INIT-ADOPT-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 202,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 157,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "NAMESPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 253,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PRD.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 99,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PROJECT-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 367,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "RELEASE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 135,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SITE-RUNTIME-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 279,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SKILL-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 122,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TASK-AND-PLAN-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 40,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TECH-DECISIONS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 250,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-DATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 460,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 222,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:12:41.756Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:12:41.756Z",
+      "fileCount": 45,
+      "addedCount": 23,
+      "modifiedCount": 2,
+      "deletedCount": 20,
+      "files": [
+        {
+          "path": "framework/CLI-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 79
+            }
+          ]
+        },
+        {
+          "path": "framework/CONCEPTS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 103
+            }
+          ]
+        },
+        {
+          "path": "framework/DECISION-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 62
+            }
+          ]
+        },
+        {
+          "path": "framework/DOC-METADATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 251
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-DIRECTORY-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 363
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-SITE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 360
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-TEMPLATE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 417
+            }
+          ]
+        },
+        {
+          "path": "framework/GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 44
+            }
+          ]
+        },
+        {
+          "path": "framework/INIT-ADOPT-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 202
+            }
+          ]
+        },
+        {
+          "path": "framework/LIVE-DOCS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 90
+            }
+          ]
+        },
+        {
+          "path": "framework/MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 157
+            }
+          ]
+        },
+        {
+          "path": "framework/NAMESPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 253
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 99
+            }
+          ]
+        },
+        {
+          "path": "framework/PROJECT-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 367
+            }
+          ]
+        },
+        {
+          "path": "framework/RELEASE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 135
+            }
+          ]
+        },
+        {
+          "path": "framework/SITE-RUNTIME-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 279
+            }
+          ]
+        },
+        {
+          "path": "framework/SKILL-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 122
+            }
+          ]
+        },
+        {
+          "path": "framework/TASK-AND-PLAN-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 40
+            }
+          ]
+        },
+        {
+          "path": "framework/TECH-DECISIONS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 250
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-DATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 460
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 222
+            }
+          ]
+        },
+        {
+          "path": "framework/index.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 42
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 26,
+              "oldCount": 46,
+              "newStart": 26,
+              "newCount": 46
+            },
+            {
+              "oldStart": 73,
+              "oldCount": 1,
+              "newStart": 73,
+              "newCount": 1
+            },
+            {
+              "oldStart": 75,
+              "oldCount": 11,
+              "newStart": 75,
+              "newCount": 18
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 21
+            }
+          ]
+        },
+        {
+          "path": "CLI-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 79,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "CONCEPTS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 103,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DECISION-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 62,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOC-METADATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 251,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-DIRECTORY-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 363,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-SITE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 360,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-TEMPLATE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 417,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 44,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "INIT-ADOPT-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 202,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 157,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "NAMESPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 253,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PRD.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 99,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PROJECT-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 367,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "RELEASE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 135,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SITE-RUNTIME-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 279,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SKILL-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 122,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TASK-AND-PLAN-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 40,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TECH-DECISIONS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 250,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-DATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 460,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 222,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:11:02.519Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:11:02.519Z",
+      "fileCount": 42,
+      "addedCount": 21,
+      "modifiedCount": 1,
+      "deletedCount": 20,
+      "files": [
+        {
+          "path": "framework/CLI-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 79
+            }
+          ]
+        },
+        {
+          "path": "framework/CONCEPTS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 103
+            }
+          ]
+        },
+        {
+          "path": "framework/DECISION-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 62
+            }
+          ]
+        },
+        {
+          "path": "framework/DOC-METADATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 251
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-DIRECTORY-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 363
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-SITE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 360
+            }
+          ]
+        },
+        {
+          "path": "framework/DOCS-TEMPLATE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 417
+            }
+          ]
+        },
+        {
+          "path": "framework/GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 44
+            }
+          ]
+        },
+        {
+          "path": "framework/INIT-ADOPT-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 202
+            }
+          ]
+        },
+        {
+          "path": "framework/MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 157
+            }
+          ]
+        },
+        {
+          "path": "framework/NAMESPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 253
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 99
+            }
+          ]
+        },
+        {
+          "path": "framework/PROJECT-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 367
+            }
+          ]
+        },
+        {
+          "path": "framework/RELEASE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 135
+            }
+          ]
+        },
+        {
+          "path": "framework/SITE-RUNTIME-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 279
+            }
+          ]
+        },
+        {
+          "path": "framework/SKILL-PACK-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 122
+            }
+          ]
+        },
+        {
+          "path": "framework/TASK-AND-PLAN-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 40
+            }
+          ]
+        },
+        {
+          "path": "framework/TECH-DECISIONS.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 250
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-DATA-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 460
+            }
+          ]
+        },
+        {
+          "path": "framework/WORKSPACE-SPEC.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 222
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 21
+            }
+          ]
+        },
+        {
+          "path": "CLI-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 79,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "CONCEPTS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 103,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DECISION-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 62,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOC-METADATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 251,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-DIRECTORY-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 363,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-SITE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 360,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "DOCS-TEMPLATE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 417,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "GOAL-AND-PROGRESS-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 44,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "INIT-ADOPT-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 202,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "MVP-IMPLEMENTATION-PLAN.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 157,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "NAMESPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 253,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PRD.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 99,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "PROJECT-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 367,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "RELEASE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 135,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SITE-RUNTIME-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 279,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "SKILL-PACK-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 122,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TASK-AND-PLAN-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 40,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "TECH-DECISIONS.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 250,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-DATA-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 460,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "WORKSPACE-SPEC.md",
+          "changeType": "deleted",
+          "source": "unknown",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 222,
+              "newStart": 1,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:09:27.115Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:09:27.115Z",
+      "fileCount": 2,
+      "addedCount": 1,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T07:08:15.820Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T07:08:15.820Z",
+      "fileCount": 2,
+      "addedCount": 1,
+      "modifiedCount": 1,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "agent",
+          "hunks": [
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 21
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

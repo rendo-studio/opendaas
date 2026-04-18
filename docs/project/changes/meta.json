@@ -1,0 +1,9 @@
+{
+  "title": "Changes",
+  "pages": [
+    "index",
+    "release-readiness-iteration-1",
+    "production-hardening-iteration-1",
+    "bootstrap-opendaas-self-hosting"
+  ]
+}

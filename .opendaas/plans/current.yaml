@@ -1,0 +1,42 @@
+goalRef: goal-opendaas-public-release-baseline
+items:
+  - id: self-hosting-and-control-plane-foundation-1
+    name: Self-hosting and control-plane foundation
+    status: done
+    parentPlanId: null
+  - id: workspace-bootstrap-and-adoption-1
+    name: Workspace bootstrap and adoption
+    status: done
+    parentPlanId: null
+  - id: agent-adaptation-minimum-1
+    name: Agent adaptation minimum
+    status: done
+    parentPlanId: null
+  - id: validation-and-migration-hardening-1
+    name: Validation and migration hardening
+    status: done
+    parentPlanId: null
+  - id: data-driven-project-dashboard-1
+    name: Data-driven project dashboard
+    status: done
+    parentPlanId: null
+  - id: full-task-closure-page-1
+    name: Full task closure page
+    status: done
+    parentPlanId: null
+  - id: live-docs-site-and-editing-boundary-spec-1
+    name: Live docs site and editing-boundary spec
+    status: done
+    parentPlanId: null
+  - id: global-site-runtime-and-live-sync-refactor-1
+    name: Global site runtime and live sync refactor
+    status: done
+    parentPlanId: null
+  - id: editable-docs-ui-and-task-visualization-1
+    name: Editable docs UI and task visualization
+    status: done
+    parentPlanId: null
+  - id: docs-information-architecture-cleanup-1
+    name: Docs information architecture cleanup
+    status: done
+    parentPlanId: null

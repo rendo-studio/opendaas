@@ -1,0 +1,229 @@
+items:
+  - id: task-foundation
+    name: Self-hosting and control-plane foundation
+    status: done
+    planRef: self-hosting-and-control-plane-foundation-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-foundation-1
+    name: Dogfood docs and .opendaas namespace boundaries
+    status: done
+    planRef: self-hosting-and-control-plane-foundation-1
+    parentTaskId: task-foundation
+    countedForProgress: true
+  - id: task-foundation-2
+    name: Ship diff and local site runtime control-plane baseline
+    status: done
+    planRef: self-hosting-and-control-plane-foundation-1
+    parentTaskId: task-foundation
+    countedForProgress: true
+  - id: task-bootstrap
+    name: Workspace bootstrap and adoption
+    status: done
+    planRef: workspace-bootstrap-and-adoption-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-bootstrap-1
+    name: Implement init workspace generation
+    status: done
+    planRef: workspace-bootstrap-and-adoption-1
+    parentTaskId: task-bootstrap
+    countedForProgress: true
+  - id: task-bootstrap-2
+    name: Implement adopt flow for existing projects
+    status: done
+    planRef: workspace-bootstrap-and-adoption-1
+    parentTaskId: task-bootstrap
+    countedForProgress: true
+  - id: task-bootstrap-3
+    name: Add init and adopt tests plus baseline validation
+    status: done
+    planRef: workspace-bootstrap-and-adoption-1
+    parentTaskId: task-bootstrap
+    countedForProgress: true
+  - id: task-agent
+    name: Agent adaptation minimum
+    status: done
+    planRef: agent-adaptation-minimum-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-agent-1
+    name: Generate minimum OpenDaaS agent adaptation artifact
+    status: done
+    planRef: agent-adaptation-minimum-1
+    parentTaskId: task-agent
+    countedForProgress: true
+  - id: task-agent-2
+    name: Validate first-time agent usage flow
+    status: done
+    planRef: agent-adaptation-minimum-1
+    parentTaskId: task-agent
+    countedForProgress: true
+  - id: task-hardening
+    name: Validation and migration hardening
+    status: done
+    planRef: validation-and-migration-hardening-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-hardening-1
+    name: Extend validate and update path for adopted workspaces
+    status: done
+    planRef: validation-and-migration-hardening-1
+    parentTaskId: task-hardening
+    countedForProgress: true
+  - id: implement-decision-control-plane-for-high-valu-2
+    name: Implement generic decision control plane for high-value decisions
+    status: done
+    planRef: validation-and-migration-hardening-1
+    parentTaskId: task-hardening
+    countedForProgress: true
+  - id: implement-structured-release-changelog-control-p-3
+    name: Implement structured release changelog control plane
+    status: done
+    planRef: validation-and-migration-hardening-1
+    parentTaskId: task-hardening
+    countedForProgress: true
+  - id: task-dashboard
+    name: Data-driven project dashboard
+    status: done
+    planRef: data-driven-project-dashboard-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-dashboard-1
+    name: Implement dashboard data loaders for goal, task, plan, and progress control planes
+    status: done
+    planRef: data-driven-project-dashboard-1
+    parentTaskId: task-dashboard
+    countedForProgress: true
+  - id: task-dashboard-2
+    name: Replace markdown-only project overview sections with live dashboard cards
+    status: done
+    planRef: data-driven-project-dashboard-1
+    parentTaskId: task-dashboard
+    countedForProgress: true
+  - id: task-dashboard-3
+    name: Wire project entry routes and navigation to the live dashboard view
+    status: done
+    planRef: data-driven-project-dashboard-1
+    parentTaskId: task-dashboard
+    countedForProgress: true
+  - id: task-task-loop
+    name: Full task closure page
+    status: done
+    planRef: full-task-closure-page-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-task-loop-1
+    name: Project the current complete task tree into the docs site
+    status: done
+    planRef: full-task-closure-page-1
+    parentTaskId: task-task-loop
+    countedForProgress: true
+  - id: task-task-loop-2
+    name: Define task archive and change-linked history shape for closed-loop views
+    status: done
+    planRef: full-task-closure-page-1
+    parentTaskId: task-task-loop
+    countedForProgress: true
+  - id: task-task-loop-3
+    name: Render a full task closure page with current tree, recent completions, and history placeholder
+    status: done
+    planRef: full-task-closure-page-1
+    parentTaskId: task-task-loop
+    countedForProgress: true
+  - id: task-live-docs-spec
+    name: Live docs site and editing-boundary spec
+    status: done
+    planRef: live-docs-site-and-editing-boundary-spec-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-live-docs-spec-1
+    name: Specify site open, site dev, and site build semantics
+    status: done
+    planRef: live-docs-site-and-editing-boundary-spec-1
+    parentTaskId: task-live-docs-spec
+    countedForProgress: true
+  - id: task-live-docs-spec-2
+    name: Specify editable, projection, and hybrid page boundaries
+    status: done
+    planRef: live-docs-site-and-editing-boundary-spec-1
+    parentTaskId: task-live-docs-spec
+    countedForProgress: true
+  - id: task-live-docs-spec-3
+    name: Specify diff history and global runtime models for the live docs site
+    status: done
+    planRef: live-docs-site-and-editing-boundary-spec-1
+    parentTaskId: task-live-docs-spec
+    countedForProgress: true
+  - id: task-site-runtime
+    name: Global site runtime and live sync refactor
+    status: done
+    planRef: global-site-runtime-and-live-sync-refactor-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-site-runtime-1
+    name: Move site runtime out of the project root into a global workspace-scoped runtime
+    status: done
+    planRef: global-site-runtime-and-live-sync-refactor-1
+    parentTaskId: task-site-runtime
+    countedForProgress: true
+  - id: task-site-runtime-2
+    name: Implement watch-based sync for docs and core .opendaas state
+    status: done
+    planRef: global-site-runtime-and-live-sync-refactor-1
+    parentTaskId: task-site-runtime
+    countedForProgress: true
+  - id: task-site-runtime-3
+    name: Add live rebuild hooks so site dev refreshes from control-plane changes
+    status: done
+    planRef: global-site-runtime-and-live-sync-refactor-1
+    parentTaskId: task-site-runtime
+    countedForProgress: true
+  - id: task-editable-site
+    name: Editable docs UI and task visualization
+    status: done
+    planRef: editable-docs-ui-and-task-visualization-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-editable-site-1
+    name: Add an editable site shell that honors page editability boundaries
+    status: done
+    planRef: editable-docs-ui-and-task-visualization-1
+    parentTaskId: task-editable-site
+    countedForProgress: true
+  - id: task-editable-site-2
+    name: Build task visualization components for progress, tree, and history
+    status: done
+    planRef: editable-docs-ui-and-task-visualization-1
+    parentTaskId: task-editable-site
+    countedForProgress: true
+  - id: task-editable-site-3
+    name: Surface a diff timeline with previous-versus-current comparison in the site UI
+    status: done
+    planRef: editable-docs-ui-and-task-visualization-1
+    parentTaskId: task-editable-site
+    countedForProgress: true
+  - id: task-docs-ia
+    name: Docs information architecture cleanup
+    status: done
+    planRef: docs-information-architecture-cleanup-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-docs-ia-1
+    name: Split project reality and framework reference navigation clearly
+    status: done
+    planRef: docs-information-architecture-cleanup-1
+    parentTaskId: task-docs-ia
+    countedForProgress: true
+  - id: task-docs-ia-2
+    name: Reduce root docs noise by regrouping specs and entry points
+    status: done
+    planRef: docs-information-architecture-cleanup-1
+    parentTaskId: task-docs-ia
+    countedForProgress: true
+  - id: task-docs-ia-3
+    name: Update landing pages and internal entry points to match the cleaned IA
+    status: done
+    planRef: docs-information-architecture-cleanup-1
+    parentTaskId: task-docs-ia
+    countedForProgress: true

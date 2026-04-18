@@ -1,0 +1,26 @@
+{
+  "name": "opendaas",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "OpenDaaS CLI-first documentation control plane for Human-Agent collaboration.",
+  "bin": {
+    "opendaas": "./dist/bin/opendaas.js"
+  },
+  "scripts": {
+    "dev": "node --import tsx ./src/bin/opendaas.ts",
+    "test": "vitest run",
+    "check": "tsc --noEmit",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@rendo-studio/aclip": "^0.2.7",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "yaml": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "vitest": "^4.1.4"
+  }
+}

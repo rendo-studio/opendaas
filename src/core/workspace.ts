@@ -1,0 +1,99 @@
+import path from "node:path";
+import { existsSync } from "node:fs";
+
+export interface WorkspacePaths {
+  root: string;
+  docsRoot: string;
+  workspaceRoot: string;
+  goalFile: string;
+  planFile: string;
+  taskFile: string;
+  taskArchiveFile: string;
+  progressFile: string;
+  activeStateFile: string;
+  decisionFile: string;
+  releaseFile: string;
+  diffBaselineFile: string;
+  diffPendingFile: string;
+  diffHistoryFile: string;
+  diffSourcesFile: string;
+  docsIndexFile: string;
+  docsGoalFile: string;
+  docsStatusFile: string;
+  docsCurrentWorkFile: string;
+  docsDecisionsIndexFile: string;
+  docsReleasesIndexFile: string;
+  docsTasksFile: string;
+}
+
+export function resolveWorkspaceRoot(start = process.cwd()): string {
+  const explicitRoot = process.env.OPENDAAS_WORKSPACE_ROOT;
+  if (explicitRoot) {
+    return path.resolve(explicitRoot);
+  }
+
+  let current = path.resolve(start);
+
+  while (true) {
+    const hasWorkspace = existsSync(path.join(current, ".opendaas"));
+    const hasDocs = existsSync(path.join(current, "docs"));
+
+    if (hasWorkspace && hasDocs) {
+      return current;
+    }
+
+    const parent = path.dirname(current);
+    if (parent === current) {
+      throw new Error(
+        `Unable to locate an OpenDaaS workspace from ${start}. Expected both .opendaas and docs.`
+      );
+    }
+    current = parent;
+  }
+}
+
+export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
+  const root = resolveWorkspaceRoot(start);
+  const docsRoot = path.join(root, "docs");
+  const workspaceRoot = path.join(root, ".opendaas");
+
+  return {
+    root,
+    docsRoot,
+    workspaceRoot,
+    goalFile: path.join(workspaceRoot, "goals", "current.yaml"),
+    planFile: path.join(workspaceRoot, "plans", "current.yaml"),
+    taskFile: path.join(workspaceRoot, "tasks", "current.yaml"),
+    taskArchiveFile: path.join(workspaceRoot, "tasks", "archive.yaml"),
+    progressFile: path.join(workspaceRoot, "state", "progress.yaml"),
+    activeStateFile: path.join(workspaceRoot, "state", "active.yaml"),
+    decisionFile: path.join(workspaceRoot, "decisions", "records.yaml"),
+    releaseFile: path.join(workspaceRoot, "releases", "records.yaml"),
+    diffBaselineFile: path.join(workspaceRoot, "diff", "baseline.json"),
+    diffPendingFile: path.join(workspaceRoot, "diff", "pending.json"),
+    diffHistoryFile: path.join(workspaceRoot, "diff", "history.json"),
+    diffSourcesFile: path.join(workspaceRoot, "diff", "sources.json"),
+    docsIndexFile: path.join(docsRoot, "index.md"),
+    docsGoalFile: path.join(docsRoot, "project", "goal.md"),
+    docsStatusFile: path.join(docsRoot, "project", "status.md"),
+    docsCurrentWorkFile: path.join(docsRoot, "project", "current-work.md"),
+    docsDecisionsIndexFile: path.join(docsRoot, "project", "decisions", "index.md"),
+    docsReleasesIndexFile: path.join(docsRoot, "project", "releases", "index.md"),
+    docsTasksFile: path.join(docsRoot, "project", "tasks.md")
+  };
+}
+
+export async function withWorkspaceRoot<T>(root: string, work: () => Promise<T>): Promise<T> {
+  const previous = process.env.OPENDAAS_WORKSPACE_ROOT;
+  process.env.OPENDAAS_WORKSPACE_ROOT = path.resolve(root);
+
+  try {
+    return await work();
+  } finally {
+    if (previous === undefined) {
+      delete process.env.OPENDAAS_WORKSPACE_ROOT;
+    } else {
+      process.env.OPENDAAS_WORKSPACE_ROOT = previous;
+    }
+  }
+}

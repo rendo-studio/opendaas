@@ -1,0 +1,150 @@
+{
+  "engineering/agent.md": {
+    "hash": "ee6b03197b588c7187385c23007c0120bbc3b88781b7b5a46e813553a0dc19c6",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "engineering/development.md": {
+    "hash": "abafaf9ea5f7a695aad5f53f611193087f43eb29de92bfe096944cd38ba457ca",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/CLI-SPEC.md": {
+    "hash": "9a68ed31b80bcaed574cc4dab5245b4d1f39f34d3702fe212aeec686664c588c",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/CONCEPTS.md": {
+    "hash": "ac44b1f016fd4866f45ac216a9b3306f9387f68866781ddb845ef36e6d7b0e46",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/DECISION-SPEC.md": {
+    "hash": "cc7b0783b0175f0cecdc4444747d729786116d49cc2b49c716d1b44c4640bd36",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/DOC-METADATA-SPEC.md": {
+    "hash": "45b9f97aff1fc45fc098548c39b87156119a66a44e48c69ee79209ccc56a29ce",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/DOCS-DIRECTORY-SPEC.md": {
+    "hash": "95ddeb912af3bf0bb031335c496e3589b52772974233379397fc1729fd7c84a1",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/DOCS-SITE-SPEC.md": {
+    "hash": "fd98929402147086c93752864572bf88223c3f11cc708dab1ed1d6ddade71816",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/DOCS-TEMPLATE-SPEC.md": {
+    "hash": "70d1f3f5f204284d4ce2fe05ac63778b9268140caef4821f5727c6e9300f7034",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/GOAL-AND-PROGRESS-SPEC.md": {
+    "hash": "cfe83c87b412e611cd5f694c747c3620bba63161b1e5f172c109e636421d41f6",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/INIT-ADOPT-SPEC.md": {
+    "hash": "4f6b7ead1842a0656a9597c5560abc482aebba884aac446f1e6efda64e2a511c",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/LIVE-DOCS-SPEC.md": {
+    "hash": "e5cc69b3239106d8f6bff3c4db2686847b3b732a66d0be604a9d9a449e23395c",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/MVP-IMPLEMENTATION-PLAN.md": {
+    "hash": "80af7f771382d37105baa252d64488971bc9791b09d158546e6f377170fe3fee",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/NAMESPACE-SPEC.md": {
+    "hash": "ce3eefa3ddb9159545246e47dae01526127394bd0c7c3e3b17878f7f97974317",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/PRD.md": {
+    "hash": "d09dacea3230fcadf7a98179f4173ab342b25f8f33706af6cb054412e61ed21a",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/PROJECT-PACK-SPEC.md": {
+    "hash": "30d9be174a4fafc3bc7b74d197b61f6f0f6f59caecf548f033284412edb94398",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/RELEASE-SPEC.md": {
+    "hash": "6568a2757d10b45639993d6bdf98ef280b780e5b6dbe95c505c84abf3641b536",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/SITE-RUNTIME-SPEC.md": {
+    "hash": "ad081d87c2d7259816d90600fa1dd5138a0fdca4ecce823bb951ca7060780d67",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/SKILL-PACK-SPEC.md": {
+    "hash": "9ed11d1770de52f791077058a1401ddace428a588b4199bb6b44ce5814ba7042",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/TASK-AND-PLAN-SPEC.md": {
+    "hash": "276cecfbd1caa7e1b71ac3dbbfb7f1fd091ec1bff86140265f0859791ef3ad60",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/TECH-DECISIONS.md": {
+    "hash": "44187f70e5ed799de648366dff1c09196e1a7e688351fcc4461324aa47e617cf",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/WORKSPACE-DATA-SPEC.md": {
+    "hash": "334c13c33c0030a6a0f1010ac035658ae2a874c013bd8de06b9fb17762dd112e",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/WORKSPACE-SPEC.md": {
+    "hash": "2490ffd09c2b792f8df6ff50b8e5f420b7a3031dee577e27a32bb6336173a38e",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "framework/index.md": {
+    "hash": "93a23fab26b4fb89c930efa732b45dd87146b30e32ed39fe6fbd6d0e8ea82d83",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "index.md": {
+    "hash": "8ddea12087f053743a05e6249117ad21428acaa78ee5311c215aeca6bb0993a4",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/changes/bootstrap-opendaas-self-hosting.md": {
+    "hash": "10df930dfa23c786cd1125dff756e6ee940e18983aaf3e26b729b690f8d10d63",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/changes/index.md": {
+    "hash": "118cd93ccb680253698659317060bf10812bd8260178dac89f09ab5da25f0731",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/changes/production-hardening-iteration-1.md": {
+    "hash": "2dd621358b58c4a5007e951dbbd670fbef6294bbd7d40841d6b40ea6c0052318",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/changes/release-readiness-iteration-1.md": {
+    "hash": "b224020403c666e2986b4721bca8a1f5879de76fcb6b07a23e91f956eccc4c9a",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/current-work.md": {
+    "hash": "dc5e6e5688de8473fddc26c3076683900cd46aae6a53f0c0cdf83a403abb22d2",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/decisions/index.md": {
+    "hash": "debf02b2d896d5047bc0b0606ef77e364a79c8564f7bbbf76d9e1f6d0cfb38fe",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/decisions/introduce-public-alpha-install-path.md": {
+    "hash": "95c6561bba9d0fbcfdf0df05cdb40d24db8cd6d1379940abdc994de5c604d1e9",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/goal.md": {
+    "hash": "0955a2354eebb818bdd966d5e05348caccb0ff5717ed7e70cda73f53f85391c8",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/releases/0-1-0-alpha-1-public-alpha-baseline.md": {
+    "hash": "47015511ef326e7771984ad8b0c1662122cffe5af015d9acd3baf96973b89971",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/releases/index.md": {
+    "hash": "b9f30a6ee9e9c17bfc4c1c3d1f1a03629202d787615fd1a25e6edbf4e8150f46",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/status.md": {
+    "hash": "0c57374d8908ee1e160a19e864469ba2aee7e7d06c637b3d05d6c56d294e3649",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  },
+  "project/tasks.md": {
+    "hash": "655817d6ebc83c89dac079780e0d7d0ec4ef349daf940d125ab5ea48fcee52b8",
+    "acknowledgedAt": "2026-04-18T08:00:18.611Z"
+  }
+}
