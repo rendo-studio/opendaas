@@ -1,19 +1,12 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import defaultMdxComponents, { createRelativeLink } from "fumadocs-ui/mdx";
 import { DocsBody, DocsPage } from "fumadocs-ui/layouts/docs/page";
 
-import { Dashboard } from "@/components/site/dashboard";
-import { LiveRefresh } from "@/components/site/live-refresh";
-import { PageBoundaryBar } from "@/components/site/page-boundary-bar";
-import { TaskClosurePage } from "@/components/site/task-closure-page";
-import {
-  findPageBoundary,
-  loadControlPlaneSnapshot,
-  loadRuntimeMetadata,
-  loadRuntimeVersion,
-  loadSourcePage
-} from "@/lib/runtime-data";
-import { source } from "@/lib/source";
+import { ConsoleOverviewView } from "../../../components/site/console-overview-view";
+import { ConsoleTasksView } from "../../../components/site/console-tasks-view";
+import { LiveRefresh } from "../../../components/site/live-refresh";
+import { loadControlPlaneSnapshot, loadRuntimeMetadata, loadRuntimeVersion } from "../../../lib/runtime-data";
+import { source } from "../../../lib/source";
 
 export function generateStaticParams() {
   return source.generateParams();
@@ -23,72 +16,23 @@ export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
   const params = await props.params;
-  const snapshot = await loadControlPlaneSnapshot();
+  const key = (params.slug ?? []).join("/");
+
+  if (!params.slug || params.slug.length === 0) {
+    redirect("/docs/console");
+  }
+
+  if (key === "console/overview") {
+    redirect("/docs/console");
+  }
+
   const runtime = await loadRuntimeMetadata();
   const version = await loadRuntimeVersion();
   const page = source.getPage(params.slug);
-  const boundary = findPageBoundary(snapshot, params.slug);
-  const editableSource =
-    boundary?.mode === "editable" && runtime.mode === "dev"
-      ? await loadSourcePage(boundary.path)
-      : null;
-
-  const isDashboard = (params.slug?.length ?? 0) === 0;
-  const isTaskClosure = (params.slug ?? []).join("/") === "project/tasks";
-
-  if (!page && !isDashboard && !isTaskClosure) {
-    notFound();
-  }
-
-  if (isDashboard) {
-    const MDX = page?.data.body ?? null;
-    const components = page
-      ? {
-          ...defaultMdxComponents,
-          a: createRelativeLink(source, page)
-        }
-      : defaultMdxComponents;
-
-    return (
-      <DocsPage full>
-        <LiveRefresh initialVersion={version.updatedAt} />
-        <DocsBody>
-          <div className="not-prose">
-            <Dashboard snapshot={snapshot} />
-          </div>
-          {page && boundary ? (
-            <>
-              <PageBoundaryBar boundary={boundary} editableContent={editableSource?.content ?? null} />
-              {MDX ? <MDX components={components} /> : null}
-            </>
-          ) : null}
-        </DocsBody>
-      </DocsPage>
-    );
-  }
-
-  if (isTaskClosure) {
-    const MDX = page?.data.body ?? null;
-    const components = page
-      ? {
-          ...defaultMdxComponents,
-          a: createRelativeLink(source, page)
-        }
-      : defaultMdxComponents;
-
-    return (
-      <DocsPage full>
-        <LiveRefresh initialVersion={version.updatedAt} />
-        <DocsBody>
-          <div className="not-prose">
-            <TaskClosurePage snapshot={snapshot} />
-          </div>
-          {boundary ? <PageBoundaryBar boundary={boundary} editableContent={editableSource?.content ?? null} /> : null}
-          {MDX ? <MDX components={components} /> : null}
-        </DocsBody>
-      </DocsPage>
-    );
-  }
+  const useOverviewConsole = key === "console";
+  const useTasksConsole = key === "console/tasks";
+  const useConsoleView = useOverviewConsole || useTasksConsole;
+  const snapshot = useConsoleView ? await loadControlPlaneSnapshot() : null;
 
   if (!page) {
     notFound();
@@ -101,11 +45,18 @@ export default async function Page(props: {
   };
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <LiveRefresh initialVersion={version.updatedAt} />
+    <DocsPage toc={useConsoleView ? undefined : page.data.toc} full={useConsoleView ? true : page.data.full}>
+      {runtime.mode === "dev" ? <LiveRefresh initialVersion={version.updatedAt} /> : null}
       <DocsBody>
-        {boundary ? <PageBoundaryBar boundary={boundary} editableContent={editableSource?.content ?? null} /> : null}
-        <MDX components={components} />
+        {snapshot ? (
+          useOverviewConsole ? (
+            <ConsoleOverviewView snapshot={snapshot} />
+          ) : (
+            <ConsoleTasksView snapshot={snapshot} />
+          )
+        ) : (
+          <MDX components={components} />
+        )}
       </DocsBody>
     </DocsPage>
   );

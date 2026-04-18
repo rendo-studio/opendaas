@@ -108,11 +108,11 @@ description: 定义 .opendaas 固定文件骨架与最小数据结构。
 
 - 记录当前基于原生结构化 task 状态计算出的进度摘要
 
-### 4.5 `.opendaas/goals/current.yaml`
+### 4.5 `.opendaas/goals/end.yaml`
 
 职责：
 
-- 承载当前最终目标的原生结构化定义
+- 承载长期最终目标的原生结构化定义
 
 ### 4.6 `.opendaas/diff/baseline.json`
 
@@ -244,12 +244,12 @@ doneTasks: 0
 computedAt: null
 ```
 
-### 6.5 `goals/current.yaml`
+### 6.5 `goals/end.yaml`
 
 最少字段建议：
 
 ```yaml
-goalId: goal-1
+goalId: end-goal-1
 name: null
 summary: null
 successCriteria: []
@@ -354,14 +354,16 @@ nonGoals: []
 最少字段建议：
 
 ```yaml
-goalRef: goal-1
+endGoalRef: end-goal-1
 items:
   - id: plan-1
     name: establish auth flow
+    summary: define the first stable execution stream
     status: pending
     parentPlanId: null
   - id: plan-1-1
     name: implement sign-in flow
+    summary: deliver the first concrete slice inside the plan stream
     status: pending
     parentPlanId: plan-1
 ```
@@ -500,7 +502,7 @@ CLI 应至少能够：
 
 更具体地说：
 
-> **`workspace.yaml`、`active.yaml`、`progress.yaml`、`goals/current.yaml`、`baseline.json`、`pending.json`、`history.json`、`plans/current.yaml`、`tasks/current.yaml`、`tasks/archive.yaml` 已经足以构成 OpenDaaS 内部工作区的第一版可闭环文件骨架。**
+> **`workspace.yaml`、`active.yaml`、`progress.yaml`、`goals/end.yaml`、`baseline.json`、`pending.json`、`history.json`、`plans/current.yaml`、`tasks/current.yaml`、`tasks/archive.yaml` 已经足以构成 OpenDaaS 内部工作区的第一版可闭环文件骨架。**
 
 ---
 

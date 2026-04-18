@@ -26,8 +26,8 @@ describe("workspace validation and repair", () => {
     await initWorkspace({
       targetPath: root,
       projectName: "Legacy Workspace",
-      goalName: "Modernize legacy workspace",
-      goalSummary: "Bring the workspace forward to the current OpenDaaS schema."
+      endGoalName: "Modernize legacy workspace",
+      endGoalSummary: "Bring the workspace forward to the current OpenDaaS schema."
     });
 
     await fs.writeFile(

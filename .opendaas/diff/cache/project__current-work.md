@@ -1,37 +1,47 @@
 ---
-name: 当前工作
-description: 记录 VibeCoding 当前 active work、高层焦点与当前计划。
+name: Current Work
+description: 说明当前工作在 OpenDaaS 中如何被组织，而不是手工重复当前 task 列表。
 ---
 
-# 当前工作
+# Current Work
 
-## 当前 active work
+在 OpenDaaS 里，“当前工作”由三层东西共同定义：
 
-当前 active work：**将 OpenDaaS 推进到可对外发布的公开 alpha 基线，补齐可运行的 init/adopt、稳定的本地文档站运行时、最低可用的 Agent 接入路径、安装分发与更强的验证护栏。**
+1. end goal
+2. top-level plans
+3. current task tree
 
-## 当前高层焦点
+这三层一起决定当前工作区正在推动什么，而不是单靠一段文案。
 
-- 暂无
+## End Goal
 
-## 当前高层计划
+end goal 说明这个项目最终要到哪里。
 
-- Self-hosting and control-plane foundation [done]
-- Workspace bootstrap and adoption [done]
-- Agent adaptation minimum [done]
-- Validation and migration hardening [done]
-- Data-driven project dashboard [done]
-- Full task closure page [done]
-- Live docs site and editing-boundary spec [done]
-- Global site runtime and live sync refactor [done]
-- Editable docs UI and task visualization [done]
-- Docs information architecture cleanup [done]
+它负责约束当前推进范围，但不直接承担阶段计划语义。
 
-## 当前不做什么
+## Top-level Plans
 
-当前明确不做：
+top-level plan 负责把 end goal 切成几个当前可观察的 workstream。
 
-- 复杂命令面铺开
-- 公网托管
-- 多 Agent 调度
-- 消费端 / 用户侧产品文档站
-- 在编辑边界未定义前开放任意页面自由编辑
+Console 会直接显示这些顶层 workstream 及其状态。
+
+## Task Tree
+
+task tree 负责把每个 workstream 落成可执行节点。
+
+如果需要理解当前具体做过什么、还剩什么、哪些是 grouping node，应该直接查看 Console 的 tasks 视图。
+
+## 为什么不再手工抄写
+
+“当前工作”是会频繁变化的。
+
+如果同时在 markdown 里再维护一份静态摘要，最终只会得到：
+
+- 结构化真相源一份
+- 文档口头摘要一份
+- 两者逐渐偏离
+
+因此当前仓库采用的做法是：
+
+- 结构化当前工作由 `.opendaas/` 维护
+- 文档只解释 current work 的组织方式

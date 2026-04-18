@@ -60,6 +60,11 @@ interface StageResult {
   logFile: string;
 }
 
+interface RootMetaFile {
+  title?: string;
+  pages?: string[];
+}
+
 function extractFrontmatter(content: string): { data: Record<string, string>; body: string } {
   const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   if (!match) {
@@ -143,6 +148,108 @@ function convertForFumadocs(content: string, fallbackTitle: string): string {
     "\n"
   );
   return `${frontmatter}${body.trimStart()}`;
+}
+
+function renderRuntimeConsoleDoc(title: string, description: string): string {
+  return `---\nname: ${title}\ndescription: ${description}\n---\n\n# ${title}\n`;
+}
+
+function isMarkdownLike(fileName: string): boolean {
+  return [".md", ".mdx"].includes(path.extname(fileName).toLowerCase());
+}
+
+function isConsoleMetaSeparator(value: string): boolean {
+  return /^---\s*console\s*---$/i.test(value.trim());
+}
+
+async function listDefaultRootPages(stagedDocsRoot: string): Promise<string[]> {
+  const entries = await fs.readdir(stagedDocsRoot, { withFileTypes: true });
+  const pages: string[] = [];
+
+  for (const entry of entries) {
+    if (entry.name.startsWith(".") || entry.name === "meta.json" || entry.name === "console") {
+      continue;
+    }
+
+    if (entry.isDirectory()) {
+      pages.push(entry.name);
+      continue;
+    }
+
+    if (entry.isFile() && isMarkdownLike(entry.name)) {
+      pages.push(path.basename(entry.name, path.extname(entry.name)));
+    }
+  }
+
+  const unique = [...new Set(pages)];
+  return [
+    ...unique.filter((item) => item === "index"),
+    ...unique.filter((item) => item !== "index").sort((left, right) => left.localeCompare(right))
+  ];
+}
+
+async function patchRootMetaForConsole(stagedDocsRoot: string): Promise<void> {
+  const metaPath = path.join(stagedDocsRoot, "meta.json");
+  let rootMeta: RootMetaFile = {};
+
+  try {
+    rootMeta = JSON.parse(await readText(metaPath)) as RootMetaFile;
+  } catch {
+    rootMeta = {};
+  }
+
+  const sourcePages = Array.isArray(rootMeta.pages) ? rootMeta.pages : await listDefaultRootPages(stagedDocsRoot);
+  const nextPages = [
+    "console",
+    ...sourcePages.filter((item) => item !== "console" && item !== "index" && !isConsoleMetaSeparator(item))
+  ];
+
+  await writeText(
+    metaPath,
+    `${JSON.stringify(
+      {
+        ...rootMeta,
+        pages: nextPages
+      },
+      null,
+      2
+    )}\n`
+  );
+}
+
+async function injectRuntimeConsoleDocs(stagedDocsRoot: string): Promise<void> {
+  const consoleRoot = path.join(stagedDocsRoot, "console");
+  await fs.rm(consoleRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
+  await fs.mkdir(consoleRoot, { recursive: true });
+
+  await writeText(
+    path.join(consoleRoot, "meta.json"),
+    `${JSON.stringify(
+      {
+        title: "Console",
+        pages: ["index", "tasks"]
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  await writeText(
+    path.join(consoleRoot, "index.md"),
+    convertForFumadocs(
+      renderRuntimeConsoleDoc("Overview", "OpenDaaS runtime console overview."),
+      "Overview"
+    )
+  );
+  await writeText(
+    path.join(consoleRoot, "tasks.md"),
+    convertForFumadocs(
+      renderRuntimeConsoleDoc("Tasks", "OpenDaaS runtime task console."),
+      "Tasks"
+    )
+  );
+
+  await patchRootMetaForConsole(stagedDocsRoot);
 }
 
 function getTemplateRoot(): string {
@@ -348,13 +455,23 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
 
   await fs.mkdir(path.join(runtimeRoot, "content"), { recursive: true });
   await fs.mkdir(path.join(runtimeRoot, "runtime-data"), { recursive: true });
+  await fs.rm(path.join(runtimeRoot, ".next", "types"), { recursive: true, force: true });
+  await fs.rm(path.join(runtimeRoot, ".next", "dev", "types"), { recursive: true, force: true });
 
   const nodeModulesRoot = path.join(runtimeRoot, "node_modules");
   const nextPackage = path.join(nodeModulesRoot, "next");
   const nextPackageJson = path.join(nextPackage, "package.json");
   const nextRequireHook = path.join(nextPackage, "dist", "server", "require-hook.js");
+  const requiredPackages = [
+    ["next", "package.json"],
+    ["fumadocs-ui", "package.json"],
+    ["@radix-ui", "react-accordion", "package.json"],
+    ["@radix-ui", "react-progress", "package.json"],
+    ["@radix-ui", "react-tooltip", "package.json"]
+  ];
+  const missingRequiredPackage = requiredPackages.some((segments) => !nodeFs.existsSync(path.join(nodeModulesRoot, ...segments)));
 
-  if (!nodeFs.existsSync(nextPackageJson) || !nodeFs.existsSync(nextRequireHook)) {
+  if (!nodeFs.existsSync(nextPackageJson) || !nodeFs.existsSync(nextRequireHook) || missingRequiredPackage) {
     await fs.rm(nodeModulesRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
     const invocation = createNpmInvocation(["install", "--no-fund", "--no-audit"]);
     const child = spawn(invocation.command, invocation.args, {
@@ -451,6 +568,8 @@ export async function stageDocsForSiteRuntime(inputPath?: string): Promise<Stage
 
     await fs.copyFile(sourceFile, targetFile);
   }
+
+  await injectRuntimeConsoleDocs(stagedDocsRoot);
 
   if (sourceWorkspaceRoot) {
     await withWorkspaceRoot(sourceWorkspaceRoot, async () => {
@@ -616,6 +735,7 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
 export async function buildSiteRuntime(inputPath?: string) {
   const stage = await stageDocsForSiteRuntime(inputPath);
   await ensureRuntimeTemplate(stage.runtimeRoot);
+  await fs.rm(path.join(stage.runtimeRoot, ".next"), { recursive: true, force: true });
 
   const invocation = createNextInvocation(stage.runtimeRoot, "build");
   const child = spawn(invocation.command, invocation.args, {

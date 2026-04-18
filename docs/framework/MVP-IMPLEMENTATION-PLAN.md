@@ -98,7 +98,7 @@ test/                 # 自动化测试
 实现：
 
 1. `.opendaas/meta`
-2. `.opendaas/goals/current.yaml`
+2. `.opendaas/goals/end.yaml`
 3. `.opendaas/tasks/current.yaml`
 4. 基于真实文件的 `goal set/show`
 5. 基于真实文件的 `task add/list`

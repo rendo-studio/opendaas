@@ -7,19 +7,18 @@ description: 定义最终目标锚点与进度投影的最小规范。
 
 ## 最终目标
 
-项目必须存在一个正式 `goal` 锚点，落在：
+项目必须存在一个正式 `end goal` 锚点，落在：
 
-- `.opendaas/goals/current.yaml`
+- `.opendaas/goals/end.yaml`
 - `docs/project/goal.md`
 
-该锚点是项目当前阶段的最高优先级目标定义。
+该锚点是项目长期方向的最高优先级目标定义。
 
-## 何时更新 goal
+## 何时更新 end goal
 
-以下情况需要更新 goal：
+以下情况需要更新 end goal：
 
 - 当前最终目标被确认改变
-- 项目进入新的正式阶段
 - 当前目标摘要已经无法准确代表当前项目现实
 
 目标改写不应由普通状态更新隐式完成，必要时应配套一条正式 `decision`。

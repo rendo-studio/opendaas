@@ -1,6 +1,4545 @@
 {
   "items": [
     {
+      "id": "diff-ack-2026-04-18T20:05:19.715Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T20:05:19.715Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T18:41:02.595Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T18:41:02.595Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T17:30:28.259Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T17:30:28.259Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T15:56:55.622Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T15:56:55.622Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T13:06:14.831Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T13:06:14.831Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T13:05:06.105Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T13:05:06.105Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-check-2026-04-18T13:05:06.120Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T13:05:06.120Z",
+      "fileCount": 9,
+      "addedCount": 2,
+      "modifiedCount": 7,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "console/overview.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 18
+            }
+          ]
+        },
+        {
+          "path": "console/tasks.md",
+          "changeType": "added",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 1,
+              "oldCount": 1,
+              "newStart": 1,
+              "newCount": 18
+            }
+          ]
+        },
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": []
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": []
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 35,
+              "oldCount": 25,
+              "newStart": 35,
+              "newCount": 31
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 26,
+              "oldCount": 1,
+              "newStart": 26,
+              "newCount": 1
+            },
+            {
+              "oldStart": 32,
+              "oldCount": 1,
+              "newStart": 32,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 41,
+              "oldCount": 1,
+              "newStart": 41,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 1,
+              "newStart": 45,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 1,
+              "newStart": 45,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 23,
+              "oldCount": 1,
+              "newStart": 23,
+              "newCount": 1
+            },
+            {
+              "oldStart": 42,
+              "oldCount": 1,
+              "newStart": 42,
+              "newCount": 1
+            },
+            {
+              "oldStart": 52,
+              "oldCount": 1,
+              "newStart": 52,
+              "newCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-ack-2026-04-18T12:05:46.559Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T12:05:46.559Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T10:03:10.302Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T10:03:10.302Z",
+      "fileCount": 0,
+      "addedCount": 0,
+      "modifiedCount": 0,
+      "deletedCount": 0,
+      "files": []
+    },
+    {
+      "id": "diff-ack-2026-04-18T10:01:32.824Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T10:01:32.824Z",
+      "fileCount": 6,
+      "addedCount": 0,
+      "modifiedCount": 6,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 8,
+              "newStart": 28,
+              "newCount": 8
+            },
+            {
+              "oldStart": 37,
+              "oldCount": 5,
+              "newStart": 37,
+              "newCount": 5
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 7,
+              "newStart": 43,
+              "newCount": 7
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 1,
+              "newStart": 53,
+              "newCount": 1
+            },
+            {
+              "oldStart": 55,
+              "oldCount": 19,
+              "newStart": 55,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 5,
+              "newStart": 14,
+              "newCount": 5
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 7,
+              "newStart": 20,
+              "newCount": 7
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 9,
+              "newStart": 28,
+              "newCount": 9
+            },
+            {
+              "oldStart": 38,
+              "oldCount": 4,
+              "newStart": 38,
+              "newCount": 4
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 36,
+              "oldCount": 22,
+              "newStart": 36,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 7,
+              "newStart": 18,
+              "newCount": 7
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 1,
+              "newStart": 26,
+              "newCount": 1
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 1,
+              "newStart": 30,
+              "newCount": 1
+            },
+            {
+              "oldStart": 32,
+              "oldCount": 1,
+              "newStart": 32,
+              "newCount": 1
+            },
+            {
+              "oldStart": 34,
+              "oldCount": 4,
+              "newStart": 34,
+              "newCount": 4
+            },
+            {
+              "oldStart": 39,
+              "oldCount": 5,
+              "newStart": 39,
+              "newCount": 5
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 32,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 40,
+              "oldCount": 32,
+              "newStart": 40,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 1,
+              "newStart": 18,
+              "newCount": 1
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 4,
+              "newStart": 20,
+              "newCount": 4
+            },
+            {
+              "oldStart": 25,
+              "oldCount": 1,
+              "newStart": 25,
+              "newCount": 1
+            },
+            {
+              "oldStart": 27,
+              "oldCount": 6,
+              "newStart": 27,
+              "newCount": 6
+            },
+            {
+              "oldStart": 34,
+              "oldCount": 18,
+              "newStart": 34,
+              "newCount": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T10:01:32.713Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T10:01:32.713Z",
+      "fileCount": 6,
+      "addedCount": 0,
+      "modifiedCount": 6,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 8,
+              "newStart": 28,
+              "newCount": 8
+            },
+            {
+              "oldStart": 37,
+              "oldCount": 5,
+              "newStart": 37,
+              "newCount": 5
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 7,
+              "newStart": 43,
+              "newCount": 7
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 1,
+              "newStart": 53,
+              "newCount": 1
+            },
+            {
+              "oldStart": 55,
+              "oldCount": 19,
+              "newStart": 55,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 5,
+              "newStart": 14,
+              "newCount": 5
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 7,
+              "newStart": 20,
+              "newCount": 7
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 9,
+              "newStart": 28,
+              "newCount": 9
+            },
+            {
+              "oldStart": 38,
+              "oldCount": 4,
+              "newStart": 38,
+              "newCount": 4
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 36,
+              "oldCount": 22,
+              "newStart": 36,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 7,
+              "newStart": 18,
+              "newCount": 7
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 1,
+              "newStart": 26,
+              "newCount": 1
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 1,
+              "newStart": 30,
+              "newCount": 1
+            },
+            {
+              "oldStart": 32,
+              "oldCount": 1,
+              "newStart": 32,
+              "newCount": 1
+            },
+            {
+              "oldStart": 34,
+              "oldCount": 4,
+              "newStart": 34,
+              "newCount": 4
+            },
+            {
+              "oldStart": 39,
+              "oldCount": 5,
+              "newStart": 39,
+              "newCount": 5
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 32,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 40,
+              "oldCount": 32,
+              "newStart": 40,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 1,
+              "newStart": 18,
+              "newCount": 1
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 4,
+              "newStart": 20,
+              "newCount": 4
+            },
+            {
+              "oldStart": 25,
+              "oldCount": 1,
+              "newStart": 25,
+              "newCount": 1
+            },
+            {
+              "oldStart": 27,
+              "oldCount": 6,
+              "newStart": 27,
+              "newCount": 6
+            },
+            {
+              "oldStart": 34,
+              "oldCount": 18,
+              "newStart": 34,
+              "newCount": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-ack-2026-04-18T09:55:24.749Z",
+      "kind": "ack",
+      "generatedAt": "2026-04-18T09:55:24.749Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:51:56.396Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:51:56.396Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:48:49.023Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:48:49.023Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:44:36.560Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:44:36.560Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:39:54.294Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:39:54.294Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:35:12.113Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:35:12.113Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:33:56.091Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:33:56.091Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:33:55.263Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:33:55.263Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diff-check-2026-04-18T09:32:19.056Z",
+      "kind": "check",
+      "generatedAt": "2026-04-18T09:32:19.056Z",
+      "fileCount": 8,
+      "addedCount": 0,
+      "modifiedCount": 8,
+      "deletedCount": 0,
+      "files": [
+        {
+          "path": "engineering/agent.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 5,
+              "newStart": 10,
+              "newCount": 5
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 5,
+              "newStart": 18,
+              "newCount": 5
+            },
+            {
+              "oldStart": 24,
+              "oldCount": 1,
+              "newStart": 24,
+              "newCount": 1
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 11,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "engineering/development.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 5,
+              "newStart": 12,
+              "newCount": 5
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 30,
+              "newStart": 18,
+              "newCount": 30
+            },
+            {
+              "oldStart": 49,
+              "oldCount": 1,
+              "newStart": 49,
+              "newCount": 1
+            },
+            {
+              "oldStart": 51,
+              "oldCount": 1,
+              "newStart": 51,
+              "newCount": 1
+            },
+            {
+              "oldStart": 53,
+              "oldCount": 5,
+              "newStart": 53,
+              "newCount": 5
+            },
+            {
+              "oldStart": 59,
+              "oldCount": 52,
+              "newStart": 59,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "framework/PRD.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            }
+          ]
+        },
+        {
+          "path": "index.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 3,
+              "oldCount": 1,
+              "newStart": 3,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 11,
+              "newStart": 14,
+              "newCount": 11
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 16,
+              "newStart": 26,
+              "newCount": 16
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 48,
+              "newStart": 45,
+              "newCount": 0
+            }
+          ]
+        },
+        {
+          "path": "project/current-work.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 27,
+              "newStart": 12,
+              "newCount": 24
+            }
+          ]
+        },
+        {
+          "path": "project/goal.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 1,
+              "newStart": 16,
+              "newCount": 1
+            },
+            {
+              "oldStart": 18,
+              "oldCount": 9,
+              "newStart": 18,
+              "newCount": 9
+            },
+            {
+              "oldStart": 28,
+              "oldCount": 1,
+              "newStart": 28,
+              "newCount": 1
+            },
+            {
+              "oldStart": 30,
+              "oldCount": 12,
+              "newStart": 30,
+              "newCount": 12
+            },
+            {
+              "oldStart": 43,
+              "oldCount": 1,
+              "newStart": 43,
+              "newCount": 1
+            },
+            {
+              "oldStart": 45,
+              "oldCount": 2,
+              "newStart": 45,
+              "newCount": 4
+            }
+          ]
+        },
+        {
+          "path": "project/status.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 1,
+              "newStart": 12,
+              "newCount": 1
+            },
+            {
+              "oldStart": 14,
+              "oldCount": 1,
+              "newStart": 14,
+              "newCount": 1
+            },
+            {
+              "oldStart": 16,
+              "oldCount": 3,
+              "newStart": 16,
+              "newCount": 3
+            },
+            {
+              "oldStart": 20,
+              "oldCount": 1,
+              "newStart": 20,
+              "newCount": 1
+            },
+            {
+              "oldStart": 22,
+              "oldCount": 3,
+              "newStart": 22,
+              "newCount": 3
+            },
+            {
+              "oldStart": 26,
+              "oldCount": 17,
+              "newStart": 26,
+              "newCount": 14
+            }
+          ]
+        },
+        {
+          "path": "project/tasks.md",
+          "changeType": "modified",
+          "source": "human",
+          "hunks": [
+            {
+              "oldStart": 2,
+              "oldCount": 2,
+              "newStart": 2,
+              "newCount": 2
+            },
+            {
+              "oldStart": 6,
+              "oldCount": 1,
+              "newStart": 6,
+              "newCount": 1
+            },
+            {
+              "oldStart": 8,
+              "oldCount": 1,
+              "newStart": 8,
+              "newCount": 1
+            },
+            {
+              "oldStart": 10,
+              "oldCount": 1,
+              "newStart": 10,
+              "newCount": 1
+            },
+            {
+              "oldStart": 12,
+              "oldCount": 52,
+              "newStart": 12,
+              "newCount": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "diff-ack-2026-04-18T08:00:18.611Z",
       "kind": "ack",
       "generatedAt": "2026-04-18T08:00:18.611Z",

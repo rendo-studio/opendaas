@@ -3,8 +3,9 @@ import path from "node:path";
 
 import { loadDecisionState } from "./decision.js";
 import { diffHistory, diffShow } from "./diff.js";
+import { loadEndGoal } from "./end-goal.js";
 import { readText, readYamlFile } from "./storage.js";
-import { loadGoal } from "./goal.js";
+import { loadProjectOverview } from "./project-overview.js";
 import { loadPlans } from "./plans.js";
 import { loadProgress } from "./progress.js";
 import { loadReleaseState } from "./release.js";
@@ -52,8 +53,9 @@ interface WorkspaceSiteSnapshot {
 export interface SiteControlPlaneSnapshot {
   generatedAt: string;
   workspace: WorkspaceSiteSnapshot;
+  project: Awaited<ReturnType<typeof loadProjectOverview>> | null;
+  endGoal: Awaited<ReturnType<typeof loadEndGoal>> | null;
   status: Awaited<ReturnType<typeof getStatusSnapshot>> | null;
-  goal: Awaited<ReturnType<typeof loadGoal>> | null;
   plans: Awaited<ReturnType<typeof loadPlans>> | null;
   progress: Awaited<ReturnType<typeof loadProgress>> | null;
   tasks:
@@ -193,10 +195,11 @@ function tryResolveWorkspaceRootFromDocsRoot(docsRoot: string): string | null {
 async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string): Promise<SiteControlPlaneSnapshot> {
   return withWorkspaceRoot(workspaceRoot, async () => {
     const paths = getWorkspacePaths();
-    const [status, goal, plans, progress, tasksState, archive, decisions, releases, pending, history] =
+    const [project, endGoal, status, plans, progress, tasksState, archive, decisions, releases, pending, history] =
       await Promise.all([
+        loadProjectOverview(),
+        loadEndGoal(),
         getStatusSnapshot(),
-        loadGoal(),
         loadPlans(),
         loadProgress(),
         loadTasks(),
@@ -222,8 +225,9 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
         lastDiffCheckAt: active.lastDiffCheckAt,
         lastDiffAckAt: active.lastDiffAckAt
       },
+      project,
+      endGoal,
       status,
-      goal,
       plans,
       progress,
       tasks: {
@@ -276,8 +280,9 @@ export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<S
       lastDiffCheckAt: null,
       lastDiffAckAt: null
     },
+    project: null,
+    endGoal: null,
     status: null,
-    goal: null,
     plans: null,
     progress: null,
     tasks: null,

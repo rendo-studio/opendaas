@@ -19,7 +19,7 @@ export function createApp() {
     version: "0.1.0",
     summary: "OpenDaaS CLI.",
     description:
-      "A CLI-first documentation control plane for Human-Agent collaboration."
+      "A CLI-first project context control plane for human developers and development agents."
   });
 
   registerInitCommand(app);

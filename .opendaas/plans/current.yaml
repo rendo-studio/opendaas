@@ -1,42 +1,37 @@
-goalRef: goal-opendaas-public-release-baseline
+endGoalRef: end-goal-opendaas-framework
 items:
-  - id: self-hosting-and-control-plane-foundation-1
-    name: Self-hosting and control-plane foundation
+  - id: reposition-opendaas-as-project-context-control-plane-1
+    name: Reposition OpenDaaS as a project context control plane
     status: done
     parentPlanId: null
-  - id: workspace-bootstrap-and-adoption-1
-    name: Workspace bootstrap and adoption
+    summary: Refresh the product narrative and shared entry surfaces around the project-context-control-plane model.
+  - id: remove-active-goal-from-core-model-1
+    name: Remove active goal from the core model
     status: done
     parentPlanId: null
-  - id: agent-adaptation-minimum-1
-    name: Agent adaptation minimum
-    status: done
+    summary: Simplify the control plane so end goal stays stable and current focus is expressed through plans and tasks.
+  - id: ship-onboarding-and-workflow-guidance-1
+    name: Ship onboarding and workflow guidance
+    status: pending
     parentPlanId: null
-  - id: validation-and-migration-hardening-1
-    name: Validation and migration hardening
-    status: done
+    summary: Give human developers and development agents an authoritative first-hour path through a workflow guide, CLI guide entry, AGENTS.md, and default skills.
+  - id: expand-diff-scope-to-opendaas-control-plane-1
+    name: Expand diff scope to the .opendaas control plane
+    status: pending
     parentPlanId: null
-  - id: data-driven-project-dashboard-1
-    name: Data-driven project dashboard
-    status: done
+    summary: Move diff tracking from docs-first auditing toward .opendaas-first project-state awareness.
+  - id: add-console-editing-for-opendaas-state-1
+    name: Add console editing for .opendaas state
+    status: pending
     parentPlanId: null
-  - id: full-task-closure-page-1
-    name: Full task closure page
-    status: done
+    summary: Let humans edit structured project state from the console without polluting authored docs.
+  - id: harden-cli-runtime-packaging-and-distribution-1
+    name: Harden CLI runtime packaging and distribution
+    status: pending
     parentPlanId: null
-  - id: live-docs-site-and-editing-boundary-spec-1
-    name: Live docs site and editing-boundary spec
-    status: done
+    summary: Make the site runtime and template assets explicit, portable, and safe across packaged multi-workspace installs.
+  - id: production-readiness-hardening-and-first-hour-1
+    name: Production-readiness hardening and first-hour validation
+    status: pending
     parentPlanId: null
-  - id: global-site-runtime-and-live-sync-refactor-1
-    name: Global site runtime and live sync refactor
-    status: done
-    parentPlanId: null
-  - id: editable-docs-ui-and-task-visualization-1
-    name: Editable docs UI and task visualization
-    status: done
-    parentPlanId: null
-  - id: docs-information-architecture-cleanup-1
-    name: Docs information architecture cleanup
-    status: done
-    parentPlanId: null
+    summary: Close edge cases, missing guardrails, and adoption UX gaps so 100% completion means a real production-grade closure for users and development agents.

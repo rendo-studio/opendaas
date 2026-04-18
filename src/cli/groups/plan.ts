@@ -38,6 +38,10 @@ export function registerPlanGroup(app: AclipApp) {
           required: true,
           description: "Parent plan id, or root for top-level plans."
         }),
+        stringArgument("summary", {
+          required: false,
+          description: "Optional plan summary. Defaults to the plan name."
+        }),
         stringArgument("status", {
           required: false,
           description: "Optional initial status: pending, in_progress, done, or blocked."
@@ -47,10 +51,11 @@ export function registerPlanGroup(app: AclipApp) {
         "opendaas plan add --name 'Harden diff lifecycle' --parent root",
         "opendaas plan add --name 'Add source classification' --parent harden-diff-lifecycle-1 --status in_progress"
       ],
-      handler: async ({ name, parent, status }) => {
+      handler: async ({ name, parent, summary, status }) => {
         const result = await addPlan({
           name: String(name),
           parent: String(parent),
+          summary: summary ? String(summary) : undefined,
           status: status ? assertTaskStatus(String(status)) : undefined
         });
         await syncStatusDocs();
@@ -74,6 +79,10 @@ export function registerPlanGroup(app: AclipApp) {
           required: false,
           description: "Optional replacement name."
         }),
+        stringArgument("summary", {
+          required: false,
+          description: "Optional replacement summary."
+        }),
         stringArgument("parent", {
           required: false,
           description: "Optional replacement parent id, or root."
@@ -87,10 +96,11 @@ export function registerPlanGroup(app: AclipApp) {
         "opendaas plan update --id plan-1 --status done",
         "opendaas plan update --id harden-diff-lifecycle-1 --name 'Harden diff lifecycle and provenance'"
       ],
-      handler: async ({ id, name, parent, status }) => {
+      handler: async ({ id, name, summary, parent, status }) => {
         const result = await updatePlan({
           id: String(id),
           name: name ? String(name) : undefined,
+          summary: summary ? String(summary) : undefined,
           parent: parent ? String(parent) : undefined,
           status: status ? assertTaskStatus(String(status)) : undefined
         });

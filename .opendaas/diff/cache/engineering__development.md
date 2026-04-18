@@ -1,109 +1,45 @@
 ---
-name: Engineering Development
-description: VibeCoding 的开发入口、工程约束与本地推进说明。
+name: Development
+description: 当前仓库的人类与开发端 Agent 接手方式、本地命令与目录入口。
 ---
 
 # Development
 
-VibeCoding 当前通过 OpenDaaS 的 docs/.opendaas 双命名空间推进。
+当前仓库通过 OpenDaaS 的 `docs/` 与 `.opendaas/` 双落点推进。
 
-## 环境要求
+## 接手顺序
 
-当前开发环境基线：
+1. 先读 [OpenDaaS Docs](../index.md)
+2. 再读 [Project Overview](../project/overview.md)
+3. 再读 [Goal Context](../project/goal.md)
+4. 查看 Console
+5. 开始任何改动前运行 `opendaas diff check`
 
-- Node.js 22+
-- npm
-- TypeScript
-
-## 本地运行
-
-当前已可用的本地命令：
+## 本地命令
 
 ```bash
 npm install
 npm run check
+npm run test
 npm run build
 npm run dev -- --help
 ```
 
-## 开发方式
-
-当前推荐的推进顺序：
-
-1. 先通过 `docs/project/*.md` 理解最终目标、当前状态和当前工作
-2. 每轮任务开始前运行 `opendaas diff check`
-3. 高频 task / plan 维护优先直接更新 `.opendaas/` 工作区
-4. 再用 CLI 执行 `validate / status sync / site / agent sync` 等护栏与派生动作
-
-## 测试方式
-
-当前已存在正式测试套件。
-
-当前最低验证方式是：
-
-- `npm run check`
-- `npm run test`
-- `npm run build`
-- 直接运行关键 CLI 命令观察结构化输出
-
-## 构建方式
-
-当前构建命令：
-
-```bash
-npm run build
-```
-
-当前 CLI 入口构建产物：
-
-- `dist/bin/opendaas.js`
-
-## 代码结构入口
-
-当前主要目录：
+## 目录入口
 
 - `src/bin/`：CLI 入口
 - `src/cli/`：命令树定义
-- `src/core/`：共享控制面、bootstrap、diff、site、agent 等核心逻辑
-- `site-runtime/`：Fumadocs / Next.js 运行时
+- `src/core/`：控制面、bootstrap、diff、site、agent 等核心逻辑
+- `site-runtime/`：Next.js / Fumadocs 运行时模板
 - `test/`：自动化测试
 
-## Agent 接入
+## 工作约束
 
-当前已可生成最小 Agent 接入产物：
+- 高频 plan / task 维护优先直接更新 `.opendaas/`
+- 当前焦点优先通过 top-level plans 和 task tree 表达，而不是新增一层 active goal
+- `docs/` 保持为共享书面文档，不再承载自动回写的 live status 摘要
+- 共享文档统一使用 `name + description` 头部元信息
 
-- `.opendaas/agent/SKILL.md`
-- [`Agent Usage`](./agent.md)
+## Agent Artifact
 
-建议在工作区中通过以下命令刷新：
-
-```bash
-npm run dev -- agent sync
-```
-
-## Release 记录
-
-当前已存在结构化 release / changelog 控制面：
-
-- `.opendaas/releases/records.yaml`
-- `docs/project/releases/index.md`
-
-建议使用：
-
-```bash
-npm run dev -- release list
-npm run dev -- release new --version 0.1.0-alpha.1 --title "Public alpha baseline" --summary "..."
-```
-
-## 开发约束
-
-- 在当前目标范围内自主推进
-- 新决策节点先做 diff check 再升级
-- 共享文档只使用 `name + description` 头部元信息
-
-## 当前工作流
-
-1. 先阅读最终目标与当前状态
-2. 在开始任务前运行 `opendaas diff check`
-3. 使用 `goal / plan / task / status` 维护控制面
-4. 通过 `site dev` 或 `site open` 查看文档站投影
+开发端 Agent 的最小工作协议以 `.opendaas/agent/SKILL.md` 为准。

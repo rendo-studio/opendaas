@@ -10,6 +10,7 @@ import { syncStatusDocs } from "./status.js";
 import { writeText, writeYamlFile } from "./storage.js";
 import type {
   GoalState,
+  ProjectOverviewState,
   PlansState,
   ProgressState,
   DecisionState,
@@ -25,17 +26,18 @@ import { withWorkspaceRoot } from "./workspace.js";
 type ProjectKind = "general" | "frontend" | "library" | "service";
 type DocsMode = "minimal" | "standard";
 
-export const WORKSPACE_SCHEMA_VERSION = 4;
-export const WORKSPACE_TEMPLATE_VERSION = "2026-04-18.live-site-runtime-1";
+export const WORKSPACE_SCHEMA_VERSION = 6;
+export const WORKSPACE_TEMPLATE_VERSION = "2026-04-19.end-goal-plan-model-1";
 
 interface BootstrapInput {
   targetPath: string;
   projectName?: string;
-  goalName: string;
-  goalSummary: string;
+  endGoalName: string;
+  endGoalSummary: string;
   projectKind?: ProjectKind;
   docsMode?: DocsMode;
   force?: boolean;
+  preserveExistingDocs?: boolean;
 }
 
 interface BootstrapResult {
@@ -115,43 +117,59 @@ async function assertAdoptTargetExists(root: string): Promise<void> {
   }
 }
 
-function buildGoal(input: Required<Pick<BootstrapInput, "goalName" | "goalSummary">>): GoalState {
+function buildEndGoal(
+  projectName: string,
+  input: Required<Pick<BootstrapInput, "endGoalName" | "endGoalSummary">>
+): GoalState {
   return {
-    goalId: `goal-${slugify(input.goalName) || "project"}`,
-    name: input.goalName,
-    summary: input.goalSummary,
+    goalId: `end-goal-${slugify(input.endGoalName) || "project"}`,
+    name: input.endGoalName,
+    summary: input.endGoalSummary,
     successCriteria: [
-      "project workspace is initialized with docs and .opendaas anchors",
-      "goal, plan, task, progress, and diff state exist as structured files",
-      "shared docs can be rendered and inspected through OpenDaaS"
+      `${projectName} exposes a stable project overview, end goal, plans, tasks, decisions, releases, and diffs as structured control-plane data`,
+      `${projectName} keeps shared docs, control-plane state, and local docs-site views aligned for human developers and development agents`,
+      `${projectName} supports a repeatable loop from project understanding to planning, implementation, validation, and release coordination`
     ],
     nonGoals: [
       "public hosted docs platform",
+      "full SaaS control plane",
       "multi-agent orchestration",
-      "cloud sync and SaaS control plane"
+      "cloud sync"
     ]
   };
 }
 
-function buildPlans(goal: GoalState): PlansState {
+function buildProjectOverview(projectName: string): ProjectOverviewState {
   return {
-    goalRef: goal.goalId,
+    name: projectName,
+    summary:
+      `${projectName} uses OpenDaaS as a CLI-first project context control plane. It keeps shared docs and structured workspace state aligned so human developers and development agents can work against the same project reality.`,
+    docPath: "project/overview.md"
+  };
+}
+
+function buildPlans(endGoal: GoalState): PlansState {
+  return {
+    endGoalRef: endGoal.goalId,
     items: [
       {
-        id: "establish-shared-project-reality-1",
-        name: "Establish shared project reality",
+        id: "establish-shared-project-context-1",
+        name: "Establish shared project context",
+        summary: "Anchor the project overview, end goal, and authored docs before execution begins.",
         status: "pending",
         parentPlanId: null
       },
       {
-        id: "break-down-executable-work-1",
-        name: "Break down executable work",
+        id: "translate-end-goal-into-plan-streams-1",
+        name: "Translate the end goal into plan streams",
+        summary: "Break the long-lived end goal into explicit execution streams and task structure.",
         status: "pending",
         parentPlanId: null
       },
       {
         id: "deliver-and-validate-first-slice-1",
         name: "Deliver and validate first slice",
+        summary: "Ship the first concrete slice and verify the project context control plane stays coherent.",
         status: "pending",
         parentPlanId: null
       }
@@ -163,40 +181,45 @@ function buildTasks(): TasksState {
   return {
     items: [
       {
-        id: "task-project-reality",
-        name: "Establish shared project reality",
+        id: "task-project-context",
+        name: "Establish shared project context",
+        summary: "Create the initial shared-reality anchor for the workspace.",
         status: "pending",
-        planRef: "establish-shared-project-reality-1",
+        planRef: "establish-shared-project-context-1",
         parentTaskId: null,
         countedForProgress: false
       },
       {
-        id: "task-project-reality-1",
+        id: "task-project-context-1",
         name: "Confirm project scope and constraints",
+        summary: "Capture the immediate scope, boundaries, and non-goals for the current round.",
         status: "pending",
-        planRef: "establish-shared-project-reality-1",
-        parentTaskId: "task-project-reality",
+        planRef: "establish-shared-project-context-1",
+        parentTaskId: "task-project-context",
         countedForProgress: true
       },
       {
         id: "task-breakdown",
-        name: "Break down executable work",
+        name: "Translate the end goal into plan streams",
+        summary: "Translate the long-lived end goal into executable plans and tasks.",
         status: "pending",
-        planRef: "break-down-executable-work-1",
+        planRef: "translate-end-goal-into-plan-streams-1",
         parentTaskId: null,
         countedForProgress: false
       },
       {
         id: "task-breakdown-1",
         name: "Refine the plan tree and active change",
+        summary: "Refine the active plan tree so the next implementation slice is explicit.",
         status: "pending",
-        planRef: "break-down-executable-work-1",
+        planRef: "translate-end-goal-into-plan-streams-1",
         parentTaskId: "task-breakdown",
         countedForProgress: true
       },
       {
         id: "task-delivery",
         name: "Deliver and validate first slice",
+        summary: "Implement the first meaningful slice and validate the workspace around it.",
         status: "pending",
         planRef: "deliver-and-validate-first-slice-1",
         parentTaskId: null,
@@ -205,6 +228,7 @@ function buildTasks(): TasksState {
       {
         id: "task-delivery-1",
         name: "Implement and validate the first concrete slice",
+        summary: "Deliver the first slice and verify the expected control-plane behavior.",
         status: "pending",
         planRef: "deliver-and-validate-first-slice-1",
         parentTaskId: "task-delivery",
@@ -235,12 +259,13 @@ function buildActiveState(activeChangeId: string): WorkspaceState {
 function buildWorkspaceFiles(
   mode: "init" | "adopt",
   activeChangeId: string,
-  goal: GoalState,
+  endGoal: GoalState,
   projectName: string,
   projectKind: ProjectKind,
   docsMode: DocsMode
 ): ManagedWorkspaceFile[] {
   const createdAt = isoNow();
+  const projectOverview = buildProjectOverview(projectName);
   const initialDecisionState: DecisionState = {
     items: []
   };
@@ -290,12 +315,16 @@ function buildWorkspaceFiles(
       value: buildProgress()
     },
     {
-      relativePath: ".opendaas/goals/current.yaml",
-      value: goal
+      relativePath: ".opendaas/goals/end.yaml",
+      value: endGoal
+    },
+    {
+      relativePath: ".opendaas/project/overview.yaml",
+      value: projectOverview
     },
     {
       relativePath: ".opendaas/plans/current.yaml",
-      value: buildPlans(goal)
+      value: buildPlans(endGoal)
     },
     {
       relativePath: ".opendaas/tasks/current.yaml",
@@ -325,43 +354,43 @@ function renderDocTemplate(file: ManagedDocFile): string {
   return `---\nname: ${file.name}\ndescription: ${file.description}\n---\n\n# ${file.title}\n\n${prefix}${sections}`.trimEnd() + "\n";
 }
 
-function buildDocsFiles(projectName: string, goal: GoalState, activeChangeId: string): ManagedDocFile[] {
+function buildDocsFiles(projectName: string, endGoal: GoalState, activeChangeId: string): ManagedDocFile[] {
+  const projectOverview = buildProjectOverview(projectName);
   return [
     {
       relativePath: "docs/index.md",
       name: `${projectName} 项目入口`,
       description: `${projectName} 的共享入口页，概览最终目标、当前进度与阅读路径。`,
       title: projectName,
-      bodyPrefix: "OpenDaaS 通过共享文档包和内部控制面来帮助 Human-Agent 协作推进项目。",
+      bodyPrefix: "OpenDaaS 通过共享文档包和结构化控制面来帮助人类开发者与开发端 Agent 对齐项目现实。",
       sections: [
         {
           heading: "一句话定义",
           body: `${projectName} 是一个采用 OpenDaaS 框架推进的项目。`
         },
         {
-          heading: "最终目标",
-          body: goal.summary
+          heading: "默认入口",
+          body: "文档站默认入口是 Console。项目介绍与背景请阅读 [Project Overview](./project/overview.md)。"
         },
         {
-          heading: "当前进度",
-          body: "当前默认进度：**0%**"
+          heading: "项目介绍",
+          body: projectOverview.summary
         },
         {
           heading: "边界与非目标",
-          body: goal.nonGoals.map((item) => `- ${item}`).join("\n")
+          body: endGoal.nonGoals.map((item) => `- ${item}`).join("\n")
         },
         {
           heading: "从哪里开始",
           body: [
             "建议阅读顺序：",
             "",
-            "1. [最终目标](./project/goal.md)",
-            "2. [当前状态](./project/status.md)",
-            "3. [当前工作](./project/current-work.md)",
-            "4. [任务闭环](./project/tasks.md)",
-            "5. [变化入口](./project/changes/index.md)",
-            "6. [发布入口](./project/releases/index.md)",
-            "7. [开发入口](./engineering/development.md)"
+            "1. Console",
+            "2. [Project Overview](./project/overview.md)",
+            "3. [Final Goal](./project/goal.md)",
+            "4. [Status Model](./project/status.md)",
+            "5. [Task Model](./project/tasks.md)",
+            "6. [Engineering Development](./engineering/development.md)"
           ].join("\n")
         },
         {
@@ -369,6 +398,7 @@ function buildDocsFiles(projectName: string, goal: GoalState, activeChangeId: st
           body: [
             "### 项目现实",
             "",
+            "- [Project Overview](./project/overview.md)",
             "- [最终目标](./project/goal.md)",
             "- [当前状态](./project/status.md)",
             "- [当前工作](./project/current-work.md)",
@@ -385,24 +415,51 @@ function buildDocsFiles(projectName: string, goal: GoalState, activeChangeId: st
       ]
     },
     {
+      relativePath: "docs/project/overview.md",
+      name: "Project Overview",
+      description: `${projectName} 的项目介绍、背景和文档入口。`,
+      title: "Project Overview",
+      bodyPrefix: `${projectName} 的项目介绍由 .opendaas/project/overview.yaml 和本页共同定义：前者提供结构化摘要与文档路径，后者提供更完整的书面上下文。`,
+      sections: [
+        {
+          heading: "项目摘要",
+          body: projectOverview.summary
+        },
+        {
+          heading: "项目介绍、最终目标与当前计划",
+          body: "项目介绍回答“这个项目是什么”；end goal 回答“最终要到哪里”；current plans 回答“当前这轮具体怎么推进”。这三者不能混用。"
+        },
+        {
+          heading: "推荐阅读路径",
+          body: [
+            "1. Console",
+            "2. [Final Goal](./goal.md)",
+            "3. [Status Model](./status.md)",
+            "4. [Task Model](./tasks.md)",
+            "5. [Engineering Development](../engineering/development.md)"
+          ].join("\n")
+        }
+      ]
+    },
+    {
       relativePath: "docs/project/goal.md",
       name: "Final Goal",
       description: `${projectName} 的最终目标、完成标准与非目标锚点页。`,
       title: "Final Goal",
       bodyPrefix: `${projectName} 的正式目标已经固定到共享控制面，并作为后续计划、任务与状态的最高优先级锚点。`,
       sections: [
-        { heading: "最终目标", body: `${goal.name}\n\n${goal.summary}` },
+        { heading: "最终目标", body: `${endGoal.name}\n\n${endGoal.summary}` },
         {
           heading: "背景与理由",
           body: "当前项目已经进入正式推进阶段，因此需要把最终目标固定到共享文档包中，避免后续目标漂移。"
         },
         {
           heading: "完成标准",
-          body: goal.successCriteria.map((item) => `- ${item}`).join("\n")
+          body: endGoal.successCriteria.map((item) => `- ${item}`).join("\n")
         },
         {
           heading: "明确不做什么",
-          body: goal.nonGoals.map((item) => `- ${item}`).join("\n")
+          body: endGoal.nonGoals.map((item) => `- ${item}`).join("\n")
         },
         { heading: "当前进度摘要", body: "当前默认进度：**0%**" }
       ]
@@ -413,8 +470,8 @@ function buildDocsFiles(projectName: string, goal: GoalState, activeChangeId: st
       description: `记录 ${projectName} 当前推进状态、主要风险与下一步动作。`,
       title: "当前状态",
       sections: [
-        { heading: "状态摘要", body: `当前围绕最终目标“${goal.name}”推进，控制面与共享文档已初始化。` },
-        { heading: "当前阶段", body: "当前阶段：**Next: Establish shared project reality**" },
+        { heading: "状态摘要", body: `当前围绕最终目标“${endGoal.name}”推进，控制面与共享文档已初始化。` },
+        { heading: "当前阶段", body: "当前阶段：**Next: Establish shared project context**" },
         {
           heading: "当前进度",
           body: ["当前默认进度：**0%**", "", "计算口径：", "", "- 控制面当前纳入统计的 3 个叶子任务中，已完成 0 个"].join("\n")
@@ -428,25 +485,25 @@ function buildDocsFiles(projectName: string, goal: GoalState, activeChangeId: st
     {
       relativePath: "docs/project/current-work.md",
       name: "当前工作",
-      description: `记录 ${projectName} 当前 active work、高层焦点与当前计划。`,
+      description: `记录 ${projectName} 当前高层焦点、执行计划与任务树。`,
       title: "当前工作",
       sections: [
-        { heading: "当前 active work", body: `当前 active work：**${goal.summary}**` },
+        { heading: "最终目标锚点", body: `当前所有执行工作都以“${endGoal.name}”作为最高优先级锚点。` },
         {
           heading: "当前高层焦点",
-          body: ["- Establish shared project reality", "- Break down executable work", "- Deliver and validate first slice"].join("\n")
+          body: ["- Establish shared project context", "- Translate the end goal into plan streams", "- Deliver and validate first slice"].join("\n")
         },
         {
           heading: "当前高层计划",
           body: [
-            "- Establish shared project reality [pending]",
-            "- Break down executable work [pending]",
+            "- Establish shared project context [pending]",
+            "- Translate the end goal into plan streams [pending]",
             "- Deliver and validate first slice [pending]"
           ].join("\n")
         },
         {
           heading: "当前不做什么",
-          body: goal.nonGoals.map((item) => `- ${item}`).join("\n")
+          body: endGoal.nonGoals.map((item) => `- ${item}`).join("\n")
         }
       ]
     },
@@ -513,7 +570,7 @@ function buildDocsFiles(projectName: string, goal: GoalState, activeChangeId: st
       bodyPrefix: `${projectName} 当前通过 OpenDaaS 的 docs/.opendaas 双命名空间推进。`,
       sections: [
         { heading: "开发约束", body: ["- 在当前目标范围内自主推进", "- 新决策节点先做 diff check 再升级", "- 共享文档只使用 `name + description` 头部元信息"].join("\n") },
-        { heading: "当前工作流", body: ["1. 先阅读最终目标与当前状态", "2. 在开始任务前运行 `opendaas diff check`", "3. 使用 `goal / plan / task / status` 维护控制面", "4. 通过 `site dev` 或 `site open` 查看文档站投影"].join("\n") }
+        { heading: "当前工作流", body: ["1. 先阅读最终目标与当前状态", "2. 在开始任务前运行 `opendaas diff check`", "3. 使用 `goal / plan / task / status` 维护控制面", "4. 让 current focus 由 top-level plans 和 task tree 共同表达", "5. 通过 `site dev` 或 `site open` 查看文档站投影"].join("\n") }
       ]
     }
   ];
@@ -655,12 +712,13 @@ async function writeDiffScaffolding(root: string, force: boolean, result: Bootst
 async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput): Promise<BootstrapResult> {
   const root = path.resolve(input.targetPath);
   const projectName = input.projectName?.trim() || path.basename(root);
-  const goal = buildGoal({
-    goalName: input.goalName,
-    goalSummary: input.goalSummary
+  const endGoal = buildEndGoal(projectName, {
+    endGoalName: input.endGoalName,
+    endGoalSummary: input.endGoalSummary
   });
   const activeChangeId = `bootstrap-${slugify(projectName) || "project"}`;
   const force = Boolean(input.force);
+  const preserveExistingDocs = Boolean(input.preserveExistingDocs);
   const projectKind = input.projectKind ?? "general";
   const docsMode = input.docsMode ?? "standard";
 
@@ -683,13 +741,17 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
     skippedFiles: []
   };
 
-  for (const file of buildWorkspaceFiles(mode, activeChangeId, goal, projectName, projectKind, docsMode)) {
+  for (const file of buildWorkspaceFiles(mode, activeChangeId, endGoal, projectName, projectKind, docsMode)) {
     await writeManagedWorkspaceFile(root, file, force, result);
   }
 
   await writeDiffScaffolding(root, force, result);
 
-  for (const doc of buildDocsFiles(projectName, goal, activeChangeId)) {
+  for (const doc of buildDocsFiles(projectName, endGoal, activeChangeId)) {
+    if (preserveExistingDocs && existsSync(path.join(root, doc.relativePath))) {
+      result.skippedFiles.push(doc.relativePath);
+      continue;
+    }
     await upsertManagedDoc(root, doc, force, result);
   }
 

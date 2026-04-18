@@ -7,7 +7,7 @@ description: 重新定义 OpenDaaS 的产品定位、范围、原则与核心能
 
 ## 产品定义
 
-OpenDaaS 是一套面向 Human-Agent 编程协作的文档与控制面框架。
+OpenDaaS 是一套面向 Next Human-Agent 编程协作的文档与控制面框架。
 
 它提供：
 

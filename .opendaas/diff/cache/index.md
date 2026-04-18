@@ -1,91 +1,61 @@
 ---
-name: VibeCoding 项目入口
-description: VibeCoding 的共享入口页，概览最终目标、当前进度与阅读路径。
+name: OpenDaaS Docs
+description: OpenDaaS 的项目内入口，说明它是什么、管理什么，以及如何阅读当前工作区。
 ---
 
-# OpenDaaS Docs
+# OpenDaaS
 
-OpenDaaS 通过共享文档包和内部控制面来帮助 Human-Agent 协作推进项目。
+OpenDaaS 是一个 `CLI-first` 的人类开发者与开发端 Agent 项目上下文控制面框架。
 
-OpenDaaS 是一套 `CLI-first`、方法论中立的 Human-Agent 协作规范框架。
+它不试图替代 Git、issue tracker 或外部知识库，而是解决另一类问题：在一个具体项目里，如何同时维护 **共享文档** 与 **结构化工作区状态**，让人类和 Agent 能持续对齐项目现实，而不是在一堆黑盒代码和失真的说明里摸索。
 
-这里的 `docs/` 及其站点投影默认服务项目内部协作，不等同于产品对外文档站；框架自身的默认使用指南优先通过 CLI 与 skills 暴露。
+## OpenDaaS 管理什么
 
-它关注的是：
+- 项目目标与边界
+- 项目介绍与最终目标
+- 计划、任务与进度
+- 重要决策与 release 记录
+- 共享文档与本地文档站
+- 文档差异和工作区校验
 
-- 如何固定项目目标与范围
-- 如何把共享项目现实沉淀到 `docs/`
-- 如何把内部控制面沉淀到 `.opendaas/`
-- 如何让 Agent 在受控前提下持续推进
-- 如何让变更、验证、发布与重要决策可追踪
+## OpenDaaS 的两个核心落点
 
-OpenDaaS 不把任何特定方法论、技能包或编码流派绑定为核心定义。
+- `docs/`
+  - 面向人类和开发端 Agent 的共享文档包
+  - 用来记录背景、约束、说明、开发方式和框架参考
+- `.opendaas/`
+  - 面向工具和运行时的结构化工作区
+  - 用来持久化 project overview、end goal、plan、task、progress、decision、release、diff 等数据
 
-## 阅读顺序
+## 当前工作区怎么读
 
-1. [Framework Overview](./framework/index.md)
-2. [PRD](./framework/PRD.md)
-3. [Concepts](./framework/CONCEPTS.md)
-4. [CLI Spec](./framework/CLI-SPEC.md)
-5. [Decision Spec](./framework/DECISION-SPEC.md)
-6. [Goal And Progress Spec](./framework/GOAL-AND-PROGRESS-SPEC.md)
-7. [Task And Plan Spec](./framework/TASK-AND-PLAN-SPEC.md)
-8. [Release Spec](./framework/RELEASE-SPEC.md)
+1. 先读本页，理解 OpenDaaS 的职责边界
+2. 再读 [Project Overview](./project/overview.md)
+3. 再读 [Goal Context](./project/goal.md)
+4. 再读 [Status Model](./project/status.md)
+5. 需要开发接手时读 [Development](./engineering/development.md)
+6. 需要框架规范时进入 [Framework Overview](./framework/index.md)
 
-## 核心原则
+站点中的 live 控制台视图由 runtime 内建，不依赖项目 authored docs 自行提供 `console/` 目录。
 
-- `docs/` 是人类与 Agent 共用的共享项目现实
-- `.opendaas/` 是内部控制面工作区
-- 目标、范围、变更、决策、验证、发布都应有稳定落点
-- 高频 task / plan 维护允许直接编辑 `.opendaas/`
-- CLI 主要承担初始化、校验、差异处理、投影同步、站点运行时与适配产物生成
+## 导航
 
-## 一句话定义
+### Project
 
-VibeCoding 是一个采用 OpenDaaS 框架推进的项目。
-
-## 最终目标
-
-将 OpenDaaS 推进到可对外发布的公开 alpha 基线，补齐可运行的 init/adopt、稳定的本地文档站运行时、最低可用的 Agent 接入路径、安装分发与更强的验证护栏。
-
-## 当前进度
-
-当前默认进度：**100%**
-
-## 边界与非目标
-
-- public hosted docs platform
-- multi-agent orchestration
-- cloud sync and SaaS control plane
-
-## 从哪里开始
-
-建议阅读顺序：
-
-1. [最终目标](./project/goal.md)
-2. [当前状态](./project/status.md)
-3. [当前工作](./project/current-work.md)
-4. [任务闭环](./project/tasks.md)
-5. [变化入口](./project/changes/index.md)
-6. [发布入口](./project/releases/index.md)
-7. [开发入口](./engineering/development.md)
-
-## 文档导航
-
-### 项目现实
-
-- [最终目标](./project/goal.md)
-- [当前状态](./project/status.md)
-- [当前工作](./project/current-work.md)
-- [任务闭环](./project/tasks.md)
+- [Project Overview](./project/overview.md)
+- [Goal Context](./project/goal.md)
+- [Status Model](./project/status.md)
+- [Current Work](./project/current-work.md)
+- [Task Model](./project/tasks.md)
 - [Changes](./project/changes/index.md)
 - [Decisions](./project/decisions/index.md)
 - [Releases](./project/releases/index.md)
 
-### 开发入口
+### Engineering
 
-- [Engineering Development](./engineering/development.md)
+- [Development](./engineering/development.md)
+- [Agent Usage](./engineering/agent.md)
 
-### 框架参考
+### Framework
 
 - [Framework Overview](./framework/index.md)

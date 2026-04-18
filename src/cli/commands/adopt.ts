@@ -37,15 +37,15 @@ export function registerAdoptCommand(app: AclipApp) {
         description: "Existing project root to adopt.",
         flag: "--target-path"
       }),
-      stringArgument("goalName", {
+      stringArgument("endGoalName", {
         required: true,
-        description: "Final goal name.",
-        flag: "--goal-name"
+        description: "Long-lived end goal name.",
+        flag: "--end-goal-name"
       }),
-      stringArgument("goalSummary", {
+      stringArgument("endGoalSummary", {
         required: true,
-        description: "One-sentence final goal summary.",
-        flag: "--goal-summary"
+        description: "One-sentence end goal summary.",
+        flag: "--end-goal-summary"
       }),
       stringArgument("projectName", {
         required: false,
@@ -69,15 +69,15 @@ export function registerAdoptCommand(app: AclipApp) {
       })
     ],
     examples: [
-      "opendaas adopt --target-path D:/project/existing --goal-name 'Ship MVP' --goal-summary 'Stabilize and ship the first production slice.'",
-      "opendaas adopt --target-path D:/project/existing --goal-name 'Ship MVP' --goal-summary 'Stabilize and ship the first production slice.' --project-kind service"
+      "opendaas adopt --target-path D:/project/existing --end-goal-name 'Make Existing durable' --end-goal-summary 'Turn the existing project into a repeatable and well-governed delivery loop.'",
+      "opendaas adopt --target-path D:/project/existing --end-goal-name 'Make Existing durable' --end-goal-summary 'Turn the existing project into a repeatable and well-governed delivery loop.' --project-kind service"
     ],
     handler: async (payload) => ({
       adopt: await adoptWorkspace({
         targetPath: String(payload.targetPath),
         projectName: payload.projectName ? String(payload.projectName) : undefined,
-        goalName: String(payload.goalName),
-        goalSummary: String(payload.goalSummary),
+        endGoalName: String(payload.endGoalName),
+        endGoalSummary: String(payload.endGoalSummary),
         projectKind: assertProjectKind(payload.projectKind ? String(payload.projectKind) : undefined),
         docsMode: assertDocsMode(payload.docsMode ? String(payload.docsMode) : undefined),
         force: Boolean(payload.force)

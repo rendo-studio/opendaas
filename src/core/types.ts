@@ -13,21 +13,29 @@ export interface GoalState {
   nonGoals: string[];
 }
 
+export interface ProjectOverviewState {
+  name: string;
+  summary: string;
+  docPath: string;
+}
+
 export interface PlanNode {
   id: string;
   name: string;
+  summary: string | null;
   status: TaskStatus;
   parentPlanId: string | null;
 }
 
 export interface PlansState {
-  goalRef: string;
+  endGoalRef: string;
   items: PlanNode[];
 }
 
 export interface TaskNode {
   id: string;
   name: string;
+  summary: string | null;
   status: TaskStatus;
   planRef: string;
   parentTaskId: string | null;

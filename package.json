@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "OpenDaaS CLI-first documentation control plane for Human-Agent collaboration.",
+  "description": "OpenDaaS CLI-first project context control plane for human developers and development agents.",
   "bin": {
     "opendaas": "./dist/bin/opendaas.js"
   },

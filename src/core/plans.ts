@@ -16,6 +16,9 @@ export function assertValidPlanTree(plans: PlanNode[]): void {
   const ids = new Set(plans.map((plan) => plan.id));
 
   for (const plan of plans) {
+    if (!plan.summary || plan.summary.trim().length === 0) {
+      throw new Error(`Plan ${plan.id} is missing summary`);
+    }
     if (plan.parentPlanId !== null && !ids.has(plan.parentPlanId)) {
       throw new Error(`Plan ${plan.id} points to missing parent ${plan.parentPlanId}`);
     }
@@ -155,6 +158,7 @@ export async function addPlan(input: {
   name: string;
   parent: string;
   status?: TaskStatus;
+  summary?: string;
 }): Promise<{ plan: PlanNode; plans: PlansState }> {
   const plans = await loadPlans();
   const parentPlanId = input.parent === "root" ? null : input.parent;
@@ -167,6 +171,7 @@ export async function addPlan(input: {
   const plan: PlanNode = {
     id: createPlanId(input.name, siblings.length),
     name: input.name,
+    summary: input.summary ?? input.name,
     status: input.status ?? "pending",
     parentPlanId
   };
@@ -184,6 +189,7 @@ export async function addPlan(input: {
 export async function updatePlan(input: {
   id: string;
   name?: string;
+  summary?: string;
   status?: TaskStatus;
   parent?: string;
 }): Promise<{ plan: PlanNode; plans: PlansState }> {
@@ -194,8 +200,8 @@ export async function updatePlan(input: {
     throw new Error(`Plan "${input.id}" does not exist.`);
   }
 
-  if (!input.name && !input.status && input.parent === undefined) {
-    throw new Error("Plan update requires at least one of name, status, or parent.");
+  if (!input.name && !input.summary && !input.status && input.parent === undefined) {
+    throw new Error("Plan update requires at least one of name, summary, status, or parent.");
   }
 
   const current = plans.items[index];
@@ -214,6 +220,7 @@ export async function updatePlan(input: {
   nextItems[index] = {
     ...current,
     ...(input.name ? { name: input.name } : {}),
+    ...(input.summary !== undefined ? { summary: input.summary } : {}),
     ...(input.status ? { status: input.status } : {}),
     parentPlanId: nextParent
   };

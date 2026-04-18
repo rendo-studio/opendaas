@@ -1,35 +1,38 @@
 ---
 name: Agent Usage
-description: OpenDaaS 当前工作区面向开发端 Agent 的最小使用说明。
+description: 面向开发端 Agent 的稳定接手说明页，解释应读什么和应信什么。
 ---
 
 # Agent Usage
 
-## 当前工作区摘要
+本页是说明页，不是实时状态页。
 
-- Goal: OpenDaaS public release baseline
-- Summary: 将 OpenDaaS 推进到可对外发布的公开 alpha 基线，补齐可运行的 init/adopt、稳定的本地文档站运行时、最低可用的 Agent 接入路径、安装分发与更强的验证护栏。
-- Phase: Completed
-- Progress: 100%
-- Active change: release-readiness-iteration-1
+开发端 Agent 当前应遵循的原则是：
 
-## 开发端 Agent 最小工作流
+- 书面背景和边界从 `docs/` 读取
+- 实时结构化状态从 `.opendaas/` 读取，必要时再结合 Console
+- 最小执行协议以 `.opendaas/agent/SKILL.md` 为准
 
-1. 先读取 `docs/project/goal.md`、`docs/project/status.md`、`docs/project/current-work.md`
-2. 每轮任务开始前运行 `opendaas diff check`
-3. 范围内直接推进，越界时升级
-4. 高频 task / plan 维护优先直接更新 `.opendaas/` 工作区
-5. 用 CLI 做校验、差异处理、状态投影、站点运行时与 agent artifact 同步
+## Round Start
 
-## 何时记录正式决策
+1. 读取 [Goal Context](../project/goal.md)
+2. 读取 [Development](./development.md)
+3. 运行 `opendaas diff check`
+4. 检查 `.opendaas/goals/end.yaml`、`.opendaas/plans/current.yaml`、`.opendaas/tasks/current.yaml`
+5. 如需 UI 视图，查看 Console
 
-仅在以下情况触发：
+## 不要依赖什么
 
-- 新最终目标
-- 目标差异化变更
-- 大范围 scope 扩张
-- 新的显著成本 change
-- 架构路线切换
-- 不可逆高影响决策
+- 不要把普通 markdown 里的口头进度描述当成唯一真相源
+- 不要把 docs 页面中的说明性文字误判为结构化状态
+- 不要把 total task nodes 和 progress units 混为一谈
 
-常规 UI 优化、范围内功能升级、低风险重构和已批准 change 内的实现推进，不应默认阻塞在 formal decision 上。
+## 推荐命令
+
+```bash
+npm run dev -- validate --repair
+npm run dev -- diff check
+npm run dev -- diff ack
+npm run dev -- status show
+npm run dev -- site dev --path .
+```

@@ -4,7 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { diffAck, diffCheck } from "../src/core/diff.js";
-import { saveGoal } from "../src/core/goal.js";
+import { saveEndGoal } from "../src/core/end-goal.js";
 import { createWorkspaceFixture } from "./helpers/workspace.js";
 
 const restorers: Array<() => void> = [];
@@ -27,16 +27,14 @@ describe("diff provenance", () => {
     cleanups.push(fixture.cleanup);
 
     await diffAck();
-    await saveGoal({
+    await saveEndGoal({
       name: "Production hardening iteration",
       summary: "Advance the OpenDaaS control plane to a stronger production baseline."
     });
 
     const diff = await diffCheck();
-    const changedPaths = new Map(diff.files.map((file) => [file.path, file.source]));
 
-    expect(changedPaths.get("index.md")).toBe("agent");
-    expect(changedPaths.get("project/goal.md")).toBe("agent");
+    expect(diff.files).toEqual([]);
   });
 
   it("classifies untracked shared-doc edits as human diffs", async () => {

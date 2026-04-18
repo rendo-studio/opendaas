@@ -2,19 +2,17 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import "server-only";
 
-export interface RuntimePageBoundary {
+export interface RuntimeDocPage {
   path: string;
   slug: string[];
   title: string;
   description: string;
-  mode: "editable" | "projection" | "hybrid";
-  managedSections: string[];
-  reason: string;
 }
 
 export interface RuntimeTaskNode {
   id: string;
   name: string;
+  summary: string | null;
   status: "pending" | "in_progress" | "done" | "blocked";
   planRef: string;
   parentTaskId: string | null;
@@ -57,6 +55,22 @@ export interface ControlPlaneSnapshot {
     lastDiffCheckAt: string | null;
     lastDiffAckAt: string | null;
   };
+  project:
+    | {
+        name: string;
+        summary: string;
+        docPath: string;
+      }
+    | null;
+  endGoal:
+    | {
+        goalId: string;
+        name: string;
+        summary: string;
+        successCriteria: string[];
+        nonGoals: string[];
+      }
+    | null;
   status:
     | {
         phase: string;
@@ -71,21 +85,13 @@ export interface ControlPlaneSnapshot {
         blockers: string[];
       }
     | null;
-  goal:
-    | {
-        goalId: string;
-        name: string;
-        summary: string;
-        successCriteria: string[];
-        nonGoals: string[];
-      }
-    | null;
   plans:
     | {
-        goalRef: string;
+        endGoalRef: string;
         items: Array<{
           id: string;
           name: string;
+          summary: string | null;
           status: "pending" | "in_progress" | "done" | "blocked";
           parentPlanId: string | null;
         }>;
@@ -104,6 +110,7 @@ export interface ControlPlaneSnapshot {
         items: Array<{
           id: string;
           name: string;
+          summary: string | null;
           status: "pending" | "in_progress" | "done" | "blocked";
           planRef: string;
           parentTaskId: string | null;
@@ -161,11 +168,8 @@ export interface ControlPlaneSnapshot {
       }
     | null;
   docs: {
-    pages: RuntimePageBoundary[];
-    editableCount: number;
-    projectionCount: number;
-    hybridCount: number;
-    changePages: Array<Pick<RuntimePageBoundary, "path" | "slug" | "title" | "description">>;
+    pages: RuntimeDocPage[];
+    changePages: Array<Pick<RuntimeDocPage, "path" | "slug" | "title" | "description">>;
   };
 }
 
@@ -208,8 +212,9 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
       lastDiffCheckAt: null,
       lastDiffAckAt: null
     },
+    project: null,
+    endGoal: null,
     status: null,
-    goal: null,
     plans: null,
     progress: null,
     tasks: null,
@@ -218,9 +223,6 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
     diff: null,
     docs: {
       pages: [],
-      editableCount: 0,
-      projectionCount: 0,
-      hybridCount: 0,
       changePages: []
     }
   });
@@ -248,28 +250,4 @@ export async function loadRuntimeMetadata(): Promise<RuntimeMetadata> {
 
 export function slugKey(slug: string[] | undefined): string {
   return (slug ?? []).join("/");
-}
-
-export function findPageBoundary(snapshot: ControlPlaneSnapshot, slug: string[] | undefined) {
-  const key = slugKey(slug);
-  return snapshot.docs.pages.find((page) => slugKey(page.slug) === key) ?? null;
-}
-
-export async function loadSourcePage(relativePath: string) {
-  const snapshot = await loadControlPlaneSnapshot();
-  const sourceDocsRoot = snapshot.workspace.docsRoot;
-  if (!sourceDocsRoot) {
-    return null;
-  }
-
-  const absolute = path.join(sourceDocsRoot, relativePath);
-  try {
-    return {
-      absolute,
-      relativePath,
-      content: await fs.readFile(absolute, "utf8")
-    };
-  } catch {
-    return null;
-  }
 }

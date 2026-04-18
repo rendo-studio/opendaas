@@ -42,15 +42,15 @@ export function registerInitCommand(app: AclipApp) {
         description: "Human-readable project name.",
         flag: "--project-name"
       }),
-      stringArgument("goalName", {
+      stringArgument("endGoalName", {
         required: true,
-        description: "Final goal name.",
-        flag: "--goal-name"
+        description: "Long-lived end goal name.",
+        flag: "--end-goal-name"
       }),
-      stringArgument("goalSummary", {
+      stringArgument("endGoalSummary", {
         required: true,
-        description: "One-sentence final goal summary.",
-        flag: "--goal-summary"
+        description: "One-sentence end goal summary.",
+        flag: "--end-goal-summary"
       }),
       stringArgument("projectKind", {
         required: false,
@@ -69,15 +69,15 @@ export function registerInitCommand(app: AclipApp) {
       })
     ],
     examples: [
-      "opendaas init --target-path D:/project/example --project-name Example --goal-name 'Launch Example' --goal-summary 'Ship the first releasable slice of Example.'",
-      "opendaas init --target-path D:/project/example --project-name Example --goal-name 'Launch Example' --goal-summary 'Ship the first releasable slice of Example.' --project-kind frontend --docs-mode standard"
+      "opendaas init --target-path D:/project/example --project-name Example --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
+      "opendaas init --target-path D:/project/example --project-name Example --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.' --project-kind frontend --docs-mode standard"
     ],
     handler: async (payload) => ({
       init: await initWorkspace({
         targetPath: String(payload.targetPath),
         projectName: String(payload.projectName),
-        goalName: String(payload.goalName),
-        goalSummary: String(payload.goalSummary),
+        endGoalName: String(payload.endGoalName),
+        endGoalSummary: String(payload.endGoalSummary),
         projectKind: assertProjectKind(payload.projectKind ? String(payload.projectKind) : undefined),
         docsMode: assertDocsMode(payload.docsMode ? String(payload.docsMode) : undefined),
         force: Boolean(payload.force)

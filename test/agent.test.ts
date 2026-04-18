@@ -26,14 +26,12 @@ describe("agent adaptation artifacts", () => {
 
     const result = await syncAgentArtifacts();
     const skill = await fs.readFile(result.skillPath, "utf8");
-    const docs = await fs.readFile(result.docsPath, "utf8");
     const inspection = await inspectAgentArtifacts();
 
     expect(skill).toContain("Mandatory Round Start");
     expect(skill).toContain("opendaas diff check");
-    expect(skill).toContain(".opendaas/goals/current.yaml");
-    expect(docs).toContain("何时记录正式决策");
+    expect(skill).toContain(".opendaas/goals/end.yaml");
     expect(inspection.skillExists).toBe(true);
-    expect(inspection.docsExists).toBe(true);
+    expect(inspection.docsExists).toBe(false);
   });
 });

@@ -50,17 +50,19 @@ describe("plan control plane", () => {
   it("propagates descendant task status back to parent plans", async () => {
     const fixture = await createWorkspaceFixture({
       plans: {
-        goalRef: "goal-test",
+        endGoalRef: "goal-test",
         items: [
           {
             id: "plan-root",
             name: "Production hardening",
+            summary: "Drive the control plane toward a stronger production baseline.",
             status: "pending",
             parentPlanId: null
           },
           {
             id: "plan-child",
             name: "Diff provenance",
+            summary: "Track where shared-doc changes came from.",
             status: "pending",
             parentPlanId: "plan-root"
           }
@@ -71,6 +73,7 @@ describe("plan control plane", () => {
           {
             id: "task-1",
             name: "Implement source classification",
+            summary: "Classify whether each shared-doc change was authored by a human or an agent.",
             status: "done",
             planRef: "plan-child",
             parentTaskId: null,

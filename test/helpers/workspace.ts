@@ -4,30 +4,45 @@ import path from "node:path";
 
 import { stringify } from "yaml";
 
-import type { GoalState, PlansState, ProgressState, TasksState, WorkspaceState } from "../../src/core/types.js";
+import type {
+  GoalState,
+  PlansState,
+  ProgressState,
+  ProjectOverviewState,
+  TasksState,
+  WorkspaceState
+} from "../../src/core/types.js";
 
 interface WorkspaceFixtureInput {
-  goal?: GoalState;
+  project?: ProjectOverviewState;
+  endGoal?: GoalState;
   plans?: PlansState;
   tasks?: TasksState;
   progress?: ProgressState;
   active?: WorkspaceState;
 }
 
-const defaultGoal: GoalState = {
-  goalId: "goal-test",
-  name: "Test goal",
-  summary: "Exercise the OpenDaaS control plane in isolation.",
+const defaultEndGoal: GoalState = {
+  goalId: "end-goal-test",
+  name: "Test end goal",
+  summary: "Exercise the OpenDaaS project context control plane in isolation.",
   successCriteria: ["Persist and project control-plane state."],
   nonGoals: ["External deployment."]
 };
 
+const defaultProject: ProjectOverviewState = {
+  name: "Test Workspace",
+  summary: "Test workspace for isolated OpenDaaS control-plane behavior.",
+  docPath: "project/overview.md"
+};
+
 const defaultPlans: PlansState = {
-  goalRef: "goal-test",
+  endGoalRef: "end-goal-test",
   items: [
     {
       id: "plan-root",
       name: "Root plan",
+      summary: "Default top-level plan used by workspace fixtures.",
       status: "pending",
       parentPlanId: null
     }
@@ -75,13 +90,15 @@ function doc(name: string, description: string, body: string): string {
 
 export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-test-"));
-  const goal = input.goal ?? defaultGoal;
+  const project = input.project ?? defaultProject;
+  const endGoal = input.endGoal ?? defaultEndGoal;
   const plans = input.plans ?? defaultPlans;
   const tasks = input.tasks ?? defaultTasks;
   const progress = input.progress ?? defaultProgress;
   const active = input.active ?? defaultActive;
 
-  await writeYaml(path.join(root, ".opendaas", "goals", "current.yaml"), goal);
+  await writeYaml(path.join(root, ".opendaas", "project", "overview.yaml"), project);
+  await writeYaml(path.join(root, ".opendaas", "goals", "end.yaml"), endGoal);
   await writeYaml(path.join(root, ".opendaas", "plans", "current.yaml"), plans);
   await writeYaml(path.join(root, ".opendaas", "tasks", "current.yaml"), tasks);
   await writeYaml(path.join(root, ".opendaas", "tasks", "archive.yaml"), { items: [] });
@@ -110,6 +127,20 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
 待同步
 
 ## 当前进度
+
+待同步
+`
+    )
+  );
+  await writeText(
+    path.join(root, "docs", "project", "overview.md"),
+    doc(
+      "Project Overview",
+      "Project overview page.",
+      `
+# Project Overview
+
+## 项目摘要
 
 待同步
 `

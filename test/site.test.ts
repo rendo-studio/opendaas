@@ -34,7 +34,7 @@ describe("site runtime staging", () => {
     expect(stagedIndex).not.toContain("name: Test index");
   });
 
-  it("copies Fumadocs meta files and static assets into the staged content tree", async () => {
+  it("copies source docs assets and injects runtime-managed console pages into the staged tree", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
@@ -55,10 +55,17 @@ describe("site runtime staging", () => {
     const staged = await stageDocsForSiteRuntime();
     const stagedMeta = await fs.readFile(path.join(staged.stagedDocsRoot, "meta.json"), "utf8");
     const stagedAsset = await fs.readFile(path.join(staged.stagedDocsRoot, "logo.txt"), "utf8");
+    const stagedConsoleMeta = await fs.readFile(path.join(staged.stagedDocsRoot, "console", "meta.json"), "utf8");
+    const stagedConsoleIndex = await fs.readFile(path.join(staged.stagedDocsRoot, "console", "index.md"), "utf8");
 
     expect(JSON.parse(stagedMeta)).toEqual({
-      pages: ["index", "project", "engineering"]
+      pages: ["console", "project", "engineering"]
     });
+    expect(JSON.parse(stagedConsoleMeta)).toEqual({
+      title: "Console",
+      pages: ["index", "tasks"]
+    });
+    expect(stagedConsoleIndex).toContain("title: Overview");
     expect(stagedAsset).toBe("site-asset\n");
   });
 });

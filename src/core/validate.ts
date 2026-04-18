@@ -3,7 +3,8 @@ import path from "node:path";
 
 import { adoptWorkspace, WORKSPACE_SCHEMA_VERSION, WORKSPACE_TEMPLATE_VERSION } from "./bootstrap.js";
 import { migrateDecisionState } from "./decision.js";
-import { loadGoal } from "./goal.js";
+import { loadEndGoal } from "./end-goal.js";
+import { loadProjectOverview } from "./project-overview.js";
 import { readText, readYamlFile, writeYamlFile } from "./storage.js";
 import { loadTasks, assertValidTaskTree } from "./tasks.js";
 import type { WorkspaceConfigState, WorkspaceMetaState } from "./types.js";
@@ -47,7 +48,8 @@ async function loadMetaAndConfig() {
 export async function validateWorkspace() {
   const paths = getWorkspacePaths();
   const requiredFiles = [
-    paths.goalFile,
+    paths.projectOverviewFile,
+    paths.endGoalFile,
     paths.planFile,
     paths.taskFile,
     paths.taskArchiveFile,
@@ -57,6 +59,7 @@ export async function validateWorkspace() {
     paths.diffHistoryFile,
     paths.diffSourcesFile,
     paths.docsIndexFile,
+    paths.docsProjectOverviewFile,
     paths.docsGoalFile,
     paths.docsStatusFile,
     paths.docsCurrentWorkFile,
@@ -65,7 +68,6 @@ export async function validateWorkspace() {
     paths.docsDecisionsIndexFile,
     paths.docsReleasesIndexFile,
     path.join(paths.docsRoot, "engineering", "development.md"),
-    path.join(paths.docsRoot, "engineering", "agent.md"),
     path.join(paths.workspaceRoot, "agent", "SKILL.md")
   ];
 
@@ -77,7 +79,10 @@ export async function validateWorkspace() {
     hasMinimalMetadata(paths.docsCurrentWorkFile).catch(() => false)
   ]);
 
-  const goal = await loadGoal();
+  const [endGoal, projectOverview] = await Promise.all([
+    loadEndGoal(),
+    loadProjectOverview().catch(() => null)
+  ]);
   const tasks = await loadTasks();
   assertValidTaskTree(tasks.items);
 
@@ -132,6 +137,14 @@ export async function validateWorkspace() {
     repairableIssues.push("Backfill missing managed files and docs anchors");
   }
 
+  if (projectOverview?.docPath) {
+    const overviewDocPath = path.join(paths.docsRoot, projectOverview.docPath);
+    if (!existsSync(overviewDocPath) && !missingFiles.includes(overviewDocPath)) {
+      missingFiles.push(overviewDocPath);
+      repairableIssues.push("Backfill missing managed files and docs anchors");
+    }
+  }
+
   const migrationNeeded = missingFiles.length > 0 || schemaIssues.length > 0;
 
   return {
@@ -150,24 +163,25 @@ export async function validateWorkspace() {
     warnings,
     migrationNeeded,
     repairableIssues: unique(repairableIssues),
-    goalName: goal.name,
+    endGoalName: endGoal.name,
     taskCount: tasks.items.length
   };
 }
 
 export async function repairWorkspace() {
   const paths = getWorkspacePaths();
-  const goal = await loadGoal();
+  const endGoal = await loadEndGoal();
   const { meta, config } = await loadMetaAndConfig();
 
   const result = await adoptWorkspace({
     targetPath: paths.root,
     projectName: path.basename(paths.root),
-    goalName: goal.name,
-    goalSummary: goal.summary,
+    endGoalName: endGoal.name,
+    endGoalSummary: endGoal.summary,
     projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
     docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",
-    force: false
+    force: false,
+    preserveExistingDocs: true
   });
   await migrateDecisionState();
 

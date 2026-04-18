@@ -5,4 +5,4 @@ siteFramework: fumadocs
 packageManager: npm
 projectKind: general
 docsMode: standard
-workspaceSchemaVersion: 4
+workspaceSchemaVersion: 6

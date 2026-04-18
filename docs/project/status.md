@@ -1,41 +1,46 @@
 ---
-name: 当前状态
-description: 记录 VibeCoding 当前推进状态、主要风险与下一步动作。
+name: Status Model
+description: 当前工作区如何定义 phase、progress、task node 与 closure。
 ---
 
-# 当前状态
+# Status Model
 
-## 状态摘要
+OpenDaaS 里的状态不是一段口头描述，而是一组结构化控制面数据。
 
-当前围绕最终目标“OpenDaaS public release baseline”的本轮计划已完成，控制面与共享文档已经同步到完成态。
+这页的职责不是重复当前数值，而是说明这些数值在当前工作区里分别代表什么。
 
-## 当前阶段
+## Phase
 
-当前阶段：**Completed**
+`phase` 是当前顶层推进阶段的简化读法。
 
-## 当前进度
+它来自顶层 plan 状态，而不是手工写在文档里的标签。Console 会直接显示这个值。
 
-当前默认进度：**100%**
+## Progress
 
-计算口径：
+`progress` 只统计 `countedForProgress: true` 的任务。
 
-- 控制面当前纳入统计的 28 个叶子任务中，已完成 28 个
+这意味着：
 
-## 当前进展
+- grouping task 不进入进度分母
+- plan 本身不进入进度分母
+- 只有被明确标记为 progress unit 的任务才会影响百分比
 
-- Surface a diff timeline with previous-versus-current comparison in the site UI
-- Split project reality and framework reference navigation clearly
-- Reduce root docs noise by regrouping specs and entry points
-- Update landing pages and internal entry points to match the cleaned IA
+## Total Task Nodes
 
-## 主要 blocker / 风险
+当前任务树里还会存在不计入进度的节点，例如：
 
-- 暂无明确 blocker
+- 顶层 task group
+- 中间分组节点
 
-## 下一步动作
+所以 `total task nodes` 和 `progress units` 从来都不是同一个数。
 
-- 暂无
+## Closure
 
-## 最近更新时间
+已完成并退出当前 live tree 的任务，会进入 `.opendaas/tasks/archive.yaml`。
 
-2026-04-18T08:00:18.527Z
+当前项目的归档模型已经存在，但还没有形成长期累积的 archived closures。
+
+## 阅读建议
+
+- 想看当前数值：看 Console
+- 想理解这些数值的口径：看本页

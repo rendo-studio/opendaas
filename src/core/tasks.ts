@@ -15,6 +15,9 @@ export function assertValidTaskTree(tasks: TaskNode[]): void {
   const ids = new Set(tasks.map((task) => task.id));
 
   for (const task of tasks) {
+    if (!task.summary || task.summary.trim().length === 0) {
+      throw new Error(`Task ${task.id} is missing summary`);
+    }
     if (task.parentTaskId !== null && !ids.has(task.parentTaskId)) {
       throw new Error(`Task ${task.id} points to missing parent ${task.parentTaskId}`);
     }
@@ -36,6 +39,7 @@ export async function addTask(input: {
   name: string;
   parent: string;
   plan?: string;
+  summary?: string;
 }): Promise<{ task: TaskNode; progressPercent: number }> {
   const paths = getWorkspacePaths();
   const [current, plans] = await Promise.all([loadTasks(), loadPlans()]);
@@ -63,6 +67,7 @@ export async function addTask(input: {
   const task: TaskNode = {
     id: createTaskId(input.name, siblings.length),
     name: input.name,
+    summary: input.summary ?? input.name,
     status: "pending",
     planRef,
     parentTaskId,

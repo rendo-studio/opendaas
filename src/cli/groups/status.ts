@@ -5,8 +5,8 @@ import { getStatusSnapshot, syncStatusDocs } from "../../core/status.js";
 export function registerStatusGroup(app: AclipApp) {
   app
     .group("status", {
-      summary: "Inspect and sync the shared project status.",
-      description: "Expose the current progress snapshot and project it back into docs."
+      summary: "Inspect and sync the derived project status.",
+      description: "Expose the current progress snapshot and refresh derived control-plane state."
     })
     .command("show", {
       summary: "Show the current status snapshot.",
@@ -17,8 +17,8 @@ export function registerStatusGroup(app: AclipApp) {
       })
     })
     .command("sync", {
-      summary: "Sync status back to docs.",
-      description: "Project current goal, plan, task, and progress state back into shared docs.",
+      summary: "Refresh derived status state.",
+      description: "Recompute plan status and progress from the current structured control plane.",
       examples: ["opendaas status sync"],
       handler: async () => {
         await syncStatusDocs();

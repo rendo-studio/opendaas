@@ -27,18 +27,20 @@ describe("init and adopt", () => {
     const first = await initWorkspace({
       targetPath: root,
       projectName: "Example Project",
-      goalName: "Launch Example",
-      goalSummary: "Ship the first releasable slice of Example."
+      endGoalName: "Launch Example",
+      endGoalSummary: "Ship the first releasable slice of Example."
     });
 
-    expect(first.createdFiles).toContain(".opendaas/goals/current.yaml");
+    expect(first.createdFiles).toContain(".opendaas/project/overview.yaml");
+    expect(first.createdFiles).toContain(".opendaas/goals/end.yaml");
+    expect(first.createdFiles).toContain("docs/project/overview.md");
     expect(first.createdFiles).toContain("docs/index.md");
 
     const second = await initWorkspace({
       targetPath: root,
       projectName: "Example Project",
-      goalName: "Launch Example",
-      goalSummary: "Ship the first releasable slice of Example."
+      endGoalName: "Launch Example",
+      endGoalSummary: "Ship the first releasable slice of Example."
     });
 
     expect(second.skippedFiles.length).toBeGreaterThan(0);
@@ -66,25 +68,24 @@ describe("init and adopt", () => {
 
     const result = await adoptWorkspace({
       targetPath: root,
-      goalName: "Ship Existing MVP",
-      goalSummary: "Stabilize and ship the first production slice of the existing project."
+      endGoalName: "Ship Existing MVP",
+      endGoalSummary: "Stabilize and ship the first production slice of the existing project."
     });
 
     const indexContent = await fs.readFile(path.join(root, "docs", "index.md"), "utf8");
-    const goalFileExists = await fs
-      .stat(path.join(root, ".opendaas", "goals", "current.yaml"))
+    const endGoalFileExists = await fs
+      .stat(path.join(root, ".opendaas", "goals", "end.yaml"))
       .then(() => true)
       .catch(() => false);
-    const agentDocExists = await fs
-      .stat(path.join(root, "docs", "engineering", "agent.md"))
+    const projectOverviewExists = await fs
+      .stat(path.join(root, ".opendaas", "project", "overview.yaml"))
       .then(() => true)
       .catch(() => false);
-
-    expect(result.createdFiles).toContain(".opendaas/goals/current.yaml");
-    expect(goalFileExists).toBe(true);
-    expect(agentDocExists).toBe(true);
+    expect(result.createdFiles).toContain(".opendaas/goals/end.yaml");
+    expect(endGoalFileExists).toBe(true);
+    expect(projectOverviewExists).toBe(true);
     expect(indexContent).toContain("This line must survive adopt.");
-    expect(indexContent).toContain("## 最终目标");
+    expect(indexContent).toContain("## 默认入口");
     expect(indexContent).toContain("name:");
     expect(indexContent).toContain("description:");
   });

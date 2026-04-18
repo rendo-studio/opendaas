@@ -1,6 +1,7 @@
 {
   "title": "Project",
   "pages": [
+    "overview",
     "goal",
     "status",
     "current-work",

@@ -31,17 +31,22 @@ export function registerTaskGroup(app: AclipApp) {
           required: false,
           description:
             "Optional plan id. Required when creating a root-level task; inherited from the parent task otherwise."
+        }),
+        stringArgument("summary", {
+          required: false,
+          description: "Optional task summary. Defaults to the task name."
         })
       ],
       examples: [
         "opendaas task add --name 'Wire local site runtime' --parent root --plan implement-local-docs-site-runtime-4",
         "opendaas task add --name 'Add baseline registry' --parent task-site-runtime"
       ],
-      handler: async ({ name, parent, plan }) => {
+      handler: async ({ name, parent, plan, summary }) => {
         return addTask({
           name: String(name),
           parent: String(parent),
-          plan: plan ? String(plan) : undefined
+          plan: plan ? String(plan) : undefined,
+          summary: summary ? String(summary) : undefined
         });
       }
     })
