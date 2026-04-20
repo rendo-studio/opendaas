@@ -5,7 +5,7 @@ import { DocsBody, DocsPage } from "fumadocs-ui/layouts/docs/page";
 import { ConsoleOverviewView } from "../../../components/site/console-overview-view";
 import { ConsoleTasksView } from "../../../components/site/console-tasks-view";
 import { DocumentCompareView, DocumentRevisionPreview } from "../../../components/site/document-compare-view";
-import { DocumentRevisionBar } from "../../../components/site/document-revision-bar";
+import { DocumentRevisionSidebar } from "../../../components/site/document-revision-bar";
 import { LiveRefresh } from "../../../components/site/live-refresh";
 import { loadControlPlaneSnapshot, loadDocsRevisionState, loadRuntimeMetadata, loadRuntimeVersion } from "../../../lib/runtime-data";
 import { source } from "../../../lib/source";
@@ -91,7 +91,24 @@ export default async function Page(props: {
         };
 
   return (
-    <DocsPage toc={useConsoleView ? undefined : page?.data.toc} full={useConsoleView ? true : page?.data.full ?? false}>
+    <DocsPage
+      toc={useConsoleView ? undefined : page?.data.toc}
+      full={useConsoleView ? true : page?.data.full ?? false}
+      tableOfContent={
+        useConsoleView || !revisionRecord
+          ? undefined
+          : {
+              footer: (
+                <DocumentRevisionSidebar
+                  pathname={pathname}
+                  record={revisionRecord}
+                  activeRevisionId={effectiveSelectedRevision?.id ?? null}
+                  compareRevisionId={effectiveComparedRevision?.id ?? null}
+                />
+              )
+            }
+      }
+    >
       {runtime.mode === "dev" ? (
         <LiveRefresh
           initialVersion={version.updatedAt}
@@ -113,18 +130,10 @@ export default async function Page(props: {
           )
         ) : (
           <>
-            {revisionRecord ? (
-              <DocumentRevisionBar
-                pathname={pathname}
-                record={revisionRecord}
-                activeRevisionId={effectiveSelectedRevision?.id ?? null}
-                compareRevisionId={effectiveComparedRevision?.id ?? null}
-              />
-            ) : null}
             {effectiveComparedRevision && latestRevision ? (
               <DocumentCompareView previous={effectiveComparedRevision} current={latestRevision} />
             ) : effectiveSelectedRevision ? (
-              <DocumentRevisionPreview revision={effectiveSelectedRevision} />
+              <DocumentRevisionPreview revision={effectiveSelectedRevision} components={components} />
             ) : (
               MDX ? <MDX components={components} /> : null
             )}

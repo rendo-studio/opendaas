@@ -1,4 +1,11 @@
+import { Markdown } from "fumadocs-core/content/md";
+
 import type { RuntimeDocRevisionEntry } from "../../lib/runtime-data";
+
+function stripFrontmatter(content: string): string {
+  const match = content.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?([\s\S]*)$/);
+  return match?.[1] ?? content;
+}
 
 interface DiffRow {
   left: string | null;
@@ -120,22 +127,22 @@ function renderLineNumber(value: number | null): string {
 }
 
 export function DocumentRevisionPreview({
-  revision
+  revision,
+  components
 }: {
   revision: RuntimeDocRevisionEntry;
+  components?: Record<string, unknown>;
 }) {
   return (
-    <section className="mb-6 overflow-hidden rounded-xl border border-[color:var(--color-border)] bg-[color:var(--card)] shadow-[var(--console-item-shadow)]">
-      <div className="border-b border-[color:var(--color-border)] px-4 py-3">
+    <>
+      <div className="not-prose mb-6 border-b border-[color:var(--color-border)] pb-4">
         <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
           Historical Revision
         </div>
         <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">版本时间 {formatTimestamp(revision.createdAt)}</div>
       </div>
-      <pre className="overflow-x-auto px-4 py-4 text-sm leading-6 text-[color:var(--foreground)]">
-        <code>{revision.content}</code>
-      </pre>
-    </section>
+      <Markdown components={components}>{stripFrontmatter(revision.content)}</Markdown>
+    </>
   );
 }
 
