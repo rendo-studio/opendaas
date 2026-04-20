@@ -1,4 +1,5 @@
 import { Markdown } from "fumadocs-core/content/md";
+import type { ComponentProps } from "react";
 
 import type { RuntimeDocRevisionEntry } from "../../lib/runtime-data";
 
@@ -131,7 +132,7 @@ export function DocumentRevisionPreview({
   components
 }: {
   revision: RuntimeDocRevisionEntry;
-  components?: Record<string, unknown>;
+  components?: ComponentProps<typeof Markdown>["components"];
 }) {
   return (
     <>

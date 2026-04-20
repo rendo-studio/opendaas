@@ -7,7 +7,7 @@ import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-import { emptyDocsRevisionState, loadDocsRevisionState, syncDocsRevisionState } from "./docs-revisions.js";
+import { loadDocsRevisionState, syncDocsRevisionState } from "./docs-revisions.js";
 import { readText, writeText } from "./storage.js";
 import { buildSiteControlPlaneSnapshot } from "./site-data.js";
 import { loadWorkspaceConfig } from "./workspace-config.js";
@@ -870,14 +870,14 @@ export async function stageDocsForSiteRuntime(inputPath?: string, options: Stage
     pageCount = sourceFiles.filter((relativePath) => isMarkdownFile(relativePath)).length;
   }
 
-  const docsRevisionState = sourceWorkspaceRoot
-    ? shouldSyncDocs
-      ? await syncDocsRevisionState(sourceDocsRoot)
-      : await loadDocsRevisionState(sourceWorkspaceRoot).catch(() => emptyDocsRevisionState())
-    : emptyDocsRevisionState();
   const docsRevisionDataFile = path.join(runtimeDataRoot, "docs-revisions.json");
+  const docsRevisionState = shouldSyncDocs
+    ? await syncDocsRevisionState(sourceDocsRoot, docsRevisionDataFile)
+    : await loadDocsRevisionState(docsRevisionDataFile);
   await writeText(docsRevisionDataFile, `${JSON.stringify(docsRevisionState, null, 2)}\n`);
-  const snapshot = await buildSiteControlPlaneSnapshot(sourceDocsRoot);
+  const snapshot = await buildSiteControlPlaneSnapshot(sourceDocsRoot, {
+    docsRevisionState
+  });
   const dataFile = path.join(runtimeDataRoot, "control-plane.json");
   await writeText(dataFile, `${JSON.stringify(snapshot, null, 2)}\n`);
   const versionFile = await writeRuntimeVersion(runtimeDataRoot);

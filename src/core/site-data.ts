@@ -1,7 +1,13 @@
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { getDocRevisionRecord, listRecentlyChangedDocs, loadDocsRevisionState } from "./docs-revisions.js";
+import {
+  emptyDocsRevisionState,
+  getDocRevisionRecord,
+  listRecentlyChangedDocs,
+  loadDocsRevisionState
+} from "./docs-revisions.js";
 import { loadDecisionState } from "./decision.js";
 import { loadEndGoal } from "./end-goal.js";
 import { readText, readYamlFile } from "./storage.js";
@@ -17,11 +23,7 @@ import {
   loadTasks,
   summarizeRecentCompleted
 } from "./tasks.js";
-import type {
-  TaskArchiveState,
-  TaskTreeNode,
-  WorkspaceState
-} from "./types.js";
+import type { DocsRevisionState, TaskArchiveState, TaskTreeNode, WorkspaceState } from "./types.js";
 import { getStatusSnapshot } from "./status.js";
 import { getWorkspacePaths, resolveWorkspaceRoot, withWorkspaceRoot } from "./workspace.js";
 
@@ -47,6 +49,7 @@ interface WorkspaceSiteSnapshot {
   hasWorkspace: boolean;
   activeChange: string | null;
   currentRoundId: string | null;
+  stateDigest: string | null;
 }
 
 export interface SiteControlPlaneSnapshot {
@@ -56,14 +59,14 @@ export interface SiteControlPlaneSnapshot {
   endGoal: Awaited<ReturnType<typeof loadEndGoal>> | null;
   status: Awaited<ReturnType<typeof getStatusSnapshot>> | null;
   plans: Awaited<ReturnType<typeof loadPlans>> | null;
-    progress:
-      | {
-          percent: number;
-          countedTasks: number;
-          doneTasks: number;
-          computedAt: string | null;
-        }
-      | null;
+  progress:
+    | {
+        percent: number;
+        countedTasks: number;
+        doneTasks: number;
+        computedAt: string | null;
+      }
+    | null;
   tasks:
     | {
         items: Awaited<ReturnType<typeof loadTasks>>["items"];
@@ -81,6 +84,11 @@ export interface SiteControlPlaneSnapshot {
     changePages: Array<Pick<DocManifestEntry, "path" | "slug" | "title" | "description">>;
     changedPages: DocManifestEntry[];
   };
+}
+
+interface BuildSiteSnapshotOptions {
+  docsRevisionFile?: string | null;
+  docsRevisionState?: DocsRevisionState | null;
 }
 
 function parseFrontmatter(content: string): { frontmatter: FrontmatterShape; body: string } {
@@ -136,6 +144,10 @@ async function collectMarkdownFiles(root: string, base = root): Promise<string[]
   return files.sort();
 }
 
+function hashPayload(payload: unknown): string {
+  return crypto.createHash("sha256").update(JSON.stringify(payload)).digest("hex");
+}
+
 export function docsPathToSlug(relativePath: string): string[] {
   const normalized = relativePath.replace(/\\/g, "/");
   const parts = normalized.split("/");
@@ -162,15 +174,26 @@ export function slugToDocsPath(slug: string[]): string {
   return `${joined}.md`;
 }
 
-async function buildDocsManifest(docsRoot: string, workspaceRoot?: string): Promise<DocManifestEntry[]> {
+async function resolveDocsRevisionState(options?: BuildSiteSnapshotOptions): Promise<DocsRevisionState> {
+  if (options?.docsRevisionState) {
+    return options.docsRevisionState;
+  }
+
+  if (options?.docsRevisionFile) {
+    return loadDocsRevisionState(options.docsRevisionFile);
+  }
+
+  return emptyDocsRevisionState();
+}
+
+async function buildDocsManifest(docsRoot: string, revisionState: DocsRevisionState): Promise<DocManifestEntry[]> {
   const files = await collectMarkdownFiles(docsRoot);
   const manifest: DocManifestEntry[] = [];
-  const revisionState = workspaceRoot ? await loadDocsRevisionState(workspaceRoot) : null;
 
   for (const relativePath of files) {
     const content = await readText(path.join(docsRoot, relativePath));
     const { frontmatter, body } = parseFrontmatter(content);
-    const revisionRecord = revisionState ? getDocRevisionRecord(revisionState, relativePath) : null;
+    const revisionRecord = getDocRevisionRecord(revisionState, relativePath);
     const title =
       frontmatter.name ??
       body.match(/^#\s+(.+)$/m)?.[1]?.trim() ??
@@ -198,26 +221,56 @@ function tryResolveWorkspaceRootFromDocsRoot(docsRoot: string): string | null {
   }
 }
 
-async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string): Promise<SiteControlPlaneSnapshot> {
+function createWorkspaceStateDigest(input: {
+  active: WorkspaceState;
+  project: Awaited<ReturnType<typeof loadProjectOverview>> | null;
+  endGoal: Awaited<ReturnType<typeof loadEndGoal>> | null;
+  status: Awaited<ReturnType<typeof getStatusSnapshot>> | null;
+  plans: Awaited<ReturnType<typeof loadPlans>>;
+  progress: ReturnType<typeof computeProgress>;
+  tasks: Awaited<ReturnType<typeof loadTasks>>;
+  archive: TaskArchiveState;
+  decisions: Awaited<ReturnType<typeof loadDecisionState>>;
+  releases: Awaited<ReturnType<typeof loadReleaseState>>;
+}): string {
+  return hashPayload({
+    activeChange: input.active.activeChange,
+    currentRoundId: input.active.currentRoundId,
+    project: input.project,
+    endGoal: input.endGoal,
+    status: input.status,
+    plans: input.plans,
+    progress: input.progress,
+    tasks: input.tasks.items,
+    archive: input.archive.items,
+    decisions: input.decisions.items,
+    releases: input.releases.items
+  });
+}
+
+async function loadWorkspaceSiteSnapshot(
+  workspaceRoot: string,
+  docsRoot: string,
+  revisionState: DocsRevisionState
+): Promise<SiteControlPlaneSnapshot> {
   return withWorkspaceRoot(workspaceRoot, async () => {
     const paths = getWorkspacePaths();
-    const [project, endGoal, status, plansState, tasksState, archive, decisions, releases] =
-      await Promise.all([
-        loadProjectOverview(),
-        loadEndGoal(),
-        getStatusSnapshot(),
-        loadPlans(),
-        loadTasks(),
-        loadTaskArchive(),
-        loadDecisionState(),
-        loadReleaseState()
-      ]);
+    const [project, endGoal, status, plansState, tasksState, archive, decisions, releases] = await Promise.all([
+      loadProjectOverview(),
+      loadEndGoal(),
+      getStatusSnapshot(),
+      loadPlans(),
+      loadTasks(),
+      loadTaskArchive(),
+      loadDecisionState(),
+      loadReleaseState()
+    ]);
     const plans = derivePlanStatuses(plansState, tasksState);
     const progress = computeProgress(tasksState.items);
 
     const active = await readYamlFile<WorkspaceState>(paths.activeStateFile);
-    const docsManifest = await buildDocsManifest(docsRoot, workspaceRoot);
-    const changedPages = listRecentlyChangedDocs(await loadDocsRevisionState(workspaceRoot))
+    const docsManifest = await buildDocsManifest(docsRoot, revisionState);
+    const changedPages = listRecentlyChangedDocs(revisionState)
       .map((record) => docsManifest.find((page) => page.path === record.path))
       .filter((page): page is DocManifestEntry => Boolean(page));
 
@@ -229,7 +282,19 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
         workspaceRoot: paths.workspaceRoot,
         hasWorkspace: true,
         activeChange: active.activeChange,
-        currentRoundId: active.currentRoundId
+        currentRoundId: active.currentRoundId,
+        stateDigest: createWorkspaceStateDigest({
+          active,
+          project,
+          endGoal,
+          status,
+          plans,
+          progress,
+          tasks: tasksState,
+          archive,
+          decisions,
+          releases
+        })
       },
       project,
       endGoal,
@@ -264,13 +329,21 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
   });
 }
 
-export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<SiteControlPlaneSnapshot> {
+export async function buildSiteControlPlaneSnapshot(
+  docsRoot: string,
+  options?: BuildSiteSnapshotOptions
+): Promise<SiteControlPlaneSnapshot> {
+  const revisionState = await resolveDocsRevisionState(options);
   const workspaceRoot = tryResolveWorkspaceRootFromDocsRoot(docsRoot);
   if (workspaceRoot) {
-    return loadWorkspaceSiteSnapshot(workspaceRoot, docsRoot);
+    return loadWorkspaceSiteSnapshot(workspaceRoot, docsRoot, revisionState);
   }
 
-  const docsManifest = await buildDocsManifest(docsRoot);
+  const docsManifest = await buildDocsManifest(docsRoot, revisionState);
+  const changedPages = listRecentlyChangedDocs(revisionState)
+    .map((record) => docsManifest.find((page) => page.path === record.path))
+    .filter((page): page is DocManifestEntry => Boolean(page));
+
   return {
     generatedAt: new Date().toISOString(),
     workspace: {
@@ -279,7 +352,8 @@ export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<S
       workspaceRoot: null,
       hasWorkspace: false,
       activeChange: null,
-      currentRoundId: null
+      currentRoundId: null,
+      stateDigest: null
     },
     project: null,
     endGoal: null,
@@ -299,7 +373,7 @@ export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<S
           title,
           description
         })),
-      changedPages: []
+      changedPages
     }
   };
 }

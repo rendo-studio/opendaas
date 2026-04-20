@@ -4,7 +4,6 @@ import path from "node:path";
 
 import { readText, writeText } from "./storage.js";
 import type { DocRevisionEntry, DocRevisionRecord, DocsRevisionState } from "./types.js";
-import { getWorkspacePaths } from "./workspace.js";
 
 const MAX_REVISIONS_PER_DOC = 12;
 
@@ -103,24 +102,21 @@ export function emptyDocsRevisionState(): DocsRevisionState {
   };
 }
 
-export async function loadDocsRevisionState(start = process.cwd()): Promise<DocsRevisionState> {
-  const paths = getWorkspacePaths(start);
-
+export async function loadDocsRevisionState(stateFile: string): Promise<DocsRevisionState> {
   try {
-    return JSON.parse(await readText(paths.docsRevisionFile)) as DocsRevisionState;
+    return JSON.parse(await readText(stateFile)) as DocsRevisionState;
   } catch {
     return emptyDocsRevisionState();
   }
 }
 
-export async function saveDocsRevisionState(state: DocsRevisionState, start = process.cwd()): Promise<void> {
-  const paths = getWorkspacePaths(start);
-  await writeText(paths.docsRevisionFile, `${JSON.stringify(state, null, 2)}\n`);
+export async function saveDocsRevisionState(state: DocsRevisionState, stateFile: string): Promise<void> {
+  await fs.mkdir(path.dirname(stateFile), { recursive: true });
+  await writeText(stateFile, `${JSON.stringify(state, null, 2)}\n`);
 }
 
-export async function syncDocsRevisionState(docsRoot: string): Promise<DocsRevisionState> {
-  const workspaceRoot = path.dirname(docsRoot);
-  const currentState = await loadDocsRevisionState(workspaceRoot);
+export async function syncDocsRevisionState(docsRoot: string, stateFile: string): Promise<DocsRevisionState> {
+  const currentState = await loadDocsRevisionState(stateFile);
   const currentRecords = new Map(currentState.items.map((record) => [record.path, record]));
   const files = await collectMarkdownFiles(docsRoot);
   const nextItems: DocRevisionRecord[] = [];
@@ -137,15 +133,15 @@ export async function syncDocsRevisionState(docsRoot: string): Promise<DocsRevis
     const existing = currentRecords.get(relativePath);
     const latest = existing?.revisions.at(-1);
 
-    if (latest && latest.hash === hash) {
+    if (existing && latest && latest.hash === hash) {
       nextItems.push({
-        path: existing!.path,
+        path: existing.path,
         slug: docsPathToSlug(relativePath),
         title,
         description,
-        latestRevisionId: existing!.latestRevisionId,
-        updatedAt: existing!.updatedAt,
-        revisions: existing!.revisions
+        latestRevisionId: existing.latestRevisionId,
+        updatedAt: existing.updatedAt,
+        revisions: existing.revisions
       });
       continue;
     }
@@ -177,7 +173,7 @@ export async function syncDocsRevisionState(docsRoot: string): Promise<DocsRevis
   };
 
   if (JSON.stringify(nextState) !== JSON.stringify(currentState)) {
-    await saveDocsRevisionState(nextState, workspaceRoot);
+    await saveDocsRevisionState(nextState, stateFile);
   }
 
   return nextState;
@@ -189,9 +185,6 @@ export function listRecentlyChangedDocs(state: DocsRevisionState): DocRevisionRe
     .sort((left, right) => right.updatedAt.localeCompare(left.updatedAt));
 }
 
-export function getDocRevisionRecord(
-  state: DocsRevisionState,
-  relativePath: string
-): DocRevisionRecord | null {
+export function getDocRevisionRecord(state: DocsRevisionState, relativePath: string): DocRevisionRecord | null {
   return state.items.find((record) => record.path === relativePath) ?? null;
 }

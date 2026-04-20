@@ -62,7 +62,6 @@ export async function validateWorkspace() {
     paths.progressFile,
     paths.decisionFile,
     paths.releaseFile,
-    paths.docsRevisionFile,
     paths.docsIndexFile,
     paths.docsProjectOverviewFile,
     paths.docsGoalFile,

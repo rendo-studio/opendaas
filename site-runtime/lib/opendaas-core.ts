@@ -30,12 +30,24 @@ export async function withCoreWorkspace<T>(
 }
 
 export async function refreshRuntimeData(runtime: RuntimeMetadata): Promise<void> {
+  const runtimeDataRoot = path.join(process.cwd(), "runtime-data");
+  const docsRevisionFile = path.join(runtimeDataRoot, "docs-revisions.json");
+  const { syncDocsRevisionState } = await loadCoreModule<{
+    syncDocsRevisionState(docsRoot: string, stateFile: string): Promise<unknown>;
+  }>(runtime, "core/docs-revisions.js");
   const { buildSiteControlPlaneSnapshot } = await loadCoreModule<{
-    buildSiteControlPlaneSnapshot(docsRoot: string): Promise<unknown>;
+    buildSiteControlPlaneSnapshot(
+      docsRoot: string,
+      options?: {
+        docsRevisionFile?: string | null;
+      }
+    ): Promise<unknown>;
   }>(runtime, "core/site-data.js");
 
-  const snapshot = await buildSiteControlPlaneSnapshot(runtime.sourceDocsRoot);
-  const runtimeDataRoot = path.join(process.cwd(), "runtime-data");
+  await syncDocsRevisionState(runtime.sourceDocsRoot, docsRevisionFile);
+  const snapshot = await buildSiteControlPlaneSnapshot(runtime.sourceDocsRoot, {
+    docsRevisionFile
+  });
 
   await fs.mkdir(runtimeDataRoot, { recursive: true });
   await fs.writeFile(

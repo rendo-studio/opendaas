@@ -67,6 +67,7 @@ export interface ControlPlaneSnapshot {
     hasWorkspace: boolean;
     activeChange: string | null;
     currentRoundId: string | null;
+    stateDigest: string | null;
   };
   project:
     | {
@@ -202,7 +203,8 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
       workspaceRoot: null,
       hasWorkspace: false,
       activeChange: null,
-      currentRoundId: null
+      currentRoundId: null,
+      stateDigest: null
     },
     project: null,
     endGoal: null,

@@ -190,19 +190,31 @@ describe("site runtime staging", () => {
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
 
-    await stageDocsForSiteRuntime();
+    const first = await stageDocsForSiteRuntime();
     await fs.writeFile(
       path.join(fixture.root, "docs", "project", "overview.md"),
       `---\nname: Project Overview\ndescription: Project overview page.\n---\n\n# Project Overview\n\n## 项目摘要\n\n第二版项目介绍。\n`,
       "utf8"
     );
 
-    await stageDocsForSiteRuntime();
-    const snapshot = await buildSiteControlPlaneSnapshot(path.join(fixture.root, "docs"));
+    const second = await stageDocsForSiteRuntime();
+    const snapshot = await buildSiteControlPlaneSnapshot(path.join(fixture.root, "docs"), {
+      docsRevisionFile: path.join(second.runtimeRoot, "runtime-data", "docs-revisions.json")
+    });
     const overviewPage = snapshot.docs.pages.find((page) => page.path === "project/overview.md");
+    const workspaceRevisionFileExists = await fs
+      .stat(path.join(fixture.root, ".opendaas", "state", "docs-revisions.json"))
+      .then(() => true)
+      .catch(() => false);
+    const runtimeRevisionFileExists = await fs
+      .stat(path.join(first.runtimeRoot, "runtime-data", "docs-revisions.json"))
+      .then(() => true)
+      .catch(() => false);
 
     expect(overviewPage?.revisionCount).toBe(2);
     expect(snapshot.docs.changedPages.some((page) => page.path === "project/overview.md")).toBe(true);
+    expect(runtimeRevisionFileExists).toBe(true);
+    expect(workspaceRevisionFileExists).toBe(false);
   });
 
   it("stops the runtime without deleting the staged runtime root", async () => {

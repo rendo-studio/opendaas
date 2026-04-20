@@ -1,13 +1,13 @@
 import { notFound, redirect } from "next/navigation";
 import defaultMdxComponents, { createRelativeLink } from "fumadocs-ui/mdx";
 import { DocsBody, DocsPage } from "fumadocs-ui/layouts/docs/page";
+import type { ComponentProps, ComponentType } from "react";
 
 import { ConsoleOverviewView } from "../../../components/site/console-overview-view";
 import { ConsoleTasksView } from "../../../components/site/console-tasks-view";
 import { DocumentCompareView, DocumentRevisionPreview } from "../../../components/site/document-compare-view";
 import { DocumentRevisionSidebar } from "../../../components/site/document-revision-bar";
-import { LiveRefresh } from "../../../components/site/live-refresh";
-import { loadControlPlaneSnapshot, loadDocsRevisionState, loadRuntimeMetadata, loadRuntimeVersion } from "../../../lib/runtime-data";
+import { loadControlPlaneSnapshot, loadDocsRevisionState } from "../../../lib/runtime-data";
 import { source } from "../../../lib/source";
 
 export function generateStaticParams() {
@@ -34,6 +34,12 @@ function findPage(slug: string[] | undefined) {
   });
 }
 
+interface PageDataShape {
+  body?: ComponentType<{ components?: Record<string, unknown> }>;
+  toc?: ComponentProps<typeof DocsPage>["toc"];
+  full?: boolean;
+}
+
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
   searchParams: Promise<{ compare?: string; revision?: string }>;
@@ -43,8 +49,6 @@ export default async function Page(props: {
   const key = (params.slug ?? []).join("/");
   const resolvedSlug = params.slug ?? [];
 
-  const runtime = await loadRuntimeMetadata();
-  const version = await loadRuntimeVersion();
   const useOverviewConsole = key === "console";
   const useTasksConsole = key === "console/tasks";
   const useConsoleView = useOverviewConsole || useTasksConsole;
@@ -81,19 +85,21 @@ export default async function Page(props: {
     notFound();
   }
 
-  const MDX = page?.data.body ?? null;
+  const resolvedPage = useConsoleView ? null : (page ?? null);
+  const pageData = resolvedPage?.data as PageDataShape | undefined;
+  const MDX = pageData?.body ?? null;
   const components =
-    page === null
+    resolvedPage === null
       ? defaultMdxComponents
       : {
           ...defaultMdxComponents,
-          a: createRelativeLink(source, page)
+          a: createRelativeLink(source, resolvedPage)
         };
 
   return (
     <DocsPage
-      toc={useConsoleView ? undefined : page?.data.toc}
-      full={useConsoleView ? true : page?.data.full ?? false}
+      toc={useConsoleView ? undefined : pageData?.toc}
+      full={useConsoleView ? true : pageData?.full ?? false}
       tableOfContent={
         useConsoleView || !revisionRecord
           ? undefined
@@ -109,18 +115,6 @@ export default async function Page(props: {
             }
       }
     >
-      {runtime.mode === "dev" ? (
-        <LiveRefresh
-          initialVersion={version.updatedAt}
-          currentPath={currentDocPath}
-          pages={snapshot.docs.pages.map((entry) => ({
-            path: entry.path,
-            title: entry.title,
-            latestRevisionId: entry.latestRevisionId,
-            revisionCount: entry.revisionCount
-          }))}
-        />
-      ) : null}
       <DocsBody>
         {useConsoleView ? (
           useOverviewConsole ? (
