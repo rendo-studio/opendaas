@@ -67,6 +67,30 @@ export interface ProgressState {
   computedAt: string | null;
 }
 
+export interface DocRevisionEntry {
+  id: string;
+  createdAt: string;
+  hash: string;
+  title: string;
+  description: string;
+  content: string;
+}
+
+export interface DocRevisionRecord {
+  path: string;
+  slug: string[];
+  title: string;
+  description: string;
+  latestRevisionId: string;
+  updatedAt: string;
+  revisions: DocRevisionEntry[];
+}
+
+export interface DocsRevisionState {
+  generatedAt: string | null;
+  items: DocRevisionRecord[];
+}
+
 export interface WorkspaceState {
   activeChange: string | null;
   currentRoundId: string | null;

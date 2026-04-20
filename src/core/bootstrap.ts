@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { parse, stringify } from "yaml";
 
 import { inspectAgentArtifacts, syncAgentArtifacts } from "./agent.js";
+import { emptyDocsRevisionState } from "./docs-revisions.js";
 import { syncStatusDocs } from "./status.js";
 import { writeText, writeYamlFile } from "./storage.js";
 import { normalizeWorkspaceConfig } from "./workspace-config.js";
@@ -688,6 +689,25 @@ async function writeManagedWorkspaceFile(
   result[existed ? "updatedFiles" : "createdFiles"].push(file.relativePath);
 }
 
+async function writeManagedJsonFile(
+  root: string,
+  relativePath: string,
+  value: unknown,
+  force: boolean,
+  result: BootstrapResult
+): Promise<void> {
+  const target = path.join(root, relativePath);
+  const existed = existsSync(target);
+
+  if (existed && !force) {
+    result.skippedFiles.push(relativePath);
+    return;
+  }
+
+  await writeText(target, `${JSON.stringify(value, null, 2)}\n`);
+  result[existed ? "updatedFiles" : "createdFiles"].push(relativePath);
+}
+
 async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput): Promise<BootstrapResult> {
   const root = path.resolve(input.targetPath ?? process.cwd());
   const projectName = input.projectName?.trim() || path.basename(root);
@@ -724,6 +744,7 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
   for (const file of buildWorkspaceFiles(mode, activeChangeId, endGoal, projectName, projectSummary, projectKind, docsMode)) {
     await writeManagedWorkspaceFile(root, file, force, result);
   }
+  await writeManagedJsonFile(root, ".opendaas/state/docs-revisions.json", emptyDocsRevisionState(), force, result);
 
   for (const doc of buildDocsFiles(projectName, projectSummary, endGoal, activeChangeId)) {
     if (preserveExistingDocs && existsSync(path.join(root, doc.relativePath))) {

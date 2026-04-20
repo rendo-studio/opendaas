@@ -20,6 +20,7 @@ export function ConsoleOverviewView({
   const nonGoals = snapshot.endGoal?.nonGoals ?? [];
   const progress = snapshot.progress?.percent ?? 0;
   const phase = snapshot.status?.phase ?? "unknown";
+  const changedPages = snapshot.docs.changedPages.slice(0, 6);
 
   return (
     <div className="space-y-6">
@@ -91,6 +92,31 @@ export function ConsoleOverviewView({
           </RailPanel>
 
           <RailPanel>
+            <RailSection label="Changed docs">
+              {changedPages.length > 0 ? (
+                <div className="space-y-2">
+                  {changedPages.map((page) => (
+                    <Link
+                      key={page.path}
+                      href={`/docs/${page.slug.join("/")}`}
+                      className="console-item flex items-center justify-between gap-3 rounded-md px-3 py-3 text-sm leading-6 text-[color:var(--foreground)] transition hover:text-[#00a35c]"
+                    >
+                      <span className="min-w-0 truncate">{page.title}</span>
+                      <span className="rounded-full bg-[#ecfff5] px-2 py-0.5 text-[11px] font-medium text-[#00663a]">
+                        {page.revisionCount} rev
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">
+                  No authored docs have historical revisions yet.
+                </div>
+              )}
+            </RailSection>
+          </RailPanel>
+
+          <RailPanel>
             <RailSection label="Workflow guide">
               <div className="space-y-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
                 <p>Use the OpenDaaS Workflow Guide as the authority for first-hour orientation and round-start behavior.</p>
@@ -98,12 +124,7 @@ export function ConsoleOverviewView({
                   <div className="font-medium">CLI</div>
                   <div className="mt-1 font-mono text-xs">opendaas guide</div>
                 </div>
-                <a
-                  href="/docs/framework/WORKFLOW-GUIDE"
-                  className="inline-block text-sm font-medium text-[#0072f5] underline underline-offset-4"
-                >
-                  Read the guide in docs
-                </a>
+                <p>The guide is shipped with the CLI and mirrored into generated Agent artifacts. It is no longer an authored docs page.</p>
               </div>
             </RailSection>
           </RailPanel>

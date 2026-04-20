@@ -7,6 +7,7 @@ import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { emptyDocsRevisionState, loadDocsRevisionState, syncDocsRevisionState } from "./docs-revisions.js";
 import { readText, writeText } from "./storage.js";
 import { buildSiteControlPlaneSnapshot } from "./site-data.js";
 import { loadWorkspaceConfig } from "./workspace-config.js";
@@ -55,6 +56,7 @@ interface StageResult {
   pageCount: number;
   registryFile: string;
   dataFile: string;
+  docsRevisionDataFile: string;
   versionFile: string;
   runtimeFile: string;
   logFile: string;
@@ -419,8 +421,11 @@ async function removeGlobalRegistryEntry(runtimeBase: string, siteId: string): P
 
 function createNpmInvocation(args: string[]): { command: string; args: string[] } {
   if (process.platform === "win32") {
+    const command =
+      process.env.ComSpec ??
+      path.join(process.env.SystemRoot ?? "C:\\Windows", "System32", "cmd.exe");
     return {
-      command: "cmd.exe",
+      command,
       args: ["/c", "npm", ...args]
     };
   }
@@ -730,7 +735,8 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
     ["fumadocs-ui", "package.json"],
     ["@radix-ui", "react-accordion", "package.json"],
     ["@radix-ui", "react-progress", "package.json"],
-    ["@radix-ui", "react-tooltip", "package.json"]
+    ["@radix-ui", "react-tooltip", "package.json"],
+    ["sonner", "package.json"]
   ];
   const missingRequiredPackage = requiredPackages.some((segments) => !nodeFs.existsSync(path.join(nodeModulesRoot, ...segments)));
 
@@ -864,6 +870,13 @@ export async function stageDocsForSiteRuntime(inputPath?: string, options: Stage
     pageCount = sourceFiles.filter((relativePath) => isMarkdownFile(relativePath)).length;
   }
 
+  const docsRevisionState = sourceWorkspaceRoot
+    ? shouldSyncDocs
+      ? await syncDocsRevisionState(sourceDocsRoot)
+      : await loadDocsRevisionState(sourceWorkspaceRoot).catch(() => emptyDocsRevisionState())
+    : emptyDocsRevisionState();
+  const docsRevisionDataFile = path.join(runtimeDataRoot, "docs-revisions.json");
+  await writeText(docsRevisionDataFile, `${JSON.stringify(docsRevisionState, null, 2)}\n`);
   const snapshot = await buildSiteControlPlaneSnapshot(sourceDocsRoot);
   const dataFile = path.join(runtimeDataRoot, "control-plane.json");
   await writeText(dataFile, `${JSON.stringify(snapshot, null, 2)}\n`);
@@ -891,6 +904,7 @@ export async function stageDocsForSiteRuntime(inputPath?: string, options: Stage
     pageCount,
     registryFile: getRegistryFile(runtimeRoot),
     dataFile,
+    docsRevisionDataFile,
     versionFile,
     runtimeFile,
     logFile,

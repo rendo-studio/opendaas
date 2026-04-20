@@ -12,6 +12,7 @@ description: 面向开发端 Agent 的稳定接手说明页，解释应读什么
 - 书面背景和边界从 `docs/` 读取
 - 实时结构化状态从 `.opendaas/` 读取，必要时再结合 Console
 - 对外权威指南来自 CLI 内置的 `opendaas guide`，工作区内的 `.agents/skills/opendaas-workflow/SKILL.md` 只是同一内容的本地镜像
+- authored docs 现在提供面向人类的修订历史与当前版本对比视图
 
 ## Round Start
 

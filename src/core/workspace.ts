@@ -14,6 +14,7 @@ export interface WorkspacePaths {
   taskArchiveFile: string;
   progressFile: string;
   activeStateFile: string;
+  docsRevisionFile: string;
   decisionFile: string;
   releaseFile: string;
   docsIndexFile: string;
@@ -70,6 +71,7 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
     taskArchiveFile: path.join(workspaceRoot, "tasks", "archive.yaml"),
     progressFile: path.join(workspaceRoot, "state", "progress.yaml"),
     activeStateFile: path.join(workspaceRoot, "state", "active.yaml"),
+    docsRevisionFile: path.join(workspaceRoot, "state", "docs-revisions.json"),
     decisionFile: path.join(workspaceRoot, "decisions", "records.yaml"),
     releaseFile: path.join(workspaceRoot, "releases", "records.yaml"),
     docsIndexFile: path.join(docsRoot, "index.md"),

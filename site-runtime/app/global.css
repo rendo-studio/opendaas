@@ -143,6 +143,17 @@ pre {
   box-shadow: var(--console-item-shadow);
 }
 
+.opendaas-doc-marker {
+  display: inline-block;
+  margin-left: 0.45rem;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 999px;
+  background: #00a35c;
+  box-shadow: 0 0 0 3px rgba(0, 163, 92, 0.16);
+  vertical-align: middle;
+}
+
 .dark .prose,
 .dark .prose * {
   border-color: var(--border);

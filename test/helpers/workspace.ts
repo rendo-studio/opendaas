@@ -138,6 +138,10 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
   await writeYaml(path.join(root, ".opendaas", "releases", "records.yaml"), { items: [] });
   await writeYaml(path.join(root, ".opendaas", "state", "progress.yaml"), progress);
   await writeYaml(path.join(root, ".opendaas", "state", "active.yaml"), active);
+  await writeText(
+    path.join(root, ".opendaas", "state", "docs-revisions.json"),
+    JSON.stringify({ generatedAt: null, items: [] }, null, 2) + "\n"
+  );
 
   await writeText(
     path.join(root, "docs", "index.md"),

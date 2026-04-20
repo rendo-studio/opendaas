@@ -31,6 +31,7 @@ describe("init and adopt", () => {
 
     expect(first.createdFiles).toContain(".opendaas/project/overview.yaml");
     expect(first.createdFiles).toContain(".opendaas/goals/end.yaml");
+    expect(first.createdFiles).toContain(".opendaas/state/docs-revisions.json");
     expect(first.createdFiles).toContain("docs/project/overview.md");
     expect(first.createdFiles).toContain("docs/index.md");
     expect(first.createdFiles).toContain("AGENTS.md");

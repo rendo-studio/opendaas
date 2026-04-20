@@ -5,6 +5,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { stageDocsForSiteRuntime, stopSiteRuntime } from "../src/core/site.js";
+import { buildSiteControlPlaneSnapshot } from "../src/core/site-data.js";
 import { resolveSiteWatchRoots } from "../src/core/site-watch-roots.js";
 import { createWorkspaceFixture } from "./helpers/workspace.js";
 
@@ -182,6 +183,26 @@ describe("site runtime staging", () => {
 
     expect(second.runtimeRoot).toBe(first.runtimeRoot);
     expect(restagedIndex).toBe(initialIndex);
+  });
+
+  it("tracks authored doc revisions and exposes changed docs in the site snapshot", async () => {
+    const fixture = await createWorkspaceFixture();
+    restorers.push(fixture.use());
+    cleanups.push(fixture.cleanup);
+
+    await stageDocsForSiteRuntime();
+    await fs.writeFile(
+      path.join(fixture.root, "docs", "project", "overview.md"),
+      `---\nname: Project Overview\ndescription: Project overview page.\n---\n\n# Project Overview\n\n## 项目摘要\n\n第二版项目介绍。\n`,
+      "utf8"
+    );
+
+    await stageDocsForSiteRuntime();
+    const snapshot = await buildSiteControlPlaneSnapshot(path.join(fixture.root, "docs"));
+    const overviewPage = snapshot.docs.pages.find((page) => page.path === "project/overview.md");
+
+    expect(overviewPage?.revisionCount).toBe(2);
+    expect(snapshot.docs.changedPages.some((page) => page.path === "project/overview.md")).toBe(true);
   });
 
   it("stops the runtime without deleting the staged runtime root", async () => {

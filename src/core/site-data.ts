@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
+import { getDocRevisionRecord, listRecentlyChangedDocs, loadDocsRevisionState } from "./docs-revisions.js";
 import { loadDecisionState } from "./decision.js";
 import { loadEndGoal } from "./end-goal.js";
 import { readText, readYamlFile } from "./storage.js";
@@ -34,6 +35,9 @@ interface DocManifestEntry {
   slug: string[];
   title: string;
   description: string;
+  latestRevisionId: string | null;
+  updatedAt: string | null;
+  revisionCount: number;
 }
 
 interface WorkspaceSiteSnapshot {
@@ -75,6 +79,7 @@ export interface SiteControlPlaneSnapshot {
   docs: {
     pages: DocManifestEntry[];
     changePages: Array<Pick<DocManifestEntry, "path" | "slug" | "title" | "description">>;
+    changedPages: DocManifestEntry[];
   };
 }
 
@@ -157,13 +162,15 @@ export function slugToDocsPath(slug: string[]): string {
   return `${joined}.md`;
 }
 
-async function buildDocsManifest(docsRoot: string): Promise<DocManifestEntry[]> {
+async function buildDocsManifest(docsRoot: string, workspaceRoot?: string): Promise<DocManifestEntry[]> {
   const files = await collectMarkdownFiles(docsRoot);
   const manifest: DocManifestEntry[] = [];
+  const revisionState = workspaceRoot ? await loadDocsRevisionState(workspaceRoot) : null;
 
   for (const relativePath of files) {
     const content = await readText(path.join(docsRoot, relativePath));
     const { frontmatter, body } = parseFrontmatter(content);
+    const revisionRecord = revisionState ? getDocRevisionRecord(revisionState, relativePath) : null;
     const title =
       frontmatter.name ??
       body.match(/^#\s+(.+)$/m)?.[1]?.trim() ??
@@ -173,7 +180,10 @@ async function buildDocsManifest(docsRoot: string): Promise<DocManifestEntry[]> 
       path: relativePath.replace(/\\/g, "/"),
       slug: docsPathToSlug(relativePath),
       title,
-      description: frontmatter.description ?? ""
+      description: frontmatter.description ?? "",
+      latestRevisionId: revisionRecord?.latestRevisionId ?? null,
+      updatedAt: revisionRecord?.updatedAt ?? null,
+      revisionCount: revisionRecord?.revisions.length ?? 0
     });
   }
 
@@ -206,7 +216,10 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
     const progress = computeProgress(tasksState.items);
 
     const active = await readYamlFile<WorkspaceState>(paths.activeStateFile);
-    const docsManifest = await buildDocsManifest(docsRoot);
+    const docsManifest = await buildDocsManifest(docsRoot, workspaceRoot);
+    const changedPages = listRecentlyChangedDocs(await loadDocsRevisionState(workspaceRoot))
+      .map((record) => docsManifest.find((page) => page.path === record.path))
+      .filter((page): page is DocManifestEntry => Boolean(page));
 
     return {
       generatedAt: new Date().toISOString(),
@@ -244,7 +257,8 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
             slug,
             title,
             description
-          }))
+          })),
+        changedPages
       }
     };
   });
@@ -284,7 +298,8 @@ export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<S
           slug,
           title,
           description
-        }))
+        })),
+      changedPages: []
     }
   };
 }

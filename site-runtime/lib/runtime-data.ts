@@ -7,6 +7,33 @@ export interface RuntimeDocPage {
   slug: string[];
   title: string;
   description: string;
+  latestRevisionId: string | null;
+  updatedAt: string | null;
+  revisionCount: number;
+}
+
+export interface RuntimeDocRevisionEntry {
+  id: string;
+  createdAt: string;
+  hash: string;
+  title: string;
+  description: string;
+  content: string;
+}
+
+export interface RuntimeDocRevisionRecord {
+  path: string;
+  slug: string[];
+  title: string;
+  description: string;
+  latestRevisionId: string;
+  updatedAt: string;
+  revisions: RuntimeDocRevisionEntry[];
+}
+
+export interface RuntimeDocsRevisionState {
+  generatedAt: string | null;
+  items: RuntimeDocRevisionRecord[];
 }
 
 export interface RuntimeTaskNode {
@@ -136,6 +163,7 @@ export interface ControlPlaneSnapshot {
   docs: {
     pages: RuntimeDocPage[];
     changePages: Array<Pick<RuntimeDocPage, "path" | "slug" | "title" | "description">>;
+    changedPages: RuntimeDocPage[];
   };
 }
 
@@ -186,8 +214,16 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
     releases: null,
     docs: {
       pages: [],
-      changePages: []
+      changePages: [],
+      changedPages: []
     }
+  });
+}
+
+export async function loadDocsRevisionState(): Promise<RuntimeDocsRevisionState> {
+  return readJsonFile<RuntimeDocsRevisionState>(path.join(runtimeDataRoot, "docs-revisions.json"), {
+    generatedAt: null,
+    items: []
   });
 }
 
