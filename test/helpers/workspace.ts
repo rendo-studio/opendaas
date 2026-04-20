@@ -10,6 +10,8 @@ import type {
   ProgressState,
   ProjectOverviewState,
   TasksState,
+  WorkspaceConfigState,
+  WorkspaceMetaState,
   WorkspaceState
 } from "../../src/core/types.js";
 
@@ -20,6 +22,8 @@ interface WorkspaceFixtureInput {
   tasks?: TasksState;
   progress?: ProgressState;
   active?: WorkspaceState;
+  config?: WorkspaceConfigState;
+  meta?: WorkspaceMetaState;
 }
 
 const defaultEndGoal: GoalState = {
@@ -62,9 +66,33 @@ const defaultProgress: ProgressState = {
 
 const defaultActive: WorkspaceState = {
   activeChange: "test-change",
-  currentRoundId: "round-test",
-  lastDiffCheckAt: null,
-  lastDiffAckAt: null
+  currentRoundId: "round-test"
+};
+
+const defaultMeta: WorkspaceMetaState = {
+  schemaVersion: 7,
+  workspaceName: "test-workspace",
+  docsRoot: "docs",
+  workspaceRoot: ".opendaas",
+  bootstrapMode: "adopt",
+  templateVersion: "test-template",
+  projectKind: "general",
+  docsMode: "standard",
+  createdAt: "2026-04-19T00:00:00Z",
+  lastUpgradedAt: null
+};
+
+const defaultConfig: WorkspaceConfigState = {
+  siteFramework: "fumadocs",
+  packageManager: "npm",
+  projectKind: "general",
+  docsMode: "standard",
+  docsSite: {
+    enabled: true,
+    sourcePath: "docs",
+    preferredPort: null
+  },
+  workspaceSchemaVersion: 7
 };
 
 async function writeYaml(filePath: string, value: unknown) {
@@ -96,7 +124,11 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
   const tasks = input.tasks ?? defaultTasks;
   const progress = input.progress ?? defaultProgress;
   const active = input.active ?? defaultActive;
+  const config = input.config ?? defaultConfig;
+  const meta = input.meta ?? defaultMeta;
 
+  await writeYaml(path.join(root, ".opendaas", "meta", "workspace.yaml"), meta);
+  await writeYaml(path.join(root, ".opendaas", "config", "workspace.yaml"), config);
   await writeYaml(path.join(root, ".opendaas", "project", "overview.yaml"), project);
   await writeYaml(path.join(root, ".opendaas", "goals", "end.yaml"), endGoal);
   await writeYaml(path.join(root, ".opendaas", "plans", "current.yaml"), plans);
@@ -106,13 +138,6 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
   await writeYaml(path.join(root, ".opendaas", "releases", "records.yaml"), { items: [] });
   await writeYaml(path.join(root, ".opendaas", "state", "progress.yaml"), progress);
   await writeYaml(path.join(root, ".opendaas", "state", "active.yaml"), active);
-  await writeText(path.join(root, ".opendaas", "diff", "baseline.json"), "{}\n");
-  await writeText(
-    path.join(root, ".opendaas", "diff", "pending.json"),
-    JSON.stringify({ generatedAt: null, files: [] }, null, 2) + "\n"
-  );
-  await writeText(path.join(root, ".opendaas", "diff", "history.json"), JSON.stringify({ items: [] }, null, 2) + "\n");
-  await writeText(path.join(root, ".opendaas", "diff", "sources.json"), "{}\n");
 
   await writeText(
     path.join(root, "docs", "index.md"),

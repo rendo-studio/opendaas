@@ -43,120 +43,288 @@ items:
     summary: Make plans and tasks the only current-focus source and keep end goal stable.
   - id: task-onboarding
     name: Ship onboarding and workflow guidance
-    status: pending
+    status: done
     planRef: ship-onboarding-and-workflow-guidance-1
     parentTaskId: null
     countedForProgress: false
     summary: Give human developers and development agents an authoritative first-hour path into OpenDaaS.
   - id: task-onboarding-1
     name: Define the authoritative OpenDaaS Workflow Guide
-    status: pending
+    status: done
     planRef: ship-onboarding-and-workflow-guidance-1
     parentTaskId: task-onboarding
     countedForProgress: true
     summary: Define a framework-level workflow guide that explains how to operate OpenDaaS correctly in real projects.
   - id: task-onboarding-2
     name: Add a CLI guide entrypoint and help reminders
-    status: pending
+    status: done
     planRef: ship-onboarding-and-workflow-guidance-1
     parentTaskId: task-onboarding
     countedForProgress: true
     summary: Expose the workflow guide through a dedicated CLI command and short reminders across command help output.
   - id: task-onboarding-3
     name: Scaffold AGENTS.md and default .agents skills during init and adopt
-    status: pending
+    status: done
     planRef: ship-onboarding-and-workflow-guidance-1
     parentTaskId: task-onboarding
     countedForProgress: true
     summary: Generate concise AGENTS prompts plus a default OpenDaaS workflow skill so development agents can follow the framework immediately after bootstrap.
-  - id: task-diff-model
-    name: Expand diff scope to the .opendaas control plane
-    status: pending
-    planRef: expand-diff-scope-to-opendaas-control-plane-1
+  - id: task-refresh-model
+    name: Simplify control-plane refresh around .opendaas state
+    status: done
+    planRef: simplify-control-plane-refresh-model-1
     parentTaskId: null
     countedForProgress: false
-    summary: Move diff tracking from authored-doc auditing toward structured control-plane awareness.
-  - id: task-diff-model-1
-    name: Redesign diff scope around .opendaas-first state changes
-    status: pending
-    planRef: expand-diff-scope-to-opendaas-control-plane-1
-    parentTaskId: task-diff-model
+    summary: Replace the legacy workspace change ledger with a simpler refresh model centered on structured control-plane state.
+  - id: task-refresh-model-1
+    name: Recenter synchronization around .opendaas-first state changes
+    status: done
+    planRef: simplify-control-plane-refresh-model-1
+    parentTaskId: task-refresh-model
     countedForProgress: true
-    summary: Track human changes to structured project state so development agents can react to real context changes first.
-  - id: task-diff-model-2
-    name: Preserve docs line diffs as secondary authored-context audit trails
-    status: pending
-    planRef: expand-diff-scope-to-opendaas-control-plane-1
-    parentTaskId: task-diff-model
+    summary: Treat structured project state as the main synchronization surface for development agents.
+  - id: task-refresh-model-2
+    name: Remove the legacy workspace change ledger from the hot path
+    status: done
+    planRef: simplify-control-plane-refresh-model-1
+    parentTaskId: task-refresh-model
     countedForProgress: true
-    summary: Keep line-level docs diffs for authored context, but stop treating them as the primary behavior driver.
+    summary: Stop routing normal Agent and human workflows through a secondary line-based change ledger.
   - id: task-console-editing
     name: Add console editing for .opendaas state
-    status: pending
+    status: done
     planRef: add-console-editing-for-opendaas-state-1
     parentTaskId: null
     countedForProgress: false
     summary: Let humans update structured project state from the console without mixing live state into authored docs.
   - id: task-console-editing-1
     name: Design editable console forms for overview, end goal, plans, and tasks
-    status: pending
+    status: done
     planRef: add-console-editing-for-opendaas-state-1
     parentTaskId: task-console-editing
     countedForProgress: true
     summary: Design a clean editing surface that reflects the structured control plane rather than raw markdown.
   - id: task-console-editing-2
     name: Persist console edits back into .opendaas with change awareness
-    status: pending
+    status: done
     planRef: add-console-editing-for-opendaas-state-1
     parentTaskId: task-console-editing
     countedForProgress: true
     summary: Write console edits into the structured workspace and surface the resulting changes to agents.
   - id: task-runtime-packaging
     name: Harden CLI runtime packaging and distribution
-    status: pending
+    status: done
     planRef: harden-cli-runtime-packaging-and-distribution-1
     parentTaskId: null
     countedForProgress: false
     summary: Make runtime assets and packaged installs explicit, portable, and safe across workspaces.
   - id: task-runtime-packaging-1
     name: Package site-runtime assets explicitly with the CLI
-    status: pending
+    status: done
     planRef: harden-cli-runtime-packaging-and-distribution-1
     parentTaskId: task-runtime-packaging
     countedForProgress: true
     summary: Stop relying on implicit npm packaging rules for runtime templates and make distribution explicit.
   - id: task-runtime-packaging-2
     name: Verify packaged multi-workspace runtime isolation end to end
-    status: pending
+    status: done
     planRef: harden-cli-runtime-packaging-and-distribution-1
     parentTaskId: task-runtime-packaging
     countedForProgress: true
     summary: Verify that packaged installs keep runtime staging isolated across different workspaces and projects.
   - id: task-production-readiness
     name: Production-readiness hardening and first-hour validation
-    status: pending
+    status: done
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: null
     countedForProgress: false
     summary: Make sure 100% completion means users and development agents can actually adopt and operate OpenDaaS safely.
   - id: task-production-readiness-1
     name: Define a production-readiness checklist and closure bar
-    status: pending
+    status: done
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: task-production-readiness
     countedForProgress: true
     summary: Define the edge cases, missing features, UX expectations, and guardrails that must be satisfied before OpenDaaS can be treated as production-grade.
   - id: task-production-readiness-2
     name: Close critical bootstrap, validation, and UX gaps
-    status: pending
+    status: done
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: task-production-readiness
     countedForProgress: true
     summary: Close the highest-impact gaps across init, adopt, validate, site runtime, and user-facing guidance so the framework behaves predictably in real projects.
   - id: task-production-readiness-3
     name: Validate the first-hour human and development-agent loop end to end
-    status: pending
+    status: done
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: task-production-readiness
     countedForProgress: true
     summary: Verify that a human and a development agent can install or adopt OpenDaaS, orient themselves, and complete a correct first closed loop using the documented workflow.
+  - id: task-guide-source
+    name: Unify the Agent-first guide source
+    status: done
+    planRef: unify-agent-first-guide-source-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Treat the workflow guide as a CLI-owned Agent-first asset instead of a docs page.
+  - id: task-guide-source-1
+    name: Move the canonical workflow guide out of docs and into CLI assets
+    status: done
+    planRef: unify-agent-first-guide-source-1
+    parentTaskId: task-guide-source
+    countedForProgress: true
+    summary: Stop loading the user-facing workflow guide from docs and package it as a CLI-owned asset.
+  - id: task-guide-source-2
+    name: Make guide and skill content identical from one source
+    status: done
+    planRef: unify-agent-first-guide-source-1
+    parentTaskId: task-guide-source
+    countedForProgress: true
+    summary: Generate opendaas guide output and .agents workflow skill from the same exact content.
+  - id: task-guide-source-3
+    name: Rewrite the canonical guide as an executable Agent-first onboarding flow
+    status: done
+    planRef: unify-agent-first-guide-source-1
+    parentTaskId: task-guide-source
+    countedForProgress: true
+    summary: Teach init, adopt, overview, end goal, plans, tasks, docs-vs-.opendaas writes, status sync, and first-loop operation in a single Agent-first guide.
+  - id: task-guide-refinement
+    name: Refine the Agent guide and site workflow
+    status: done
+    planRef: refine-agent-guide-and-site-workflow-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Tighten the Agent-first guide, complete the command surface, and make docs-site startup a configured default.
+  - id: task-guide-refinement-1
+    name: Refine the canonical guide with workspace-refresh, discovery, and direct-edit rules
+    status: done
+    planRef: refine-agent-guide-and-site-workflow-1
+    parentTaskId: task-guide-refinement
+    countedForProgress: true
+    summary: Explain help discovery, refresh-workspace behavior, CLI-versus-direct-edit best practices, and default site-open round starts in the canonical guide.
+  - id: task-guide-refinement-2
+    name: Fill project plan task command-surface gaps
+    status: done
+    planRef: refine-agent-guide-and-site-workflow-1
+    parentTaskId: task-guide-refinement
+    countedForProgress: true
+    summary: Add the missing project-plan-task command operations so CLI workflows are complete when direct workspace edits are not desired.
+  - id: task-guide-refinement-3
+    name: Merge site open dev semantics and add persisted docs-site config
+    status: done
+    planRef: refine-agent-guide-and-site-workflow-1
+    parentTaskId: task-guide-refinement
+    countedForProgress: true
+    summary: Make site open the single main runtime entry and add workspace-level docs-site path and port configuration.
+  - id: task-guide-protocol
+    name: Rewrite the guide as a strict Agent protocol
+    status: done
+    planRef: rewrite-guide-as-agent-protocol-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Tighten the guide and entry prompts so agents see protocol first and commands second.
+  - id: task-guide-protocol-1
+    name: Rewrite canonical guide around non-negotiable round-start rules
+    status: done
+    planRef: rewrite-guide-as-agent-protocol-1
+    parentTaskId: task-guide-protocol
+    countedForProgress: true
+    summary: Reorder the guide so site-open, status-show, workspace refresh, and write-boundary rules appear before command examples.
+  - id: task-guide-protocol-2
+    name: Tighten AGENTS.md into a minimal round-start contract
+    status: done
+    planRef: rewrite-guide-as-agent-protocol-1
+    parentTaskId: task-guide-protocol
+    countedForProgress: true
+    summary: Make AGENTS.md reinforce the same protocol with site-open and workspace-refresh requirements, without becoming a second guide.
+  - id: task-guide-protocol-3
+    name: Re-verify guide and skill onboarding signals
+    status: done
+    planRef: rewrite-guide-as-agent-protocol-1
+    parentTaskId: task-guide-protocol
+    countedForProgress: true
+    summary: Update tests and generated artifacts so guide, skills, and AGENTS prompts stay aligned with the stricter protocol.
+  - id: task-cli-output
+    name: Ship Agent-friendly CLI output
+    status: done
+    planRef: ship-agent-friendly-cli-output-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Replace default JSON command output with Markdown summaries that development agents can digest quickly while preserving explicit JSON access.
+  - id: task-cli-output-1
+    name: Add a CLI entry renderer with explicit --json passthrough
+    status: done
+    planRef: ship-agent-friendly-cli-output-1
+    parentTaskId: task-cli-output
+    countedForProgress: true
+    summary: Intercept aclip success output at the CLI entrypoint, render Markdown by default, and keep raw structured output behind --json.
+  - id: task-cli-output-2
+    name: Cover the core command groups with Agent-friendly Markdown summaries
+    status: done
+    planRef: ship-agent-friendly-cli-output-1
+    parentTaskId: task-cli-output
+    countedForProgress: true
+    summary: Format guide, status, site, project, goal, plan, task, decision, release, and validation results into concise Markdown sections instead of raw JSON dumps.
+  - id: task-cli-output-3
+    name: Update workflow guidance and verify the new default output contract
+    status: done
+    planRef: ship-agent-friendly-cli-output-1
+    parentTaskId: task-cli-output
+    countedForProgress: true
+    summary: Teach the default Markdown-plus-optional-JSON contract in the guide and re-run CLI smoke tests against the new rendering behavior.
+  - id: task-guide-optimization
+    name: Optimize the Agent guide for warm-context rounds
+    status: done
+    planRef: optimize-agent-guide-for-warm-context-rounds-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Rewrite the guide around cold-start, warm-continuation, and desync-suspicion states so agents spend tokens only when synchronization risk actually exists.
+  - id: task-guide-optimization-1
+    name: Rewrite the canonical guide around conditional round-start triggers
+    status: done
+    planRef: optimize-agent-guide-for-warm-context-rounds-1
+    parentTaskId: task-guide-optimization
+    countedForProgress: true
+    summary: Replace unconditional every-round command rules with a stricter cold-start protocol plus warm-context and desync-trigger heuristics.
+  - id: task-guide-optimization-2
+    name: Align AGENTS and generated skills with the cheaper warm-context protocol
+    status: done
+    planRef: optimize-agent-guide-for-warm-context-rounds-1
+    parentTaskId: task-guide-optimization
+    countedForProgress: true
+    summary: Keep AGENTS.md, workflow skill, and workspace skill aligned with the new guide so agents do not inherit contradictory round-start rules.
+  - id: task-guide-optimization-3
+    name: Re-verify the guide contract with tests and CLI smoke checks
+    status: done
+    planRef: optimize-agent-guide-for-warm-context-rounds-1
+    parentTaskId: task-guide-optimization
+    countedForProgress: true
+    summary: Update tests and rerun guide-related smoke checks so the new Agent-first protocol stays packaged and trustworthy.
+  - id: task-bootstrap-live-sync
+    name: Improve bootstrap ergonomics and live sync
+    status: done
+    planRef: improve-bootstrap-and-live-sync-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Reduce agent friction in init and adopt, make status show truly observational, and make docs-site refresh track real workspace mutations more reliably.
+  - id: task-bootstrap-live-sync-1
+    name: Make init and adopt cheaper to invoke from the current workspace
+    status: done
+    planRef: improve-bootstrap-and-live-sync-1
+    parentTaskId: task-bootstrap-live-sync
+    countedForProgress: true
+    summary: Default bootstrap commands to the current directory, allow provisional project overview and end goal anchors, and teach the CLI examples and tests the lower-friction bootstrap path.
+  - id: task-bootstrap-live-sync-2
+    name: Separate read-only status inspection from explicit derived-state sync
+    status: done
+    planRef: improve-bootstrap-and-live-sync-1
+    parentTaskId: task-bootstrap-live-sync
+    countedForProgress: true
+    summary: Stop letting status show mutate control-plane files, keep status sync as the explicit write path, and align docs/tests with the corrected semantics.
+  - id: task-bootstrap-live-sync-3
+    name: Tighten docs-site refresh around workspace and control-plane mutations
+    status: done
+    planRef: improve-bootstrap-and-live-sync-1
+    parentTaskId: task-bootstrap-live-sync
+    countedForProgress: true
+    summary: Expand watcher coverage beyond the partial .opendaas subtree, refresh runtime data for more real workspace changes, and verify the site responds to control-plane edits without manual rebuild loops.

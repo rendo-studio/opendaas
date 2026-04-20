@@ -2,7 +2,7 @@ import { AclipApp } from "@rendo-studio/aclip";
 
 import { registerDecisionGroup } from "./groups/decision.js";
 import { registerGoalGroup } from "./groups/goal.js";
-import { registerDiffGroup } from "./groups/diff.js";
+import { registerProjectGroup } from "./groups/project.js";
 import { registerPlanGroup } from "./groups/plan.js";
 import { registerStatusGroup } from "./groups/status.js";
 import { registerTaskGroup } from "./groups/task.js";
@@ -12,21 +12,25 @@ import { registerReleaseGroup } from "./groups/release.js";
 import { registerValidateCommand } from "./commands/validate.js";
 import { registerInitCommand } from "./commands/init.js";
 import { registerAdoptCommand } from "./commands/adopt.js";
+import { registerGuideCommand } from "./commands/guide.js";
+import { withGuideHint } from "./guide-hint.js";
 
 export function createApp() {
   const app = new AclipApp({
     name: "opendaas",
     version: "0.1.0",
     summary: "OpenDaaS CLI.",
-    description:
+    description: withGuideHint(
       "A CLI-first project context control plane for human developers and development agents."
+    )
   });
 
   registerInitCommand(app);
   registerAdoptCommand(app);
+  registerGuideCommand(app);
+  registerProjectGroup(app);
   registerDecisionGroup(app);
   registerGoalGroup(app);
-  registerDiffGroup(app);
   registerPlanGroup(app);
   registerStatusGroup(app);
   registerTaskGroup(app);

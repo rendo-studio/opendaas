@@ -60,7 +60,6 @@ description: 定义 .opendaas 固定文件骨架与最小数据结构。
     progress.yaml
   goals/
     current.yaml
-  diff/
     baseline.json
     pending.json
     history.json
@@ -114,13 +113,11 @@ description: 定义 .opendaas 固定文件骨架与最小数据结构。
 
 - 承载长期最终目标的原生结构化定义
 
-### 4.6 `.opendaas/diff/baseline.json`
 
 职责：
 
 - 记录 `docs/` 共享源文档当前已确认的差异基线
 
-### 4.7 `.opendaas/diff/pending.json`
 
 职责：
 
@@ -145,14 +142,11 @@ description: 定义 .opendaas 固定文件骨架与最小数据结构。
 - 承载已经关闭或归档的任务闭环历史
 - 为任务历史视图提供稳定真相源
 
-### 4.11 `.opendaas/diff/sources.json`
 
 职责：
 
 - 记录共享源文档最近一次由 CLI / Agent 写入时的来源签名
-- 为 `diff check` 提供 `human / agent / unknown` 的来源判定基础
 
-### 4.12 `.opendaas/diff/history.json`
 
 职责：
 
@@ -210,9 +204,7 @@ createdAt: 2026-04-17T00:00:00Z
 最少字段建议：
 
 ```yaml
-requireDiffCheckBeforeTask: true
 docsSiteEnabled: true
-defaultDiffMode: line
 ```
 
 ### 6.3 `state/active.yaml`
@@ -222,16 +214,12 @@ defaultDiffMode: line
 ```yaml
 activeChange: null
 currentRoundId: null
-lastDiffCheckAt: null
-lastDiffAckAt: null
 ```
 
 说明：
 
 - `activeChange` 指向当前高层执行单元
 - `currentRoundId` 指向当前开发轮次
-- `lastDiffCheckAt` 用于约束任务前差异检查
-- `lastDiffAckAt` 用于记录最近一次确认差异的时间点
 
 ### 6.4 `state/progress.yaml`
 
@@ -256,7 +244,6 @@ successCriteria: []
 nonGoals: []
 ```
 
-### 6.6 `diff/baseline.json`
 
 最少字段建议：
 
@@ -274,7 +261,6 @@ nonGoals: []
 - key 为 `docs/` 中的源文件相对路径
 - `hash` 表示最近一次确认时的内容标识
 
-### 6.7 `diff/pending.json`
 
 最少字段建议：
 
@@ -308,7 +294,6 @@ nonGoals: []
 - `source` 允许值建议为 `human / agent / unknown`
 - `hunks` 用于支持行级差异定位
 
-### 6.8 `diff/sources.json`
 
 最少字段建议：
 
@@ -328,7 +313,6 @@ nonGoals: []
 - `hash` 对应最近一次由 CLI / Agent 写入后的共享文档内容标识
 - 若当前文档内容 hash 与记录不匹配，则默认应视为 `human`
 
-### 6.9 `diff/history.json`
 
 最少字段建议：
 
@@ -336,7 +320,6 @@ nonGoals: []
 {
   "items": [
     {
-      "id": "diff-check-1",
       "kind": "check",
       "generatedAt": "2026-04-18T00:00:00Z",
       "fileCount": 2,
@@ -429,29 +412,22 @@ items:
 
 ### 7.1 比对对象
 
-`diff/` 中的所有数据都以 `docs/` 共享源文档为比对对象。
 
 ### 7.2 任务前检查
 
 开发端 Agent 在每轮任务开始前，必须：
 
-1. 运行 `opendaas diff check`
-2. 更新 `diff/pending.json`
-3. 更新 `state/active.yaml` 中的 `lastDiffCheckAt`
 
 ### 7.3 差异确认
 
 在 Agent 明确吸收差异并完成理解后，CLI 应支持：
 
-1. 更新 `diff/baseline.json`
-2. 更新 `state/active.yaml` 中的 `lastDiffAckAt`
 
 ### 7.4 来源判定
 
 CLI 至少应支持：
 
 1. 记录共享源文档最近一次由 Agent / CLI 写入后的来源签名
-2. `diff check` 时优先基于该来源签名判定 `agent`
 3. 对无法匹配来源签名的共享文档变更默认判定为 `human`
 
 ### 7.5 进度计算
@@ -488,7 +464,7 @@ CLI 应至少能够：
 5. 没有差异基线文件
 6. 没有待确认差异文件
 7. CLI 无法查询结构化 plan / task 状态
-8. `diff check` 无法产出可复用的结构化结果
+8. 文件级变化无法稳定产出可复用的结构化结果
 9. task 缺少明确 `parentTaskId`
 10. 没有任务归档或差异历史入口却声称支持闭环历史
 

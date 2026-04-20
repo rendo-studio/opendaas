@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 
 import { loadProgress } from "../src/core/progress.js";
-import { addTask, loadTasks, updateTaskStatus } from "../src/core/tasks.js";
+import { addTask, deleteTask, loadTasks, updateTask, updateTaskStatus } from "../src/core/tasks.js";
 import { createWorkspaceFixture } from "./helpers/workspace.js";
 
 const restorers: Array<() => void> = [];
@@ -72,5 +72,39 @@ describe("task control plane", () => {
     expect(progress.countedTasks).toBe(2);
     expect(progress.doneTasks).toBe(1);
     expect(progress.percent).toBe(50);
+  });
+
+  it("updates task fields and deletes task subtrees", async () => {
+    const fixture = await createWorkspaceFixture();
+    restorers.push(fixture.use());
+    cleanups.push(fixture.cleanup);
+
+    const rootTask = await addTask({
+      name: "Root task",
+      parent: "root",
+      plan: "plan-root"
+    });
+    const childTask = await addTask({
+      name: "Child task",
+      parent: rootTask.task.id
+    });
+
+    const updated = await updateTask({
+      id: childTask.task.id,
+      name: "Child task renamed",
+      summary: "Renamed child summary.",
+      countedForProgress: false,
+      status: "in_progress"
+    });
+    const deleted = await deleteTask({
+      id: rootTask.task.id
+    });
+    const tasks = await loadTasks();
+
+    expect(updated.task.name).toBe("Child task renamed");
+    expect(updated.task.summary).toBe("Renamed child summary.");
+    expect(updated.task.countedForProgress).toBe(false);
+    expect(deleted.deletedTaskIds).toEqual([rootTask.task.id, childTask.task.id]);
+    expect(tasks.items).toHaveLength(0);
   });
 });

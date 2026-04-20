@@ -44,9 +44,7 @@ describe("workspace validation and repair", () => {
     await fs.writeFile(
       path.join(root, ".opendaas", "config", "workspace.yaml"),
       [
-        "requireDiffCheckBeforeTask: true",
         "docsSiteEnabled: true",
-        "defaultDiffMode: line",
         ""
       ].join("\n"),
       "utf8"

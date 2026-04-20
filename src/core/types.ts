@@ -1,5 +1,4 @@
 export type TaskStatus = "pending" | "in_progress" | "done" | "blocked";
-export type DiffSource = "human" | "agent" | "unknown";
 export type DecisionCategory = "goal" | "scope" | "change" | "architecture" | "release" | "policy" | "other";
 export type DecisionStatus = "pending" | "approved" | "rejected";
 export type ReleaseRecordStatus = "draft" | "frozen" | "published";
@@ -71,42 +70,6 @@ export interface ProgressState {
 export interface WorkspaceState {
   activeChange: string | null;
   currentRoundId: string | null;
-  lastDiffCheckAt: string | null;
-  lastDiffAckAt: string | null;
-}
-
-export interface PendingHunk {
-  oldStart: number;
-  oldCount: number;
-  newStart: number;
-  newCount: number;
-}
-
-export interface PendingFile {
-  path: string;
-  changeType: "added" | "modified" | "deleted";
-  source: DiffSource;
-  hunks: PendingHunk[];
-}
-
-export interface PendingDiffState {
-  generatedAt: string | null;
-  files: PendingFile[];
-}
-
-export interface DiffHistoryEntry {
-  id: string;
-  kind: "check" | "ack";
-  generatedAt: string;
-  fileCount: number;
-  addedCount: number;
-  modifiedCount: number;
-  deletedCount: number;
-  files: PendingFile[];
-}
-
-export interface DiffHistoryState {
-  items: DiffHistoryEntry[];
 }
 
 export interface WorkspaceMetaState {
@@ -122,14 +85,18 @@ export interface WorkspaceMetaState {
   lastUpgradedAt: string | null;
 }
 
+export interface WorkspaceDocsSiteConfig {
+  enabled: boolean;
+  sourcePath: string | null;
+  preferredPort: number | null;
+}
+
 export interface WorkspaceConfigState {
-  requireDiffCheckBeforeTask: boolean;
-  docsSiteEnabled: boolean;
-  defaultDiffMode: "line";
   siteFramework: string;
   packageManager: string;
   projectKind: "general" | "frontend" | "library" | "service";
   docsMode: "minimal" | "standard";
+  docsSite: WorkspaceDocsSiteConfig;
   workspaceSchemaVersion: number;
 }
 

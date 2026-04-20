@@ -1,17 +1,19 @@
 import { AclipApp, stringArgument } from "@rendo-studio/aclip";
 import { loadEndGoal, updateEndGoal } from "../../core/end-goal.js";
 import { syncStatusDocs } from "../../core/status.js";
+import { withGuideHint } from "../guide-hint.js";
 
 export function registerGoalGroup(app: AclipApp) {
   app
     .group("goal", {
       summary: "Manage the long-lived end goal anchor.",
-      description: "Set and inspect the project-level end goal tracked in the control plane."
+      description: withGuideHint("Set and inspect the project-level end goal tracked in the control plane.")
     })
     .command("set", {
       summary: "Set the end goal.",
-      description:
-        "Persist the long-lived end goal summary after the corresponding goal decision has been approved.",
+      description: withGuideHint(
+        "Persist the long-lived end goal summary after the corresponding goal decision has been approved."
+      ),
       arguments: [
         stringArgument("name", {
           required: true,
@@ -40,7 +42,7 @@ export function registerGoalGroup(app: AclipApp) {
     })
     .command("show", {
       summary: "Show the end goal.",
-      description: "Inspect the currently anchored end goal.",
+      description: withGuideHint("Inspect the currently anchored end goal."),
       examples: ["opendaas goal show"],
       handler: async () => ({
         goal: await loadEndGoal()

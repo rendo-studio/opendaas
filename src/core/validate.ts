@@ -8,6 +8,7 @@ import { loadProjectOverview } from "./project-overview.js";
 import { readText, readYamlFile, writeYamlFile } from "./storage.js";
 import { loadTasks, assertValidTaskTree } from "./tasks.js";
 import type { WorkspaceConfigState, WorkspaceMetaState } from "./types.js";
+import { normalizeWorkspaceConfig } from "./workspace-config.js";
 import { getWorkspacePaths } from "./workspace.js";
 
 async function hasMinimalMetadata(filePath: string): Promise<boolean> {
@@ -31,13 +32,18 @@ async function loadMetaAndConfig() {
   let config: WorkspaceConfigState | null = null;
 
   try {
-    meta = await readYamlFile<WorkspaceMetaState>(path.join(paths.workspaceRoot, "meta", "workspace.yaml"));
+    meta = await readYamlFile<WorkspaceMetaState>(paths.workspaceMetaFile);
   } catch {
     meta = null;
   }
 
   try {
-    config = await readYamlFile<WorkspaceConfigState>(path.join(paths.workspaceRoot, "config", "workspace.yaml"));
+    const rawConfig = await readYamlFile<WorkspaceConfigState>(paths.workspaceConfigFile);
+    config = normalizeWorkspaceConfig(rawConfig, {
+      projectKind: meta?.projectKind ?? "general",
+      docsMode: meta?.docsMode ?? "standard",
+      workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
+    });
   } catch {
     config = null;
   }
@@ -56,8 +62,6 @@ export async function validateWorkspace() {
     paths.progressFile,
     paths.decisionFile,
     paths.releaseFile,
-    paths.diffHistoryFile,
-    paths.diffSourcesFile,
     paths.docsIndexFile,
     paths.docsProjectOverviewFile,
     paths.docsGoalFile,
@@ -68,7 +72,9 @@ export async function validateWorkspace() {
     paths.docsDecisionsIndexFile,
     paths.docsReleasesIndexFile,
     path.join(paths.docsRoot, "engineering", "development.md"),
-    path.join(paths.workspaceRoot, "agent", "SKILL.md")
+    path.join(paths.workspaceRoot, "agent", "SKILL.md"),
+    path.join(paths.root, "AGENTS.md"),
+    path.join(paths.root, ".agents", "skills", "opendaas-workflow", "SKILL.md")
   ];
 
   const missingFiles = requiredFiles.filter((filePath) => !existsSync(filePath));
@@ -130,6 +136,10 @@ export async function validateWorkspace() {
     if (!config.docsMode) {
       schemaIssues.push("Workspace config is missing docsMode");
       repairableIssues.push("Backfill workspace docsMode");
+    }
+    if (!config.docsSite || config.docsSite.sourcePath === null) {
+      schemaIssues.push("Workspace config is missing docsSite configuration");
+      repairableIssues.push("Backfill workspace docsSite config");
     }
   }
 
@@ -198,18 +208,16 @@ export async function repairWorkspace() {
     lastUpgradedAt: new Date().toISOString()
   };
   const nextConfig: WorkspaceConfigState = {
-    requireDiffCheckBeforeTask: config?.requireDiffCheckBeforeTask ?? true,
-    docsSiteEnabled: config?.docsSiteEnabled ?? true,
-    defaultDiffMode: "line",
-    siteFramework: config?.siteFramework ?? "fumadocs",
-    packageManager: config?.packageManager ?? "npm",
-    projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
-    docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",
+    ...normalizeWorkspaceConfig(config, {
+      projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
+      docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",
+      workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
+    }),
     workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
   };
 
-  await writeYamlFile(path.join(paths.workspaceRoot, "meta", "workspace.yaml"), nextMeta);
-  await writeYamlFile(path.join(paths.workspaceRoot, "config", "workspace.yaml"), nextConfig);
+  await writeYamlFile(paths.workspaceMetaFile, nextMeta);
+  await writeYamlFile(paths.workspaceConfigFile, nextConfig);
 
   return {
     repaired: true,

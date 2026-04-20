@@ -243,7 +243,7 @@ OpenDaaS 当前 MVP 阶段的工程基础环境如何固定。
 围绕当前选型，下一轮实现应继续覆盖：
 
 1. `plan` 命令树
-2. `diff check / ack`
+2. `status show / sync`
 3. `site open / dev / build / clean`
 4. 结构化结果与文件系统读写的结合
 5. 错误场景下的 envelope 与退出码表现

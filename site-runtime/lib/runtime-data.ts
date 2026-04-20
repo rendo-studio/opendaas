@@ -31,18 +31,6 @@ export interface RuntimeArchiveEntry {
   summary: string | null;
 }
 
-export interface RuntimeDiffFile {
-  path: string;
-  changeType: "added" | "modified" | "deleted";
-  source: "human" | "agent" | "unknown";
-  hunks: Array<{
-    oldStart: number;
-    oldCount: number;
-    newStart: number;
-    newCount: number;
-  }>;
-}
-
 export interface ControlPlaneSnapshot {
   generatedAt: string;
   workspace: {
@@ -52,8 +40,6 @@ export interface ControlPlaneSnapshot {
     hasWorkspace: boolean;
     activeChange: string | null;
     currentRoundId: string | null;
-    lastDiffCheckAt: string | null;
-    lastDiffAckAt: string | null;
   };
   project:
     | {
@@ -147,26 +133,6 @@ export interface ControlPlaneSnapshot {
         }>;
       }
     | null;
-  diff:
-    | {
-        pending: {
-          generatedAt: string | null;
-          files: RuntimeDiffFile[];
-        };
-        history: {
-          items: Array<{
-            id: string;
-            kind: "check" | "ack";
-            generatedAt: string;
-            fileCount: number;
-            addedCount: number;
-            modifiedCount: number;
-            deletedCount: number;
-            files: RuntimeDiffFile[];
-          }>;
-        };
-      }
-    | null;
   docs: {
     pages: RuntimeDocPage[];
     changePages: Array<Pick<RuntimeDocPage, "path" | "slug" | "title" | "description">>;
@@ -208,9 +174,7 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
       workspaceRoot: null,
       hasWorkspace: false,
       activeChange: null,
-      currentRoundId: null,
-      lastDiffCheckAt: null,
-      lastDiffAckAt: null
+      currentRoundId: null
     },
     project: null,
     endGoal: null,
@@ -220,7 +184,6 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
     tasks: null,
     decisions: null,
     releases: null,
-    diff: null,
     docs: {
       pages: [],
       changePages: []

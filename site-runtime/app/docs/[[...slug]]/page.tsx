@@ -12,40 +12,60 @@ export function generateStaticParams() {
   return source.generateParams();
 }
 
+function findPage(slug: string[] | undefined) {
+  const normalized = slug ?? [];
+  const direct = source.getPage(normalized);
+
+  if (direct) {
+    return direct;
+  }
+
+  const joined = normalized.join("/");
+
+  return source.getPages().find((candidate) => {
+    if (candidate.slugs.join("/") === joined) {
+      return true;
+    }
+
+    const candidatePath = candidate.url.replace(/^\/docs\/?/, "");
+    return candidatePath === joined;
+  });
+}
+
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
   const params = await props.params;
   const key = (params.slug ?? []).join("/");
+  const resolvedSlug = params.slug ?? [];
 
-  if (!params.slug || params.slug.length === 0) {
-    redirect("/docs/console");
-  }
+  const runtime = await loadRuntimeMetadata();
+  const version = await loadRuntimeVersion();
+  const useOverviewConsole = key === "console";
+  const useTasksConsole = key === "console/tasks";
+  const useConsoleView = useOverviewConsole || useTasksConsole;
+  const snapshot = useConsoleView ? await loadControlPlaneSnapshot() : null;
+  const page = findPage(resolvedSlug);
 
   if (key === "console/overview") {
     redirect("/docs/console");
   }
 
-  const runtime = await loadRuntimeMetadata();
-  const version = await loadRuntimeVersion();
-  const page = source.getPage(params.slug);
-  const useOverviewConsole = key === "console";
-  const useTasksConsole = key === "console/tasks";
-  const useConsoleView = useOverviewConsole || useTasksConsole;
-  const snapshot = useConsoleView ? await loadControlPlaneSnapshot() : null;
-
-  if (!page) {
+  if (!useConsoleView && !page) {
     notFound();
   }
 
-  const MDX = page.data.body;
-  const components = {
-    ...defaultMdxComponents,
-    a: createRelativeLink(source, page)
-  };
+  const MDX = page?.data.body ?? null;
+  const components =
+    page === null
+      ? defaultMdxComponents
+      : {
+          ...defaultMdxComponents,
+          a: createRelativeLink(source, page)
+        };
 
   return (
-    <DocsPage toc={useConsoleView ? undefined : page.data.toc} full={useConsoleView ? true : page.data.full}>
+    <DocsPage toc={useConsoleView ? undefined : page?.data.toc} full={useConsoleView ? true : page?.data.full ?? false}>
       {runtime.mode === "dev" ? <LiveRefresh initialVersion={version.updatedAt} /> : null}
       <DocsBody>
         {snapshot ? (
@@ -55,7 +75,7 @@ export default async function Page(props: {
             <ConsoleTasksView snapshot={snapshot} />
           )
         ) : (
-          <MDX components={components} />
+          MDX ? <MDX components={components} /> : null
         )}
       </DocsBody>
     </DocsPage>

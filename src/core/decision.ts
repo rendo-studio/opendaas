@@ -11,7 +11,6 @@ import type {
   DecisionState,
   DecisionStatus
 } from "./types.js";
-import { recordAgentDocWrite } from "./doc-sources.js";
 
 interface LegacyDecisionRecordShape {
   id: string;
@@ -192,7 +191,6 @@ description: 项目的重要决策索引页。
 - 暂无
 `;
   await writeText(paths.docsDecisionsIndexFile, content);
-  await recordAgentDocWrite(paths.docsDecisionsIndexFile, content);
 }
 
 async function syncDecisionDocs(state: DecisionState) {
@@ -231,7 +229,6 @@ async function syncDecisionDocs(state: DecisionState) {
     const filePath = path.join(decisionsDir, `${record.id}.md`);
     const content = renderDecisionDoc(record);
     await writeText(filePath, content);
-    await recordAgentDocWrite(filePath, content);
   }
 }
 

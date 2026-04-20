@@ -5,7 +5,6 @@ import { replaceSectionContent } from "./markdown.js";
 import { readYamlFile, writeText, writeYamlFile } from "./storage.js";
 import { getWorkspacePaths } from "./workspace.js";
 import type { ReleaseRecord, ReleaseRecordStatus, ReleaseState } from "./types.js";
-import { recordAgentDocWrite } from "./doc-sources.js";
 
 function slugify(input: string): string {
   return input
@@ -62,7 +61,6 @@ description: 项目的发布与版本更新入口页。
 - 暂无
 `;
   await writeText(paths.docsReleasesIndexFile, content);
-  await recordAgentDocWrite(paths.docsReleasesIndexFile, content);
 }
 
 function renderReleaseDoc(record: ReleaseRecord): string {
@@ -156,7 +154,6 @@ async function syncReleaseDocs(state: ReleaseState) {
     const filePath = releaseFilePath(record.id);
     const content = renderReleaseDoc(record);
     await writeText(filePath, content);
-    await recordAgentDocWrite(filePath, content);
   }
 }
 

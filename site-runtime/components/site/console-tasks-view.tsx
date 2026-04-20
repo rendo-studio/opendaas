@@ -4,7 +4,7 @@ import type { ControlPlaneSnapshot, RuntimeTaskNode } from "../../lib/runtime-da
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Badge } from "../ui/badge";
 import { Progress } from "../ui/progress";
-import { DataList, Metric, MetricGrid, RailPanel, RailSection, StatusBadge } from "./docs-rail-shared";
+import { DataList, RailPanel, RailSection, StatusBadge } from "./docs-rail-shared";
 
 function TaskAccordionGroup({
   items,
@@ -46,7 +46,11 @@ function TaskAccordionGroup({
   );
 }
 
-export function ConsoleTasksView({ snapshot }: { snapshot: ControlPlaneSnapshot }) {
+export function ConsoleTasksView({
+  snapshot
+}: {
+  snapshot: ControlPlaneSnapshot;
+}) {
   const allPlans = snapshot.plans?.items ?? [];
   const totalPlans = allPlans.length;
   const donePlans = allPlans.filter((item) => item.status === "done").length;

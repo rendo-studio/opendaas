@@ -3,6 +3,7 @@ import { AclipApp, stringArgument } from "@rendo-studio/aclip";
 import {
   addPlan,
   buildPlanTree,
+  deletePlan,
   describeTopLevelPlans,
   loadPlans,
   renderPlanTreeLines,
@@ -10,6 +11,7 @@ import {
   updatePlan
 } from "../../core/plans.js";
 import { syncStatusDocs } from "../../core/status.js";
+import { withGuideHint } from "../guide-hint.js";
 
 function assertTaskStatus(status: string): "pending" | "in_progress" | "done" | "blocked" {
   if (!["pending", "in_progress", "done", "blocked"].includes(status)) {
@@ -23,12 +25,15 @@ export function registerPlanGroup(app: AclipApp) {
   app
     .group("plan", {
       summary: "Inspect the plan tree.",
-      description: "Read the current structured plan tree and its top-level execution phases."
+      description: withGuideHint(
+        "Read the current structured plan tree and its top-level execution phases."
+      )
     })
     .command("add", {
       summary: "Add a plan node.",
-      description:
-        "Create a plan node in the structured plan tree with an explicit parent marker or root.",
+      description: withGuideHint(
+        "Create a plan node in the structured plan tree with an explicit parent marker or root."
+      ),
       arguments: [
         stringArgument("name", {
           required: true,
@@ -48,8 +53,8 @@ export function registerPlanGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas plan add --name 'Harden diff lifecycle' --parent root",
-        "opendaas plan add --name 'Add source classification' --parent harden-diff-lifecycle-1 --status in_progress"
+        "opendaas plan add --name 'Harden workspace refresh' --parent root",
+        "opendaas plan add --name 'Add console mutation coverage' --parent harden-workspace-refresh-1 --status in_progress"
       ],
       handler: async ({ name, parent, summary, status }) => {
         const result = await addPlan({
@@ -68,8 +73,9 @@ export function registerPlanGroup(app: AclipApp) {
     })
     .command("update", {
       summary: "Update a plan node.",
-      description:
-        "Rename, re-parent, or change a plan node status and refresh shared status projection.",
+      description: withGuideHint(
+        "Rename, re-parent, or change a plan node status and refresh shared status projection."
+      ),
       arguments: [
         stringArgument("id", {
           required: true,
@@ -94,7 +100,7 @@ export function registerPlanGroup(app: AclipApp) {
       ],
       examples: [
         "opendaas plan update --id plan-1 --status done",
-        "opendaas plan update --id harden-diff-lifecycle-1 --name 'Harden diff lifecycle and provenance'"
+        "opendaas plan update --id harden-workspace-refresh-1 --name 'Harden workspace refresh and console sync'"
       ],
       handler: async ({ id, name, summary, parent, status }) => {
         const result = await updatePlan({
@@ -114,7 +120,7 @@ export function registerPlanGroup(app: AclipApp) {
     })
     .command("show", {
       summary: "Show the current plan tree.",
-      description: "Inspect the current structured plan tree.",
+      description: withGuideHint("Inspect the current structured plan tree."),
       examples: ["opendaas plan show"],
       handler: async () => {
         const plans = await loadPlans();
@@ -127,9 +133,33 @@ export function registerPlanGroup(app: AclipApp) {
         };
       }
     })
+    .command("delete", {
+      summary: "Delete a plan node.",
+      description: withGuideHint(
+        "Delete a plan node, all descendant plans, and any tasks attached to the removed plan subtree."
+      ),
+      arguments: [
+        stringArgument("id", {
+          required: true,
+          description: "Plan id."
+        })
+      ],
+      examples: ["opendaas plan delete --id harden-workspace-refresh-1"],
+      handler: async ({ id }) => {
+        const result = await deletePlan({
+          id: String(id)
+        });
+        await syncStatusDocs();
+        return {
+          deletedPlanIds: result.deletedPlanIds,
+          deletedTaskIds: result.deletedTaskIds,
+          topLevelPlans: describeTopLevelPlans(result.plans)
+        };
+      }
+    })
     .command("sync", {
       summary: "Sync plan statuses from task state.",
-      description: "Recompute plan statuses from current task statuses and persist the result.",
+      description: withGuideHint("Recompute plan statuses from current task statuses and persist the result."),
       examples: ["opendaas plan sync"],
       handler: async () => {
         const plans = await syncPlanStatuses();

@@ -1,6 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { addPlan, buildPlanTree, loadPlans, syncPlanStatuses, updatePlan } from "../src/core/plans.js";
+import { addPlan, buildPlanTree, deletePlan, loadPlans, syncPlanStatuses, updatePlan } from "../src/core/plans.js";
+import { writeYamlFile } from "../src/core/storage.js";
+import { loadTasks } from "../src/core/tasks.js";
+import { getWorkspacePaths } from "../src/core/workspace.js";
 import { createWorkspaceFixture } from "./helpers/workspace.js";
 
 const restorers: Array<() => void> = [];
@@ -23,11 +26,11 @@ describe("plan control plane", () => {
     cleanups.push(fixture.cleanup);
 
     const addedRoot = await addPlan({
-      name: "Harden diff lifecycle",
+      name: "Harden workspace refresh",
       parent: "root"
     });
     const addedChild = await addPlan({
-      name: "Add source classification",
+      name: "Add console mutation coverage",
       parent: addedRoot.plan.id
     });
 
@@ -61,8 +64,8 @@ describe("plan control plane", () => {
           },
           {
             id: "plan-child",
-            name: "Diff provenance",
-            summary: "Track where shared-doc changes came from.",
+            name: "Status projection",
+            summary: "Keep the control-plane projection aligned with task state.",
             status: "pending",
             parentPlanId: "plan-root"
           }
@@ -72,8 +75,8 @@ describe("plan control plane", () => {
         items: [
           {
             id: "task-1",
-            name: "Implement source classification",
-            summary: "Classify whether each shared-doc change was authored by a human or an agent.",
+            name: "Recompute status projection",
+            summary: "Refresh plan status from current task state.",
             status: "done",
             planRef: "plan-child",
             parentTaskId: null,
@@ -89,5 +92,43 @@ describe("plan control plane", () => {
 
     expect(plans.items.find((plan) => plan.id === "plan-child")?.status).toBe("done");
     expect(plans.items.find((plan) => plan.id === "plan-root")?.status).toBe("done");
+  });
+
+  it("deletes a plan subtree together with attached tasks", async () => {
+    const fixture = await createWorkspaceFixture();
+    restorers.push(fixture.use());
+    cleanups.push(fixture.cleanup);
+
+    const rootPlan = await addPlan({
+      name: "Disposable plan",
+      parent: "root"
+    });
+    const childPlan = await addPlan({
+      name: "Disposable child",
+      parent: rootPlan.plan.id
+    });
+
+    const tasksFile = await loadTasks();
+    tasksFile.items.push({
+      id: "task-plan-delete",
+      name: "Linked task",
+      summary: "Task linked to the disposable plan subtree.",
+      status: "pending",
+      planRef: childPlan.plan.id,
+      parentTaskId: null,
+      countedForProgress: true
+    });
+    await writeYamlFile(getWorkspacePaths().taskFile, tasksFile);
+
+    const deleted = await deletePlan({
+      id: rootPlan.plan.id
+    });
+    const plans = await loadPlans();
+    const tasks = await loadTasks();
+
+    expect(deleted.deletedPlanIds).toEqual([rootPlan.plan.id, childPlan.plan.id]);
+    expect(deleted.deletedTaskIds).toEqual(["task-plan-delete"]);
+    expect(plans.items.some((plan) => plan.id === rootPlan.plan.id)).toBe(false);
+    expect(tasks.items.some((task) => task.id === "task-plan-delete")).toBe(false);
   });
 });

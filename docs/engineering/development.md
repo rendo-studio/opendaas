@@ -13,7 +13,7 @@ description: 当前仓库的人类与开发端 Agent 接手方式、本地命令
 2. 再读 [Project Overview](../project/overview.md)
 3. 再读 [Goal Context](../project/goal.md)
 4. 查看 Console
-5. 开始任何改动前运行 `opendaas diff check`
+5. 上下文不确定时运行 `opendaas status show`
 
 ## 本地命令
 
@@ -29,7 +29,7 @@ npm run dev -- --help
 
 - `src/bin/`：CLI 入口
 - `src/cli/`：命令树定义
-- `src/core/`：控制面、bootstrap、diff、site、agent 等核心逻辑
+- `src/core/`：控制面、bootstrap、status、site、agent 等核心逻辑
 - `site-runtime/`：Next.js / Fumadocs 运行时模板
 - `test/`：自动化测试
 
@@ -42,4 +42,4 @@ npm run dev -- --help
 
 ## Agent Artifact
 
-开发端 Agent 的最小工作协议以 `.opendaas/agent/SKILL.md` 为准。
+开发端 Agent 的权威工作协议来自 CLI 内置的 `opendaas guide`，工作区生成的 `.agents/skills/opendaas-workflow/SKILL.md` 与其内容完全一致。

@@ -48,7 +48,7 @@ description: 固定 OpenDaaS 的核心概念边界，确保框架定义层保持
 - 结构化目标状态
 - 结构化 plan / task / progress
 - active state
-- diff baseline / pending / sources
+- status snapshot / sync
 - 结构化 decision 记录
 - 结构化 release 记录
 - Agent 适配产物
@@ -93,7 +93,7 @@ description: 固定 OpenDaaS 的核心概念边界，确保框架定义层保持
 
 `release` 是面向迭代或版本的结构化更新记录。
 
-它是 changelog 的真相源，不应由 diff 自动拼接，也不应依赖自由文本重写。
+它是 changelog 的真相源，不应由环境噪声自动拼接，也不应依赖自由文本重写。
 
 ## agent adaptation
 

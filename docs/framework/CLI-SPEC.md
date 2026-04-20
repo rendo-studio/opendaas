@@ -25,7 +25,6 @@ CLI 主要负责：
 - `init`
 - `adopt`
 - `validate`
-- `diff`
 - `goal`
 - `plan`
 - `task`

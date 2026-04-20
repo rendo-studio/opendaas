@@ -3,11 +3,10 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import { parse, stringify } from "yaml";
 
-import { diffAck } from "./diff.js";
-import { recordAgentDocWrite } from "./doc-sources.js";
-import { syncAgentArtifacts } from "./agent.js";
+import { inspectAgentArtifacts, syncAgentArtifacts } from "./agent.js";
 import { syncStatusDocs } from "./status.js";
 import { writeText, writeYamlFile } from "./storage.js";
+import { normalizeWorkspaceConfig } from "./workspace-config.js";
 import type {
   GoalState,
   ProjectOverviewState,
@@ -26,14 +25,15 @@ import { withWorkspaceRoot } from "./workspace.js";
 type ProjectKind = "general" | "frontend" | "library" | "service";
 type DocsMode = "minimal" | "standard";
 
-export const WORKSPACE_SCHEMA_VERSION = 6;
-export const WORKSPACE_TEMPLATE_VERSION = "2026-04-19.end-goal-plan-model-1";
+export const WORKSPACE_SCHEMA_VERSION = 7;
+export const WORKSPACE_TEMPLATE_VERSION = "2026-04-19.guide-and-site-config-model-1";
 
 interface BootstrapInput {
-  targetPath: string;
+  targetPath?: string;
   projectName?: string;
-  endGoalName: string;
-  endGoalSummary: string;
+  projectSummary?: string;
+  endGoalName?: string;
+  endGoalSummary?: string;
   projectKind?: ProjectKind;
   docsMode?: DocsMode;
   force?: boolean;
@@ -119,17 +119,29 @@ async function assertAdoptTargetExists(root: string): Promise<void> {
 
 function buildEndGoal(
   projectName: string,
-  input: Required<Pick<BootstrapInput, "endGoalName" | "endGoalSummary">>
+  input: Pick<BootstrapInput, "endGoalName" | "endGoalSummary">
 ): GoalState {
+  const hasExplicitGoal = Boolean(input.endGoalName?.trim() && input.endGoalSummary?.trim());
+  const name = input.endGoalName?.trim() || "Unspecified end goal";
+  const summary =
+    input.endGoalSummary?.trim() ||
+    `${projectName} has not defined a long-lived end goal yet. Use \`opendaas goal set\` when the target outcome becomes clear.`;
+
   return {
-    goalId: `end-goal-${slugify(input.endGoalName) || "project"}`,
-    name: input.endGoalName,
-    summary: input.endGoalSummary,
-    successCriteria: [
-      `${projectName} exposes a stable project overview, end goal, plans, tasks, decisions, releases, and diffs as structured control-plane data`,
-      `${projectName} keeps shared docs, control-plane state, and local docs-site views aligned for human developers and development agents`,
-      `${projectName} supports a repeatable loop from project understanding to planning, implementation, validation, and release coordination`
-    ],
+    goalId: `end-goal-${slugify(name) || "project"}`,
+    name,
+    summary,
+    successCriteria: hasExplicitGoal
+      ? [
+          `${projectName} exposes a stable project overview, end goal, plans, tasks, decisions, and releases as structured control-plane data`,
+          `${projectName} keeps shared docs, control-plane state, and local docs-site views aligned for human developers and development agents`,
+          `${projectName} supports a repeatable loop from project understanding to planning, implementation, validation, and release coordination`
+        ]
+      : [
+          `Define the long-lived end goal for ${projectName}.`,
+          `Turn the current workspace into an explicit plan and task tree once the destination is clear.`,
+          `${projectName} keeps shared docs and structured workspace state aligned while the project shape is still being discovered.`
+        ],
     nonGoals: [
       "public hosted docs platform",
       "full SaaS control plane",
@@ -139,11 +151,12 @@ function buildEndGoal(
   };
 }
 
-function buildProjectOverview(projectName: string): ProjectOverviewState {
+function buildProjectOverview(projectName: string, projectSummary?: string): ProjectOverviewState {
   return {
     name: projectName,
     summary:
-      `${projectName} uses OpenDaaS as a CLI-first project context control plane. It keeps shared docs and structured workspace state aligned so human developers and development agents can work against the same project reality.`,
+      projectSummary?.trim() ||
+      `${projectName} has not defined a project overview yet. Use \`opendaas project set\` when the project identity, scope, and narrative are clear enough to anchor explicitly.`,
     docPath: "project/overview.md"
   };
 }
@@ -250,9 +263,7 @@ function buildProgress(): ProgressState {
 function buildActiveState(activeChangeId: string): WorkspaceState {
   return {
     activeChange: activeChangeId,
-    currentRoundId: `round-${isoNow().slice(0, 10)}-01`,
-    lastDiffCheckAt: null,
-    lastDiffAckAt: null
+    currentRoundId: `round-${isoNow().slice(0, 10)}-01`
   };
 }
 
@@ -261,11 +272,12 @@ function buildWorkspaceFiles(
   activeChangeId: string,
   endGoal: GoalState,
   projectName: string,
+  projectSummary: string | undefined,
   projectKind: ProjectKind,
   docsMode: DocsMode
 ): ManagedWorkspaceFile[] {
   const createdAt = isoNow();
-  const projectOverview = buildProjectOverview(projectName);
+  const projectOverview = buildProjectOverview(projectName, projectSummary);
   const initialDecisionState: DecisionState = {
     items: []
   };
@@ -288,13 +300,11 @@ function buildWorkspaceFiles(
     lastUpgradedAt: null
   };
   const config: WorkspaceConfigState = {
-    requireDiffCheckBeforeTask: true,
-    docsSiteEnabled: true,
-    defaultDiffMode: "line",
-    siteFramework: "fumadocs",
-    packageManager: "npm",
-    projectKind,
-    docsMode,
+    ...normalizeWorkspaceConfig(null, {
+      projectKind,
+      docsMode,
+      workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
+    }),
     workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
   };
   return [
@@ -354,8 +364,13 @@ function renderDocTemplate(file: ManagedDocFile): string {
   return `---\nname: ${file.name}\ndescription: ${file.description}\n---\n\n# ${file.title}\n\n${prefix}${sections}`.trimEnd() + "\n";
 }
 
-function buildDocsFiles(projectName: string, endGoal: GoalState, activeChangeId: string): ManagedDocFile[] {
-  const projectOverview = buildProjectOverview(projectName);
+function buildDocsFiles(
+  projectName: string,
+  projectSummary: string | undefined,
+  endGoal: GoalState,
+  activeChangeId: string
+): ManagedDocFile[] {
+  const projectOverview = buildProjectOverview(projectName, projectSummary);
   return [
     {
       relativePath: "docs/index.md",
@@ -569,8 +584,8 @@ function buildDocsFiles(projectName: string, endGoal: GoalState, activeChangeId:
       title: "Engineering Development",
       bodyPrefix: `${projectName} 当前通过 OpenDaaS 的 docs/.opendaas 双命名空间推进。`,
       sections: [
-        { heading: "开发约束", body: ["- 在当前目标范围内自主推进", "- 新决策节点先做 diff check 再升级", "- 共享文档只使用 `name + description` 头部元信息"].join("\n") },
-        { heading: "当前工作流", body: ["1. 先阅读最终目标与当前状态", "2. 在开始任务前运行 `opendaas diff check`", "3. 使用 `goal / plan / task / status` 维护控制面", "4. 让 current focus 由 top-level plans 和 task tree 共同表达", "5. 通过 `site dev` 或 `site open` 查看文档站投影"].join("\n") }
+        { heading: "开发约束", body: ["- 在当前目标范围内自主推进", "- 新决策节点先更新控制面并同步状态", "- 共享文档只使用 `name + description` 头部元信息"].join("\n") },
+        { heading: "当前工作流", body: ["1. 先阅读最终目标与当前状态", "2. 需要可视化协作时运行 `opendaas site open`", "3. 使用 `project / goal / plan / task / status` 维护控制面", "4. 让 current focus 由 top-level plans 和 task tree 共同表达", "5. 通过 `site open` 查看文档站投影"].join("\n") }
       ]
     }
   ];
@@ -615,7 +630,6 @@ async function upsertManagedDoc(
 
   if (!existed || force) {
     await writeText(target, rendered);
-    await recordAgentDocWrite(target, rendered);
     result[existed ? "updatedFiles" : "createdFiles"].push(file.relativePath);
     return;
   }
@@ -653,7 +667,6 @@ async function upsertManagedDoc(
   }
 
   await writeText(target, next);
-  await recordAgentDocWrite(target, next);
   result.updatedFiles.push(file.relativePath);
 }
 
@@ -675,43 +688,10 @@ async function writeManagedWorkspaceFile(
   result[existed ? "updatedFiles" : "createdFiles"].push(file.relativePath);
 }
 
-async function writeDiffScaffolding(root: string, force: boolean, result: BootstrapResult) {
-  const entries = [
-    {
-      relativePath: ".opendaas/diff/baseline.json",
-      content: "{}\n"
-    },
-    {
-      relativePath: ".opendaas/diff/pending.json",
-      content: `${JSON.stringify({ generatedAt: null, files: [] }, null, 2)}\n`
-    },
-    {
-      relativePath: ".opendaas/diff/sources.json",
-      content: "{}\n"
-    },
-    {
-      relativePath: ".opendaas/diff/history.json",
-      content: `${JSON.stringify({ items: [] }, null, 2)}\n`
-    }
-  ];
-
-  for (const entry of entries) {
-    const target = path.join(root, entry.relativePath);
-    const existed = existsSync(target);
-
-    if (existed && !force) {
-      result.skippedFiles.push(entry.relativePath);
-      continue;
-    }
-
-    await writeText(target, entry.content);
-    result[existed ? "updatedFiles" : "createdFiles"].push(entry.relativePath);
-  }
-}
-
 async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput): Promise<BootstrapResult> {
-  const root = path.resolve(input.targetPath);
+  const root = path.resolve(input.targetPath ?? process.cwd());
   const projectName = input.projectName?.trim() || path.basename(root);
+  const projectSummary = input.projectSummary?.trim() || undefined;
   const endGoal = buildEndGoal(projectName, {
     endGoalName: input.endGoalName,
     endGoalSummary: input.endGoalSummary
@@ -741,13 +721,11 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
     skippedFiles: []
   };
 
-  for (const file of buildWorkspaceFiles(mode, activeChangeId, endGoal, projectName, projectKind, docsMode)) {
+  for (const file of buildWorkspaceFiles(mode, activeChangeId, endGoal, projectName, projectSummary, projectKind, docsMode)) {
     await writeManagedWorkspaceFile(root, file, force, result);
   }
 
-  await writeDiffScaffolding(root, force, result);
-
-  for (const doc of buildDocsFiles(projectName, endGoal, activeChangeId)) {
+  for (const doc of buildDocsFiles(projectName, projectSummary, endGoal, activeChangeId)) {
     if (preserveExistingDocs && existsSync(path.join(root, doc.relativePath))) {
       result.skippedFiles.push(doc.relativePath);
       continue;
@@ -756,9 +734,28 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
   }
 
   await withWorkspaceRoot(root, async () => {
+    const beforeAgentArtifacts = await inspectAgentArtifacts(root);
     await syncStatusDocs();
     await syncAgentArtifacts();
-    await diffAck();
+
+    const managedAgentFiles = [
+      {
+        relativePath: "AGENTS.md",
+        existed: beforeAgentArtifacts.agentsMdExists
+      },
+      {
+        relativePath: ".agents/skills/opendaas-workflow/SKILL.md",
+        existed: beforeAgentArtifacts.workflowSkillExists
+      },
+      {
+        relativePath: ".opendaas/agent/SKILL.md",
+        existed: beforeAgentArtifacts.skillExists
+      }
+    ];
+
+    for (const file of managedAgentFiles) {
+      result[file.existed ? "updatedFiles" : "createdFiles"].push(file.relativePath);
+    }
   });
 
   return result;

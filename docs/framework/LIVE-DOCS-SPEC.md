@@ -7,15 +7,13 @@ description: 定义实时文档站、页面编辑边界、差异历史与全局 
 
 ## 目标
 
-把 `site open / dev / build` 的语义、可编辑边界、差异历史与全局 runtime 模型一次说清。
+把 `site open / build` 的语义、可编辑边界、差异历史与全局 runtime 模型一次说清。
 
-## `site open / dev / build`
+## `site open / build`
 
 - `site open`
-  - 打开当前最新快照
-  - 允许查看，不默认承担持续 watch
-- `site dev`
-  - 启动本地 watcher
+  - 启动或复用本地热更新运行时
+  - 默认作为 round-start 协作入口
   - 监听 `docs/` 与关键 `.opendaas/` 控制面
   - 变化后立刻 restage、重建运行时数据，并驱动页面自动刷新
 - `site build`
@@ -58,7 +56,7 @@ OpenDaaS 站点页分三类：
   - 当前相对基线的未确认差异
 - `history.json`
   - append-only 事件流
-  - 记录每次 `diff check` 发现的差异快照与每次 `diff ack`
+  - 记录控制面状态刷新后的最新投影视图
 
 `history.json` 不替代 `pending.json`，它负责回答：
 

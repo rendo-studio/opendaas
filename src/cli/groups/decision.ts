@@ -6,6 +6,7 @@ import {
   getDecisionRecord,
   listDecisionRecords
 } from "../../core/decision.js";
+import { withGuideHint } from "../guide-hint.js";
 
 function assertCategory(value: string): "goal" | "scope" | "change" | "architecture" | "release" | "policy" | "other" {
   if (!["goal", "scope", "change", "architecture", "release", "policy", "other"].includes(value)) {
@@ -29,13 +30,15 @@ export function registerDecisionGroup(app: AclipApp) {
   app
     .group("decision", {
       summary: "Manage high-impact project decisions.",
-      description:
+      description: withGuideHint(
         "Create, inspect, and record important project decisions for goals, scope changes, architecture, release policy, and other high-impact control points."
+      )
     })
     .command("new", {
       summary: "Create an important decision record.",
-      description:
-        "Record a new decision candidate for a goal, scope, change, architecture, release, policy, or other high-impact control point.",
+      description: withGuideHint(
+        "Record a new decision candidate for a goal, scope, change, architecture, release, policy, or other high-impact control point."
+      ),
       arguments: [
         stringArgument("name", {
           required: true,
@@ -94,7 +97,7 @@ export function registerDecisionGroup(app: AclipApp) {
     })
     .command("list", {
       summary: "List important decisions.",
-      description: "Show recorded decision entries and their current status.",
+      description: withGuideHint("Show recorded decision entries and their current status."),
       examples: ["opendaas decision list"],
       handler: async () => ({
         decision: await listDecisionRecords()
@@ -102,7 +105,7 @@ export function registerDecisionGroup(app: AclipApp) {
     })
     .command("show", {
       summary: "Show one decision.",
-      description: "Inspect one recorded decision by id.",
+      description: withGuideHint("Inspect one recorded decision by id."),
       arguments: [
         stringArgument("id", {
           required: true,
@@ -116,7 +119,7 @@ export function registerDecisionGroup(app: AclipApp) {
     })
     .command("decide", {
       summary: "Approve or reject a decision record.",
-      description: "Record a decision outcome as approve or reject and persist the decision summary.",
+      description: withGuideHint("Record a decision outcome as approve or reject and persist the decision summary."),
       arguments: [
         stringArgument("id", {
           required: true,

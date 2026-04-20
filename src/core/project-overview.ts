@@ -12,3 +12,13 @@ export async function saveProjectOverview(input: ProjectOverviewState): Promise<
   await writeYamlFile(paths.projectOverviewFile, input);
   return input;
 }
+
+export async function updateProjectOverview(
+  input: Partial<ProjectOverviewState>
+): Promise<ProjectOverviewState> {
+  const current = await loadProjectOverview();
+  return saveProjectOverview({
+    ...current,
+    ...input
+  });
+}

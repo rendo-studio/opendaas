@@ -1,10 +1,10 @@
-schemaVersion: 6
+schemaVersion: 7
 workspaceName: opendaas
 docsRoot: docs
 workspaceRoot: .opendaas
 bootstrapMode: adopt
-templateVersion: 2026-04-19.end-goal-plan-model-1
+templateVersion: 2026-04-19.guide-and-site-config-model-1
 projectKind: general
 docsMode: standard
 createdAt: 2026-04-17T08:45:00+08:00
-lastUpgradedAt: 2026-04-18T20:05:19.849Z
+lastUpgradedAt: 2026-04-19T10:20:55.843Z

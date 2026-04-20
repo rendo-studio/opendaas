@@ -1,33 +1,37 @@
 import { AclipApp, stringArgument } from "@rendo-studio/aclip";
-import { buildSiteRuntime, cleanSiteRuntime, devSiteRuntime, openSiteRuntime } from "../../core/site.js";
+import { buildSiteRuntime, cleanSiteRuntime, openSiteRuntime, stopSiteRuntime } from "../../core/site.js";
+import { withGuideHint } from "../guide-hint.js";
 
 export function registerSiteGroup(app: AclipApp) {
   app
     .group("site", {
       summary: "Run the docs site view.",
-      description:
+      description: withGuideHint(
         "Open or build a docs-site view from a project root or docs-pack path without writing build output back into the repository."
+      )
     })
     .command("open", {
-      summary: "Open a local docs site.",
-      description:
-        "Resolve the docs pack path, build site artifacts into a global runtime directory, and return a local access URL.",
+      summary: "Start or reuse the local docs site runtime.",
+      description: withGuideHint(
+        "Resolve the configured or explicit docs pack path, start the hot-reloading local docs site runtime, and return the live access URL."
+      ),
       arguments: [
         stringArgument("path", {
-          required: true,
-          description: "Project root or docs-pack path."
+          required: false,
+          description: "Optional project root or docs-pack path. Defaults to the configured docs-site source path."
         })
       ],
       examples: [
+        "opendaas site open",
         "opendaas site open --path D:/project/example",
         "opendaas site open --path D:/project/example/docs"
       ],
       handler: async ({ path }) => {
-        const runtime = await openSiteRuntime(String(path));
+        const runtime = await openSiteRuntime(path ? String(path) : undefined);
         return {
           site: {
-            sourcePath: String(path),
-            runtimeMode: "local-implicit-deploy",
+            sourcePath: path ? String(path) : runtime.sourceDocsRoot,
+            runtimeMode: "open",
             framework: "fumadocs",
             runtimeRoot: runtime.runtimeRoot,
             stagedSourcePath: runtime.sourceDocsRoot,
@@ -41,31 +45,11 @@ export function registerSiteGroup(app: AclipApp) {
         };
       }
     })
-    .command("dev", {
-      summary: "Start or reuse the local docs dev runtime.",
-      description:
-        "Stage docs into the site runtime, ensure the local Fumadocs dev server is running, and return the live docs URL.",
-      arguments: [
-        stringArgument("path", {
-          required: true,
-          description: "Project root or docs-pack path."
-        })
-      ],
-      examples: [
-        "opendaas site dev --path D:/project/example",
-        "opendaas site dev --path D:/project/example/docs"
-      ],
-      handler: async ({ path }) => ({
-        site: {
-          ...(await devSiteRuntime(String(path))),
-          runtimeMode: "dev"
-        }
-      })
-    })
     .command("build", {
       summary: "Stage docs for the site runtime.",
-      description:
-        "Prepare and build the Fumadocs site runtime from a project root or docs package.",
+      description: withGuideHint(
+        "Prepare and build the Fumadocs site runtime from a project root or docs package."
+      ),
       arguments: [
         stringArgument("path", {
           required: false,
@@ -77,13 +61,36 @@ export function registerSiteGroup(app: AclipApp) {
         site: await buildSiteRuntime(path ? String(path) : undefined)
       })
     })
+    .command("stop", {
+      summary: "Stop the local docs runtime but keep the staged runtime.",
+      description: withGuideHint(
+        "Terminate the managed local docs server and watcher while preserving the staged runtime so the next open can restart faster."
+      ),
+      arguments: [
+        stringArgument("path", {
+          required: false,
+          description: "Optional project root or docs-pack path. Defaults to the configured docs-site source path."
+        })
+      ],
+      examples: ["opendaas site stop", "opendaas site stop --path D:/project/example"],
+      handler: async ({ path }) => ({
+        site: await stopSiteRuntime(path ? String(path) : undefined)
+      })
+    })
     .command("clean", {
       summary: "Stop and clean the local docs runtime.",
-      description:
-        "Terminate the managed local docs dev server if it is running and remove staged docs/build output from the site runtime.",
-      examples: ["opendaas site clean"],
-      handler: async () => ({
-        site: await cleanSiteRuntime()
+      description: withGuideHint(
+        "Terminate the managed local docs server if it is running and remove the staged runtime so the next open starts from a cold state."
+      ),
+      arguments: [
+        stringArgument("path", {
+          required: false,
+          description: "Optional project root or docs-pack path. Defaults to the configured docs-site source path."
+        })
+      ],
+      examples: ["opendaas site clean", "opendaas site clean --path D:/project/example"],
+      handler: async ({ path }) => ({
+        site: await cleanSiteRuntime(path ? String(path) : undefined)
       })
     });
 }

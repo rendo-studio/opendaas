@@ -4,6 +4,14 @@
   "version": "0.1.0",
   "type": "module",
   "description": "OpenDaaS CLI-first project context control plane for human developers and development agents.",
+  "files": [
+    "dist",
+    "site-runtime",
+    "assets",
+    "!site-runtime/node_modules",
+    "!site-runtime/.next",
+    "!site-runtime/content"
+  ],
   "bin": {
     "opendaas": "./dist/bin/opendaas.js"
   },
@@ -14,7 +22,7 @@
     "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@rendo-studio/aclip": "^0.2.7",
+    "@rendo-studio/aclip": "^0.3.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "yaml": "^2.8.3"

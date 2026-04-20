@@ -6,6 +6,7 @@ import {
   listReleaseRecords,
   updateReleaseRecord
 } from "../../core/release.js";
+import { withGuideHint } from "../guide-hint.js";
 
 function splitCsv(value?: string): string[] {
   if (!value) {
@@ -30,13 +31,15 @@ export function registerReleaseGroup(app: AclipApp) {
   app
     .group("release", {
       summary: "Manage structured release and changelog entries.",
-      description:
+      description: withGuideHint(
         "Persist structured release/changelog records in .opendaas and project them into docs/project/releases."
+      )
     })
     .command("new", {
       summary: "Create a draft release entry.",
-      description:
-        "Create a new draft release/changelog entry. This becomes the structured truth source for later docs projection.",
+      description: withGuideHint(
+        "Create a new draft release/changelog entry. This becomes the structured truth source for later docs projection."
+      ),
       arguments: [
         stringArgument("version", {
           required: true,
@@ -76,7 +79,7 @@ export function registerReleaseGroup(app: AclipApp) {
     })
     .command("list", {
       summary: "List release entries.",
-      description: "Show structured release/changelog entries in descending creation order.",
+      description: withGuideHint("Show structured release/changelog entries in descending creation order."),
       examples: ["opendaas release list"],
       handler: async () => ({
         release: await listReleaseRecords()
@@ -84,7 +87,7 @@ export function registerReleaseGroup(app: AclipApp) {
     })
     .command("show", {
       summary: "Show one release entry.",
-      description: "Inspect one structured release/changelog entry by id.",
+      description: withGuideHint("Inspect one structured release/changelog entry by id."),
       arguments: [
         stringArgument("id", {
           required: true,
@@ -98,8 +101,9 @@ export function registerReleaseGroup(app: AclipApp) {
     })
     .command("update", {
       summary: "Update a release entry.",
-      description:
-        "Append structured highlights, change refs, decision refs, breaking changes, migration notes, or advance the release status.",
+      description: withGuideHint(
+        "Append structured highlights, change refs, decision refs, breaking changes, migration notes, or advance the release status."
+      ),
       arguments: [
         stringArgument("id", {
           required: true,
@@ -167,7 +171,7 @@ export function registerReleaseGroup(app: AclipApp) {
     })
     .command("publish", {
       summary: "Publish a release entry.",
-      description: "Mark a release entry as published.",
+      description: withGuideHint("Mark a release entry as published."),
       arguments: [
         stringArgument("id", {
           required: true,

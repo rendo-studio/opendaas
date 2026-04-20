@@ -127,6 +127,43 @@ function collectDescendantPlanIds(plans: PlanNode[], planId: string): string[] {
   return children.flatMap((child) => [child.id, ...collectDescendantPlanIds(plans, child.id)]);
 }
 
+export async function deletePlan(input: {
+  id: string;
+}): Promise<{ deletedPlanIds: string[]; deletedTaskIds: string[]; plans: PlansState }> {
+  const paths = getWorkspacePaths();
+  const [plans, tasks] = await Promise.all([
+    loadPlans(),
+    readYamlFile<TasksState>(paths.taskFile)
+  ]);
+  const current = plans.items.find((plan) => plan.id === input.id);
+
+  if (!current) {
+    throw new Error(`Plan "${input.id}" does not exist.`);
+  }
+
+  const deletedPlanIds = [input.id, ...collectDescendantPlanIds(plans.items, input.id)];
+  const deletedTaskIds = tasks.items
+    .filter((task) => deletedPlanIds.includes(task.planRef))
+    .map((task) => task.id);
+
+  const nextPlans: PlansState = {
+    ...plans,
+    items: plans.items.filter((plan) => !deletedPlanIds.includes(plan.id))
+  };
+  const nextTasks: TasksState = {
+    items: tasks.items.filter((task) => !deletedPlanIds.includes(task.planRef))
+  };
+
+  assertValidPlanTree(nextPlans.items);
+  await Promise.all([savePlans(nextPlans), writeYamlFile(paths.taskFile, nextTasks)]);
+
+  return {
+    deletedPlanIds,
+    deletedTaskIds,
+    plans: nextPlans
+  };
+}
+
 function derivePlanStatus(tasks: TaskNode[], currentStatus: TaskStatus): TaskStatus {
   const actionableTasks = tasks.filter((task) => task.countedForProgress);
   const relevantTasks = actionableTasks.length > 0 ? actionableTasks : tasks;
@@ -152,6 +189,25 @@ function derivePlanStatus(tasks: TaskNode[], currentStatus: TaskStatus): TaskSta
   }
 
   return "pending";
+}
+
+export function derivePlanStatuses(plans: PlansState, tasks: TasksState): PlansState {
+  const items = plans.items.map((plan) => {
+    const relevantPlanIds = new Set([plan.id, ...collectDescendantPlanIds(plans.items, plan.id)]);
+    const planTasks = tasks.items.filter((task) => relevantPlanIds.has(task.planRef));
+
+    return {
+      ...plan,
+      status: derivePlanStatus(planTasks, plan.status)
+    };
+  });
+
+  const nextPlans: PlansState = {
+    ...plans,
+    items
+  };
+  assertValidPlanTree(nextPlans.items);
+  return nextPlans;
 }
 
 export async function addPlan(input: {
@@ -245,21 +301,7 @@ export async function syncPlanStatuses(tasksState?: TasksState): Promise<PlansSt
   const plans = await loadPlans();
   const tasks = tasksState ?? (await readYamlFile<TasksState>(getWorkspacePaths().taskFile));
 
-  const items = plans.items.map((plan) => {
-    const relevantPlanIds = new Set([plan.id, ...collectDescendantPlanIds(plans.items, plan.id)]);
-    const planTasks = tasks.items.filter((task) => relevantPlanIds.has(task.planRef));
-
-    return {
-      ...plan,
-      status: derivePlanStatus(planTasks, plan.status)
-    };
-  });
-
-  const nextPlans: PlansState = {
-    ...plans,
-    items
-  };
-  assertValidPlanTree(nextPlans.items);
+  const nextPlans = derivePlanStatuses(plans, tasks);
   await savePlans(nextPlans);
   return nextPlans;
 }

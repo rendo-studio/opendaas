@@ -84,7 +84,7 @@ skill 包不应反过来成为规范真相源。
 
 1. `opendaas` CLI 的核心命令组
 2. `docs/` 与 `.opendaas/` 的命名空间边界
-3. 任务前必须执行 `diff check`
+3. 任务前在上下文不确定时执行 `status show`
 4. 最终目标锚点、plan tree、task tree 与 progress 的基本流转关系
 
 ---

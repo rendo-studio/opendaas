@@ -2,12 +2,11 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import { loadDecisionState } from "./decision.js";
-import { diffHistory, diffShow } from "./diff.js";
 import { loadEndGoal } from "./end-goal.js";
 import { readText, readYamlFile } from "./storage.js";
 import { loadProjectOverview } from "./project-overview.js";
-import { loadPlans } from "./plans.js";
-import { loadProgress } from "./progress.js";
+import { derivePlanStatuses, loadPlans } from "./plans.js";
+import { computeProgress } from "./progress.js";
 import { loadReleaseState } from "./release.js";
 import { loadTaskArchive, sortArchivedTasks } from "./task-archive.js";
 import {
@@ -18,8 +17,6 @@ import {
   summarizeRecentCompleted
 } from "./tasks.js";
 import type {
-  DiffHistoryState,
-  PendingDiffState,
   TaskArchiveState,
   TaskTreeNode,
   WorkspaceState
@@ -46,8 +43,6 @@ interface WorkspaceSiteSnapshot {
   hasWorkspace: boolean;
   activeChange: string | null;
   currentRoundId: string | null;
-  lastDiffCheckAt: string | null;
-  lastDiffAckAt: string | null;
 }
 
 export interface SiteControlPlaneSnapshot {
@@ -57,7 +52,14 @@ export interface SiteControlPlaneSnapshot {
   endGoal: Awaited<ReturnType<typeof loadEndGoal>> | null;
   status: Awaited<ReturnType<typeof getStatusSnapshot>> | null;
   plans: Awaited<ReturnType<typeof loadPlans>> | null;
-  progress: Awaited<ReturnType<typeof loadProgress>> | null;
+    progress:
+      | {
+          percent: number;
+          countedTasks: number;
+          doneTasks: number;
+          computedAt: string | null;
+        }
+      | null;
   tasks:
     | {
         items: Awaited<ReturnType<typeof loadTasks>>["items"];
@@ -70,12 +72,6 @@ export interface SiteControlPlaneSnapshot {
     | null;
   decisions: Awaited<ReturnType<typeof loadDecisionState>> | null;
   releases: Awaited<ReturnType<typeof loadReleaseState>> | null;
-  diff:
-    | {
-        pending: PendingDiffState;
-        history: DiffHistoryState;
-      }
-    | null;
   docs: {
     pages: DocManifestEntry[];
     changePages: Array<Pick<DocManifestEntry, "path" | "slug" | "title" | "description">>;
@@ -195,20 +191,19 @@ function tryResolveWorkspaceRootFromDocsRoot(docsRoot: string): string | null {
 async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string): Promise<SiteControlPlaneSnapshot> {
   return withWorkspaceRoot(workspaceRoot, async () => {
     const paths = getWorkspacePaths();
-    const [project, endGoal, status, plans, progress, tasksState, archive, decisions, releases, pending, history] =
+    const [project, endGoal, status, plansState, tasksState, archive, decisions, releases] =
       await Promise.all([
         loadProjectOverview(),
         loadEndGoal(),
         getStatusSnapshot(),
         loadPlans(),
-        loadProgress(),
         loadTasks(),
         loadTaskArchive(),
         loadDecisionState(),
-        loadReleaseState(),
-        diffShow(),
-        diffHistory()
+        loadReleaseState()
       ]);
+    const plans = derivePlanStatuses(plansState, tasksState);
+    const progress = computeProgress(tasksState.items);
 
     const active = await readYamlFile<WorkspaceState>(paths.activeStateFile);
     const docsManifest = await buildDocsManifest(docsRoot);
@@ -221,9 +216,7 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
         workspaceRoot: paths.workspaceRoot,
         hasWorkspace: true,
         activeChange: active.activeChange,
-        currentRoundId: active.currentRoundId,
-        lastDiffCheckAt: active.lastDiffCheckAt,
-        lastDiffAckAt: active.lastDiffAckAt
+        currentRoundId: active.currentRoundId
       },
       project,
       endGoal,
@@ -242,10 +235,6 @@ async function loadWorkspaceSiteSnapshot(workspaceRoot: string, docsRoot: string
       },
       decisions,
       releases,
-      diff: {
-        pending,
-        history
-      },
       docs: {
         pages: docsManifest,
         changePages: docsManifest
@@ -276,9 +265,7 @@ export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<S
       workspaceRoot: null,
       hasWorkspace: false,
       activeChange: null,
-      currentRoundId: null,
-      lastDiffCheckAt: null,
-      lastDiffAckAt: null
+      currentRoundId: null
     },
     project: null,
     endGoal: null,
@@ -288,7 +275,6 @@ export async function buildSiteControlPlaneSnapshot(docsRoot: string): Promise<S
     tasks: null,
     decisions: null,
     releases: null,
-    diff: null,
     docs: {
       pages: docsManifest,
       changePages: docsManifest

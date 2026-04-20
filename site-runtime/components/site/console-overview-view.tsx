@@ -4,7 +4,11 @@ import type { ControlPlaneSnapshot } from "../../lib/runtime-data";
 import { Progress } from "../ui/progress";
 import { DataList, RailPanel, RailSection, StatusBadge, docsPathToHref } from "./docs-rail-shared";
 
-export function ConsoleOverviewView({ snapshot }: { snapshot: ControlPlaneSnapshot }) {
+export function ConsoleOverviewView({
+  snapshot
+}: {
+  snapshot: ControlPlaneSnapshot;
+}) {
   const projectName = snapshot.project?.name ?? "Project";
   const projectSummary =
     snapshot.project?.summary ?? "This workspace does not have a structured project overview yet.";
@@ -83,6 +87,24 @@ export function ConsoleOverviewView({ snapshot }: { snapshot: ControlPlaneSnapsh
           <RailPanel>
             <RailSection label="Non-goals">
               <DataList items={nonGoals} emptyLabel="No non-goals are defined yet." />
+            </RailSection>
+          </RailPanel>
+
+          <RailPanel>
+            <RailSection label="Workflow guide">
+              <div className="space-y-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
+                <p>Use the OpenDaaS Workflow Guide as the authority for first-hour orientation and round-start behavior.</p>
+                <div className="rounded-md border border-[color:var(--color-border)] px-3 py-3 text-[color:var(--foreground)]">
+                  <div className="font-medium">CLI</div>
+                  <div className="mt-1 font-mono text-xs">opendaas guide</div>
+                </div>
+                <a
+                  href="/docs/framework/WORKFLOW-GUIDE"
+                  className="inline-block text-sm font-medium text-[#0072f5] underline underline-offset-4"
+                >
+                  Read the guide in docs
+                </a>
+              </div>
             </RailSection>
           </RailPanel>
         </div>

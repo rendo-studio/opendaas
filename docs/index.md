@@ -16,7 +16,7 @@ OpenDaaS 是一个 `CLI-first` 的人类开发者与开发端 Agent 项目上下
 - 计划、任务与进度
 - 重要决策与 release 记录
 - 共享文档与本地文档站
-- 文档差异和工作区校验
+- 工作区校验与本地协作视图
 
 ## OpenDaaS 的两个核心落点
 
@@ -25,7 +25,7 @@ OpenDaaS 是一个 `CLI-first` 的人类开发者与开发端 Agent 项目上下
   - 用来记录背景、约束、说明、开发方式和框架参考
 - `.opendaas/`
   - 面向工具和运行时的结构化工作区
-  - 用来持久化 project overview、end goal、plan、task、progress、decision、release、diff 等数据
+  - 用来持久化 project overview、end goal、plan、task、progress、decision、release 等数据
 
 ## 当前工作区怎么读
 

@@ -286,7 +286,6 @@ docs/architecture/
 - `task-state.md`
 - `agent-loop.md`
 - `internal-plan-003.md`
-- `diff-cache.md`
 
 ---
 

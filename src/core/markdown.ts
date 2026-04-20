@@ -1,5 +1,4 @@
 import { readText, writeText } from "./storage.js";
-import { recordAgentDocWrite } from "./doc-sources.js";
 
 function escapeRegex(input: string): string {
   return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -40,7 +39,6 @@ export async function replaceSectionContent(
 
   const nextContent = `${updatedLines.join("\n").trimEnd()}\n`;
   await writeText(filePath, nextContent);
-  await recordAgentDocWrite(filePath, nextContent);
 }
 
 export function renderBulletList(items: string[]): string {

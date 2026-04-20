@@ -57,7 +57,6 @@ OpenDaaS 解决的不是“如何替用户做决策”，而是：
 
 - `init / adopt`
 - `validate`
-- `diff`
 - `goal / plan / task / status`
 - `decision`
 - `release`

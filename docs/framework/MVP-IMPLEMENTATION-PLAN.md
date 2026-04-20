@@ -116,8 +116,8 @@ test/                 # 自动化测试
 
 实现：
 
-1. `diff check`
-2. `diff ack`
+1. `status show`
+2. `status sync`
 3. `baseline.json`
 4. `pending.json`
 

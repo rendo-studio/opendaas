@@ -1,6 +1,7 @@
 import { AclipApp, booleanArgument, stringArgument } from "@rendo-studio/aclip";
 
 import { initWorkspace } from "../../core/bootstrap.js";
+import { withGuideHint } from "../guide-hint.js";
 
 function assertProjectKind(value?: string): "general" | "frontend" | "library" | "service" | undefined {
   if (!value) {
@@ -29,27 +30,33 @@ function assertDocsMode(value?: string): "minimal" | "standard" | undefined {
 export function registerInitCommand(app: AclipApp) {
   app.command("init", {
     summary: "Initialize a new OpenDaaS workspace.",
-    description:
-      "Create a new OpenDaaS workspace in an empty directory, including docs anchors and the internal .opendaas control plane.",
+    description: withGuideHint(
+      "Create a new OpenDaaS workspace in an empty directory, including docs anchors and the internal .opendaas control plane."
+    ),
     arguments: [
       stringArgument("targetPath", {
-        required: true,
-        description: "Target directory for the new workspace.",
+        required: false,
+        description: "Target directory for the new workspace. Defaults to the current directory.",
         flag: "--target-path"
       }),
       stringArgument("projectName", {
-        required: true,
-        description: "Human-readable project name.",
+        required: false,
+        description: "Optional human-readable project name. Defaults to the current directory name.",
         flag: "--project-name"
       }),
+      stringArgument("projectSummary", {
+        required: false,
+        description: "Optional project overview summary. If omitted, OpenDaaS writes a provisional overview anchor.",
+        flag: "--project-summary"
+      }),
       stringArgument("endGoalName", {
-        required: true,
-        description: "Long-lived end goal name.",
+        required: false,
+        description: "Optional long-lived end goal name. If omitted, OpenDaaS writes a provisional end goal anchor.",
         flag: "--end-goal-name"
       }),
       stringArgument("endGoalSummary", {
-        required: true,
-        description: "One-sentence end goal summary.",
+        required: false,
+        description: "Optional one-sentence end goal summary. If omitted, OpenDaaS writes a provisional end goal anchor.",
         flag: "--end-goal-summary"
       }),
       stringArgument("projectKind", {
@@ -69,15 +76,17 @@ export function registerInitCommand(app: AclipApp) {
       })
     ],
     examples: [
-      "opendaas init --target-path D:/project/example --project-name Example --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
-      "opendaas init --target-path D:/project/example --project-name Example --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.' --project-kind frontend --docs-mode standard"
+      "opendaas init",
+      "opendaas init --project-name Example --project-summary 'CLI-first project context control plane for a service repo.' --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
+      "opendaas init --target-path D:/project/example --project-name Example --project-summary 'Frontend app managed through OpenDaaS.' --project-kind frontend --docs-mode standard"
     ],
     handler: async (payload) => ({
       init: await initWorkspace({
-        targetPath: String(payload.targetPath),
-        projectName: String(payload.projectName),
-        endGoalName: String(payload.endGoalName),
-        endGoalSummary: String(payload.endGoalSummary),
+        targetPath: payload.targetPath ? String(payload.targetPath) : undefined,
+        projectName: payload.projectName ? String(payload.projectName) : undefined,
+        projectSummary: payload.projectSummary ? String(payload.projectSummary) : undefined,
+        endGoalName: payload.endGoalName ? String(payload.endGoalName) : undefined,
+        endGoalSummary: payload.endGoalSummary ? String(payload.endGoalSummary) : undefined,
         projectKind: assertProjectKind(payload.projectKind ? String(payload.projectKind) : undefined),
         docsMode: assertDocsMode(payload.docsMode ? String(payload.docsMode) : undefined),
         force: Boolean(payload.force)

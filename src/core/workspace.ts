@@ -5,6 +5,8 @@ export interface WorkspacePaths {
   root: string;
   docsRoot: string;
   workspaceRoot: string;
+  workspaceMetaFile: string;
+  workspaceConfigFile: string;
   projectOverviewFile: string;
   endGoalFile: string;
   planFile: string;
@@ -14,10 +16,6 @@ export interface WorkspacePaths {
   activeStateFile: string;
   decisionFile: string;
   releaseFile: string;
-  diffBaselineFile: string;
-  diffPendingFile: string;
-  diffHistoryFile: string;
-  diffSourcesFile: string;
   docsIndexFile: string;
   docsProjectOverviewFile: string;
   docsGoalFile: string;
@@ -63,6 +61,8 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
     root,
     docsRoot,
     workspaceRoot,
+    workspaceMetaFile: path.join(workspaceRoot, "meta", "workspace.yaml"),
+    workspaceConfigFile: path.join(workspaceRoot, "config", "workspace.yaml"),
     projectOverviewFile: path.join(workspaceRoot, "project", "overview.yaml"),
     endGoalFile: path.join(workspaceRoot, "goals", "end.yaml"),
     planFile: path.join(workspaceRoot, "plans", "current.yaml"),
@@ -72,10 +72,6 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
     activeStateFile: path.join(workspaceRoot, "state", "active.yaml"),
     decisionFile: path.join(workspaceRoot, "decisions", "records.yaml"),
     releaseFile: path.join(workspaceRoot, "releases", "records.yaml"),
-    diffBaselineFile: path.join(workspaceRoot, "diff", "baseline.json"),
-    diffPendingFile: path.join(workspaceRoot, "diff", "pending.json"),
-    diffHistoryFile: path.join(workspaceRoot, "diff", "history.json"),
-    diffSourcesFile: path.join(workspaceRoot, "diff", "sources.json"),
     docsIndexFile: path.join(docsRoot, "index.md"),
     docsProjectOverviewFile: path.join(docsRoot, "project", "overview.md"),
     docsGoalFile: path.join(docsRoot, "project", "goal.md"),
