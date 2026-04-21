@@ -44,12 +44,7 @@ describe("init and adopt", () => {
     });
 
     expect(second.skippedFiles.length).toBeGreaterThan(0);
-    const agentSkillExists = await fs
-      .stat(path.join(root, ".opendaas", "agent", "SKILL.md"))
-      .then(() => true)
-      .catch(() => false);
     const workspaceEntries = await fs.readdir(path.join(root, ".opendaas"));
-    expect(agentSkillExists).toBe(true);
     expect(workspaceEntries).not.toContain(String.fromCharCode(100, 105, 102, 102));
   });
 

@@ -67,11 +67,11 @@ export async function syncWorkspaceDerivedState(runtime: RuntimeMetadata): Promi
     const { syncStatusDocs } = await loadCoreModule<{
       syncStatusDocs(): Promise<void>;
     }>(runtime, "core/status.js");
-    const { syncAgentArtifacts } = await loadCoreModule<{
-      syncAgentArtifacts(root?: string): Promise<void>;
-    }>(runtime, "core/agent.js");
+    const { syncGuidanceArtifacts } = await loadCoreModule<{
+      syncGuidanceArtifacts(root?: string): Promise<void>;
+    }>(runtime, "core/guidance.js");
 
     await syncStatusDocs();
-    await syncAgentArtifacts();
+    await syncGuidanceArtifacts(runtime.sourceWorkspaceRoot ?? process.cwd());
   });
 }

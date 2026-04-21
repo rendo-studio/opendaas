@@ -41,8 +41,8 @@ describe("release control plane", () => {
     const frozen = await updateReleaseRecord({
       id: draft.id,
       status: "frozen",
-      addHighlights: ["Introduced init/adopt", "Added minimum agent adaptation"],
-      addMigrationNotes: ["Existing workspaces should run opendaas agent sync once."],
+      addHighlights: ["Introduced init/adopt", "Added workflow guidance artifacts"],
+      addMigrationNotes: ["Existing workspaces should run opendaas validate --repair once."],
       validationSummary: "Core release record and docs projection flow validated."
     });
 

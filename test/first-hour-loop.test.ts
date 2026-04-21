@@ -5,7 +5,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 
 import { initWorkspace } from "../src/core/bootstrap.js";
-import { inspectAgentArtifacts } from "../src/core/agent.js";
+import { inspectGuidanceArtifacts } from "../src/core/guidance.js";
 import { getStatusSnapshot } from "../src/core/status.js";
 import { validateWorkspace } from "../src/core/validate.js";
 import { loadWorkflowGuide } from "../src/core/workflow-guide.js";
@@ -37,7 +37,7 @@ describe("first-hour workflow", () => {
     const guide = await loadWorkflowGuide();
     const validation = await withWorkspaceRoot(root, async () => validateWorkspace());
     const status = await withWorkspaceRoot(root, async () => getStatusSnapshot());
-    const agentArtifacts = await withWorkspaceRoot(root, async () => inspectAgentArtifacts());
+    const guidanceArtifacts = await withWorkspaceRoot(root, async () => inspectGuidanceArtifacts());
     const workspaceEntries = await fs.readdir(path.join(root, ".opendaas"));
 
     expect(validation.ok).toBe(true);
@@ -46,8 +46,7 @@ describe("first-hour workflow", () => {
     expect(guide.markdown).toContain("## Success Criteria For A Correct Agent Loop");
     expect(status.endGoal.name).toBe("Reach a correct first loop");
     expect(workspaceEntries).not.toContain(String.fromCharCode(100, 105, 102, 102));
-    expect(agentArtifacts.agentsMdExists).toBe(true);
-    expect(agentArtifacts.workflowSkillExists).toBe(true);
-    expect(agentArtifacts.skillExists).toBe(true);
+    expect(guidanceArtifacts.agentsMdExists).toBe(true);
+    expect(guidanceArtifacts.workflowSkillExists).toBe(true);
   });
 });

@@ -498,50 +498,6 @@ function renderBootstrapPayload(kind: "init" | "adopt", payload: Record<string, 
   );
 }
 
-function renderAgentPayload(payload: Record<string, unknown>): string {
-  const agent = isRecord(payload.agent) ? payload.agent : payload;
-  const lines = [
-    "# Agent Artifacts",
-    "",
-    `- AGENTS.md: ${typeof agent.agentsMdPath === "string" ? inlineCode(agent.agentsMdPath) : "Unknown"}`,
-    `- Workflow skill: ${typeof agent.workflowSkillPath === "string" ? inlineCode(agent.workflowSkillPath) : "Unknown"}`,
-    `- Workspace skill: ${typeof agent.skillPath === "string" ? inlineCode(agent.skillPath) : "Unknown"}`,
-    `- Docs anchor: ${typeof agent.docsPath === "string" ? inlineCode(agent.docsPath) : "Unknown"}`
-  ];
-
-  if (typeof agent.phase === "string") {
-    lines.push(`- Phase: ${inlineCode(agent.phase)}`);
-  }
-
-  if (typeof agent.progress === "number") {
-    lines.push(`- Progress: ${inlineCode(`${agent.progress}%`)}`);
-  }
-
-  if (typeof agent.endGoalName === "string") {
-    lines.push(`- End goal: ${agent.endGoalName}`);
-  }
-
-  const existenceLines: string[] = [];
-  if (typeof agent.agentsMdExists === "boolean") {
-    existenceLines.push(`AGENTS.md exists: ${agent.agentsMdExists ? "yes" : "no"}`);
-  }
-  if (typeof agent.workflowSkillExists === "boolean") {
-    existenceLines.push(`Workflow skill exists: ${agent.workflowSkillExists ? "yes" : "no"}`);
-  }
-  if (typeof agent.skillExists === "boolean") {
-    existenceLines.push(`Workspace skill exists: ${agent.skillExists ? "yes" : "no"}`);
-  }
-  if (typeof agent.docsExists === "boolean") {
-    existenceLines.push(`Docs anchor exists: ${agent.docsExists ? "yes" : "no"}`);
-  }
-
-  if (existenceLines.length > 0) {
-    lines.push("", renderSection("Presence", renderList(existenceLines)));
-  }
-
-  return ensureTrailingNewline(lines.join("\n"));
-}
-
 function renderGenericRecord(title: string, payload: Record<string, unknown>): string {
   const scalarLines = Object.entries(payload)
     .filter(([, value]) => typeof value === "string" || typeof value === "number" || typeof value === "boolean")
@@ -614,10 +570,6 @@ function renderSuccessPayload(payload: unknown): string {
 
   if ("adopt" in payload) {
     return renderBootstrapPayload("adopt", payload);
-  }
-
-  if ("agent" in payload) {
-    return renderAgentPayload(payload);
   }
 
   return renderGenericRecord("Result", payload);

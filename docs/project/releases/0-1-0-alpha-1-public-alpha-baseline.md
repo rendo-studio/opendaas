@@ -32,7 +32,7 @@ First externally trialable OpenDaaS baseline.
 ## Highlights
 
 - Introduced init/adopt
-- Added minimum agent adaptation
+- Added workflow guidance artifacts
 - Added generic decision CLI and decision records
 
 ## Breaking Changes
@@ -41,7 +41,7 @@ First externally trialable OpenDaaS baseline.
 
 ## Migration Notes
 
-- Existing workspaces should run opendaas agent sync once.
+- Existing workspaces should run opendaas validate --repair once.
 
 ## Validation Summary
 

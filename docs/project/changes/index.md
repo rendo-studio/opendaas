@@ -30,4 +30,4 @@ description: VibeCoding 的变化可见入口，聚合当前活跃 change 与最
 当前最值得关注的是：
 
 - `init/adopt` 是否足以成为真正的对外入口
-- agent adaptation minimum 与安装发布链路何时能接上
+- 最小工作流指导工件与安装发布链路何时能接上

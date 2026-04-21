@@ -16,5 +16,5 @@ description: VibeCoding 的发布与版本更新入口页。
 ## 重要变化
 
 - 0.1.0-alpha.1: Introduced init/adopt
-- 0.1.0-alpha.1: Added minimum agent adaptation
+- 0.1.0-alpha.1: Added workflow guidance artifacts
 - 0.1.0-alpha.1: Added generic decision CLI and decision records

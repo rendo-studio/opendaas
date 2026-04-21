@@ -149,7 +149,7 @@ export function registerReleaseGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas release update --id 0-1-0-alpha-1-public-alpha-baseline --highlights 'Introduced init/adopt,Added minimum agent adaptation' --status frozen"
+        "opendaas release update --id 0-1-0-alpha-1-public-alpha-baseline --highlights 'Introduced init/adopt,Added workflow guidance artifacts' --status frozen"
       ],
       handler: async (payload) => ({
         release: await updateReleaseRecord({

@@ -10,11 +10,11 @@ items:
       - introduce-public-alpha-install-path
     highlights:
       - Introduced init/adopt
-      - Added minimum agent adaptation
+      - Added workflow guidance artifacts
       - Added generic decision CLI and decision records
     breakingChanges: []
     migrationNotes:
-      - Existing workspaces should run opendaas agent sync once.
+      - Existing workspaces should run opendaas validate --repair once.
     validationSummary: Release record control plane, docs projection, and CLI flow validated.
     startedAt: 2026-04-17T05:08:05.034Z
     closedAt: 2026-04-17T05:08:05.821Z

@@ -92,7 +92,7 @@ const copy: Record<SiteLocale, SiteCopy> = {
       versionsShort: "版本",
       workflowGuide: "工作流指南",
       workflowGuideIntro: "将 OpenDaaS Workflow Guide 视为 first-hour orientation 与 round-start 行为的唯一权威。",
-      workflowGuideMirror: "指南由 CLI 内置，并同步镜像到生成的 Agent artifacts 中；它不再是 authored docs 页面。",
+      workflowGuideMirror: "指南由 CLI 内置，并同步镜像到生成的仓库指导工件中；它不再是 authored docs 页面。",
       taskTree: "任务树",
       noTaskData: "当前没有可展示的任务数据。",
       progressUnit: "进度单元",
@@ -162,7 +162,7 @@ const copy: Record<SiteLocale, SiteCopy> = {
       workflowGuideIntro:
         "Use the OpenDaaS Workflow Guide as the authority for first-hour orientation and round-start behavior.",
       workflowGuideMirror:
-        "The guide is shipped with the CLI and mirrored into generated Agent artifacts. It is no longer an authored docs page.",
+        "The guide is shipped with the CLI and mirrored into generated workspace guidance artifacts. It is no longer an authored docs page.",
       taskTree: "Task tree",
       noTaskData: "No task data is currently available.",
       progressUnit: "Progress unit",

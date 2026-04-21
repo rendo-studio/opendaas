@@ -72,7 +72,6 @@ export async function validateWorkspace() {
     paths.docsDecisionsIndexFile,
     paths.docsReleasesIndexFile,
     path.join(paths.docsRoot, "engineering", "development.md"),
-    path.join(paths.workspaceRoot, "agent", "SKILL.md"),
     path.join(paths.root, "AGENTS.md"),
     path.join(paths.root, ".agents", "skills", "opendaas-workflow", "SKILL.md")
   ];

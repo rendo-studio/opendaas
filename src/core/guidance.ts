@@ -2,24 +2,14 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 
 import { writeText } from "./storage.js";
-import { getStatusSnapshot } from "./status.js";
-import { getWorkspacePaths } from "./workspace.js";
 import { loadWorkflowGuide } from "./workflow-guide.js";
 
-function agentSkillPath(root = process.cwd()): string {
-  return path.join(getWorkspacePaths(root).workspaceRoot, "agent", "SKILL.md");
-}
-
 function workflowSkillPath(root = process.cwd()): string {
-  return path.join(getWorkspacePaths(root).root, ".agents", "skills", "opendaas-workflow", "SKILL.md");
+  return path.join(root, ".agents", "skills", "opendaas-workflow", "SKILL.md");
 }
 
 function agentsMdPath(root = process.cwd()): string {
-  return path.join(getWorkspacePaths(root).root, "AGENTS.md");
-}
-
-function agentDocsPath(root = process.cwd()): string {
-  return path.join(getWorkspacePaths(root).docsRoot, "engineering", "agent.md");
+  return path.join(root, "AGENTS.md");
 }
 
 function renderAgentsMd(): string {
@@ -38,43 +28,28 @@ Mandatory:
 `;
 }
 
-export async function inspectAgentArtifacts(root = process.cwd()) {
+export async function inspectGuidanceArtifacts(root = process.cwd()) {
   return {
-    skillPath: agentSkillPath(root),
     workflowSkillPath: workflowSkillPath(root),
     agentsMdPath: agentsMdPath(root),
-    docsPath: agentDocsPath(root),
-    skillExists: existsSync(agentSkillPath(root)),
     workflowSkillExists: existsSync(workflowSkillPath(root)),
-    agentsMdExists: existsSync(agentsMdPath(root)),
-    docsExists: existsSync(agentDocsPath(root))
+    agentsMdExists: existsSync(agentsMdPath(root))
   };
 }
 
-export async function syncAgentArtifacts(root = process.cwd()) {
-  const status = await getStatusSnapshot();
+export async function syncGuidanceArtifacts(root = process.cwd()) {
   const guide = await loadWorkflowGuide();
-  const skillContent = guide.markdown;
   const workflowSkillContent = guide.markdown;
   const agentsContent = renderAgentsMd();
 
-  const skillPath = agentSkillPath(root);
   const workflowPath = workflowSkillPath(root);
   const agentsPath = agentsMdPath(root);
 
-  await writeText(skillPath, skillContent);
   await writeText(workflowPath, workflowSkillContent);
   await writeText(agentsPath, agentsContent);
 
   return {
-    endGoalName: status.endGoal.name,
-    endGoalSummary: status.endGoal.summary,
-    phase: status.phase,
-    progress: status.progress.percent,
-    activeChange: null,
-    skillPath,
     workflowSkillPath: workflowPath,
-    agentsMdPath: agentsPath,
-    docsPath: agentDocsPath(root)
+    agentsMdPath: agentsPath
   };
 }

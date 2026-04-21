@@ -13,7 +13,7 @@ description: OpenDaaS 向公开 alpha 可发布基线推进的当前高层 chang
 
 1. 新项目无法直接通过 CLI 生成 OpenDaaS 工作区
 2. 既有项目无法安全接入 OpenDaaS
-3. Agent 最小适配路径和安装发布路径还没有被真正打通
+3. 最小工作流指导路径和安装发布路径还没有被真正打通
 
 ## Scope
 
@@ -22,7 +22,7 @@ description: OpenDaaS 向公开 alpha 可发布基线推进的当前高层 chang
 1. `init`
 2. `adopt`
 3. bootstrap / adoption 自动化测试
-4. minimum agent adaptation artifact
+4. minimum workflow guidance artifacts
 5. generic `decision` CLI 最小闭环
 6. structured release / changelog control plane
 7. 向公开 alpha 基线推进的任务树与共享文档同步
@@ -36,7 +36,7 @@ description: OpenDaaS 向公开 alpha 可发布基线推进的当前高层 chang
 - `init` 内部验证版
 - `adopt` 内部验证版
 - bootstrap 测试补齐
-- minimum agent adaptation artifact
+- minimum workflow guidance artifacts
 - first-time agent usage flow validation
 - `decision new / list / show / decide`
 - `release new / list / show / update / publish`
@@ -54,4 +54,4 @@ description: OpenDaaS 向公开 alpha 可发布基线推进的当前高层 chang
 1. `opendaas init` 可在空目录创建最小工作区
 2. `opendaas adopt` 可在既有项目中安全补齐 `.opendaas/` 与 docs 锚点
 3. 两者都具备基本幂等性
-4. 下一轮可直接围绕 agent 适配和安装发布继续推进
+4. 下一轮可直接围绕工作流指导与安装发布继续推进

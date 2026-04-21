@@ -3,7 +3,7 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import { parse, stringify } from "yaml";
 
-import { inspectAgentArtifacts, syncAgentArtifacts } from "./agent.js";
+import { inspectGuidanceArtifacts, syncGuidanceArtifacts } from "./guidance.js";
 import { syncStatusDocs } from "./status.js";
 import { writeText, writeYamlFile } from "./storage.js";
 import { normalizeWorkspaceConfig } from "./workspace-config.js";
@@ -734,26 +734,22 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
   }
 
   await withWorkspaceRoot(root, async () => {
-    const beforeAgentArtifacts = await inspectAgentArtifacts(root);
+    const beforeGuidanceArtifacts = await inspectGuidanceArtifacts(root);
     await syncStatusDocs();
-    await syncAgentArtifacts();
+    await syncGuidanceArtifacts(root);
 
-    const managedAgentFiles = [
+    const managedGuidanceFiles = [
       {
         relativePath: "AGENTS.md",
-        existed: beforeAgentArtifacts.agentsMdExists
+        existed: beforeGuidanceArtifacts.agentsMdExists
       },
       {
         relativePath: ".agents/skills/opendaas-workflow/SKILL.md",
-        existed: beforeAgentArtifacts.workflowSkillExists
-      },
-      {
-        relativePath: ".opendaas/agent/SKILL.md",
-        existed: beforeAgentArtifacts.skillExists
+        existed: beforeGuidanceArtifacts.workflowSkillExists
       }
     ];
 
-    for (const file of managedAgentFiles) {
+    for (const file of managedGuidanceFiles) {
       result[file.existed ? "updatedFiles" : "createdFiles"].push(file.relativePath);
     }
   });
