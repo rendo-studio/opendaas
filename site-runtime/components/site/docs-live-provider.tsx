@@ -14,6 +14,9 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import type { SiteLocale } from "../../lib/i18n";
+import { docsHref, getSiteCopy } from "../../lib/site-copy";
+
 interface DocsLivePage {
   path: string;
   title: string;
@@ -24,6 +27,7 @@ interface DocsLivePage {
 interface DocsLiveProviderProps {
   children: ReactNode;
   enabled: boolean;
+  locale: SiteLocale;
   initialVersion: string;
   pages: DocsLivePage[];
   workspaceStateDigest: string | null;
@@ -37,10 +41,12 @@ interface DocsLiveBrowserState {
 
 interface DocsLiveContextValue {
   isUnreadUrl: (href: string) => boolean;
+  unreadLabel: string;
 }
 
 const DocsLiveContext = createContext<DocsLiveContextValue>({
-  isUnreadUrl: () => false
+  isUnreadUrl: () => false,
+  unreadLabel: "Unread update"
 });
 
 function storageKey(prefix: string) {
@@ -81,11 +87,6 @@ function normalizeHref(value: string): string {
   return value.replace(/\/+$/, "") || "/";
 }
 
-function docsPathToHref(value: string): string {
-  const normalized = value.replace(/\\/g, "/").replace(/\.(md|mdx)$/i, "").replace(/\/index$/i, "");
-  return normalizeHref(`/docs/${normalized}`);
-}
-
 function equalMaps(left: Record<string, string>, right: Record<string, string>): boolean {
   const leftKeys = Object.keys(left);
   const rightKeys = Object.keys(right);
@@ -112,6 +113,7 @@ export function useDocsLive() {
 export function DocsLiveProvider({
   children,
   enabled,
+  locale,
   initialVersion,
   pages,
   workspaceStateDigest
@@ -120,15 +122,16 @@ export function DocsLiveProvider({
   const pathname = usePathname();
   const currentVersion = useRef(initialVersion);
   const [browserState, setBrowserState] = useState<DocsLiveBrowserState | null>(null);
+  const copy = getSiteCopy(locale);
 
   const latestByUrl = useMemo(
     () =>
       Object.fromEntries(
         pages
           .filter((page) => page.latestRevisionId)
-          .map((page) => [docsPathToHref(page.path), page.latestRevisionId as string])
+          .map((page) => [normalizeHref(docsHref(locale, page.path)), page.latestRevisionId as string])
       ),
-    [pages]
+    [locale, pages]
   );
 
   useEffect(() => {
@@ -161,26 +164,26 @@ export function DocsLiveProvider({
         return false;
       }
 
-      return nextSeenDocs[docsPathToHref(page.path)] !== latestRevisionId;
+      return nextSeenDocs[normalizeHref(docsHref(locale, page.path))] !== latestRevisionId;
     });
 
     const isFirstHydration =
       Object.keys(browserState.knownDocs).length === 0 && browserState.knownWorkspaceDigest === null;
     if (!isFirstHydration) {
       const newlyUpdatedDocs = unreadChanged.filter(
-        (page) => browserState.knownDocs[docsPathToHref(page.path)] !== page.latestRevisionId
+        (page) => browserState.knownDocs[normalizeHref(docsHref(locale, page.path))] !== page.latestRevisionId
       );
       if (newlyUpdatedDocs.length > 0) {
         const preview = newlyUpdatedDocs
           .slice(0, 3)
           .map((page) => page.title)
           .join(" · ");
-        toast("文档已更新", {
+        toast(copy.toasts.docsUpdatedTitle, {
           id: "opendaas-docs-updated",
           description:
             newlyUpdatedDocs.length > 3
-              ? `${preview} 等 ${newlyUpdatedDocs.length} 篇文档有新修订。`
-              : `${preview} 有新修订。`
+              ? copy.toasts.docsUpdatedMany(preview, newlyUpdatedDocs.length)
+              : copy.toasts.docsUpdatedOne(preview)
         });
       }
 
@@ -189,9 +192,9 @@ export function DocsLiveProvider({
         browserState.knownWorkspaceDigest &&
         browserState.knownWorkspaceDigest !== workspaceStateDigest
       ) {
-        toast("工作区状态已更新", {
+        toast(copy.toasts.workspaceUpdatedTitle, {
           id: "opendaas-workspace-updated",
-          description: "计划、任务或控制面状态发生了变化。"
+          description: copy.toasts.workspaceUpdatedDescription
         });
       }
     }
@@ -209,7 +212,7 @@ export function DocsLiveProvider({
     if (!equalBrowserState(browserState, nextState)) {
       setBrowserState(nextState);
     }
-  }, [browserState, latestByUrl, pages, pathname, workspaceStateDigest]);
+  }, [browserState, copy, latestByUrl, locale, pages, pathname, workspaceStateDigest]);
 
   const checkVersion = useEffectEvent(async () => {
     const response = await fetch("/api/opendaas/version", {
@@ -261,9 +264,10 @@ export function DocsLiveProvider({
         }
 
         return browserState?.seenDocs[normalizedHref] !== latestRevisionId;
-      }
+      },
+      unreadLabel: copy.sidebar.unreadUpdate
     };
-  }, [browserState?.seenDocs, latestByUrl, pathname]);
+  }, [browserState?.seenDocs, copy.sidebar.unreadUpdate, latestByUrl, pathname]);
 
   return <DocsLiveContext.Provider value={contextValue}>{children}</DocsLiveContext.Provider>;
 }

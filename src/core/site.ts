@@ -441,9 +441,10 @@ function createNextInvocation(
   subcommand: "dev" | "build",
   args: string[] = []
 ): { command: string; args: string[] } {
+  const heapArgs = ["--max-old-space-size=4096"];
   return {
     command: process.execPath,
-    args: [path.join(runtimeRoot, "node_modules", "next", "dist", "bin", "next"), subcommand, ...args]
+    args: [...heapArgs, path.join(runtimeRoot, "node_modules", "next", "dist", "bin", "next"), subcommand, ...args]
   };
 }
 
@@ -697,6 +698,7 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
     "components",
     "package.json",
     "package-lock.json",
+    "proxy.ts",
     "next-env.d.ts",
     "next.config.mjs",
     "postcss.config.mjs",
@@ -713,10 +715,15 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
       continue;
     }
     await fs.rm(target, { recursive: true, force: true });
-    await fs.cp(source, target, {
-      recursive: true,
-      force: true
-    });
+    if (stats.isDirectory()) {
+      await fs.cp(source, target, {
+        recursive: true,
+        force: true
+      });
+    } else {
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.copyFile(source, target);
+    }
   }
 
   await fs.mkdir(path.join(runtimeRoot, "content"), { recursive: true });
@@ -727,12 +734,14 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
   await fs.rm(path.join(runtimeRoot, ".next", "dev", "types"), { recursive: true, force: true });
 
   const nodeModulesRoot = path.join(runtimeRoot, "node_modules");
+  const npmCacheRoot = path.join(runtimeRoot, "runtime-data", "npm-cache");
   const nextPackage = path.join(nodeModulesRoot, "next");
   const nextPackageJson = path.join(nextPackage, "package.json");
   const nextRequireHook = path.join(nextPackage, "dist", "server", "require-hook.js");
   const requiredPackages = [
     ["next", "package.json"],
     ["fumadocs-ui", "package.json"],
+    ["@orama", "tokenizers", "package.json"],
     ["@radix-ui", "react-accordion", "package.json"],
     ["@radix-ui", "react-progress", "package.json"],
     ["@radix-ui", "react-tooltip", "package.json"],
@@ -742,7 +751,15 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
 
   if (!nodeFs.existsSync(nextPackageJson) || !nodeFs.existsSync(nextRequireHook) || missingRequiredPackage) {
     await fs.rm(nodeModulesRoot, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
-    const invocation = createNpmInvocation(["install", "--no-fund", "--no-audit"]);
+    await fs.mkdir(npmCacheRoot, { recursive: true });
+    const hasLockfile = nodeFs.existsSync(path.join(runtimeRoot, "package-lock.json"));
+    const invocation = createNpmInvocation([
+      hasLockfile ? "ci" : "install",
+      "--cache",
+      npmCacheRoot,
+      "--no-fund",
+      "--no-audit"
+    ]);
     const child = spawn(invocation.command, invocation.args, {
       cwd: runtimeRoot,
       stdio: "inherit",

@@ -1,7 +1,9 @@
 import { Markdown } from "fumadocs-core/content/md";
 import type { ComponentProps } from "react";
 
+import type { SiteLocale } from "../../lib/i18n";
 import type { RuntimeDocRevisionEntry } from "../../lib/runtime-data";
+import { formatSiteDate, getSiteCopy } from "../../lib/site-copy";
 
 function stripFrontmatter(content: string): string {
   const match = content.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n?([\s\S]*)$/);
@@ -16,13 +18,13 @@ interface DiffRow {
   kind: "same" | "added" | "removed";
 }
 
-function formatTimestamp(value: string): string {
-  return new Intl.DateTimeFormat("zh-CN", {
+function formatTimestamp(locale: SiteLocale, value: string): string {
+  return formatSiteDate(locale, value, {
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit"
-  }).format(new Date(value));
+  });
 }
 
 function buildDiffRows(previous: string, current: string): DiffRow[] {
@@ -128,19 +130,24 @@ function renderLineNumber(value: number | null): string {
 }
 
 export function DocumentRevisionPreview({
+  locale,
   revision,
   components
 }: {
+  locale: SiteLocale;
   revision: RuntimeDocRevisionEntry;
   components?: ComponentProps<typeof Markdown>["components"];
 }) {
+  const copy = getSiteCopy(locale);
   return (
     <>
       <div className="not-prose mb-6 border-b border-[color:var(--color-border)] pb-4">
         <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-          Historical Revision
+          {copy.revisions.historicalRevision}
         </div>
-        <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">版本时间 {formatTimestamp(revision.createdAt)}</div>
+        <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">
+          {copy.revisions.versionTime(formatTimestamp(locale, revision.createdAt))}
+        </div>
       </div>
       <Markdown components={components}>{stripFrontmatter(revision.content)}</Markdown>
     </>
@@ -148,12 +155,15 @@ export function DocumentRevisionPreview({
 }
 
 export function DocumentCompareView({
+  locale,
   previous,
   current
 }: {
+  locale: SiteLocale;
   previous: RuntimeDocRevisionEntry;
   current: RuntimeDocRevisionEntry;
 }) {
+  const copy = getSiteCopy(locale);
   const rows = buildDiffRows(previous.content, current.content);
 
   return (
@@ -161,25 +171,25 @@ export function DocumentCompareView({
       <div className="grid gap-4 border-b border-[color:var(--color-border)] px-4 py-4 md:grid-cols-2">
         <div>
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-            历史版本
+            {copy.revisions.previousVersion}
           </div>
           <div className="mt-1 text-sm font-medium text-[color:var(--foreground)]">{previous.title}</div>
-          <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">{formatTimestamp(previous.createdAt)}</div>
+          <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">{formatTimestamp(locale, previous.createdAt)}</div>
         </div>
         <div>
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-            当前版本
+            {copy.revisions.currentVersion}
           </div>
           <div className="mt-1 text-sm font-medium text-[color:var(--foreground)]">{current.title}</div>
-          <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">{formatTimestamp(current.createdAt)}</div>
+          <div className="mt-1 text-sm text-[color:var(--muted-foreground)]">{formatTimestamp(locale, current.createdAt)}</div>
         </div>
       </div>
 
       <div className="grid md:grid-cols-2">
         <div className="border-b border-[color:var(--color-border)] px-4 py-2 text-xs font-medium text-[color:var(--muted-foreground)] md:border-b-0 md:border-r">
-          历史版本
+          {copy.revisions.previousVersion}
         </div>
-        <div className="px-4 py-2 text-xs font-medium text-[color:var(--muted-foreground)]">当前版本</div>
+        <div className="px-4 py-2 text-xs font-medium text-[color:var(--muted-foreground)]">{copy.revisions.currentVersion}</div>
       </div>
 
       <div className="grid md:grid-cols-2">

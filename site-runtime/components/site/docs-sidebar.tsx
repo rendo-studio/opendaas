@@ -95,15 +95,17 @@ function hasActiveNode(node: PageTree.Item | PageTree.Folder, pathname: string |
 
 function SidebarLabel({
   children,
-  unread
+  unread,
+  unreadLabel
 }: {
   children: ReactNode;
   unread: boolean;
+  unreadLabel: string;
 }) {
   return (
     <span className="opendaas-sidebar-label">
       <span className="opendaas-sidebar-title">{children}</span>
-      {unread ? <span className="opendaas-sidebar-dot" aria-label="Unread update" /> : null}
+      {unread ? <span className="opendaas-sidebar-dot" aria-label={unreadLabel} /> : null}
     </span>
   );
 }
@@ -244,7 +246,7 @@ function NativeSidebarFolderContent({
 
 export function DocsSidebarItem({ item }: { item: PageTree.Item }) {
   const pathname = usePathname();
-  const { isUnreadUrl } = useDocsLive();
+  const { isUnreadUrl, unreadLabel } = useDocsLive();
 
   return (
     <NativeSidebarItem
@@ -253,7 +255,9 @@ export function DocsSidebarItem({ item }: { item: PageTree.Item }) {
       active={isActiveUrl(item.url, pathname)}
       icon={item.icon}
     >
-      <SidebarLabel unread={isUnreadUrl(item.url)}>{item.name}</SidebarLabel>
+      <SidebarLabel unread={isUnreadUrl(item.url)} unreadLabel={unreadLabel}>
+        {item.name}
+      </SidebarLabel>
     </NativeSidebarItem>
   );
 }
@@ -266,10 +270,14 @@ export function DocsSidebarFolder({
   children: ReactNode;
 }) {
   const pathname = usePathname();
-  const { isUnreadUrl } = useDocsLive();
+  const { isUnreadUrl, unreadLabel } = useDocsLive();
   const unread = hasUnreadNode(item, isUnreadUrl);
   const active = hasActiveNode(item, pathname);
-  const label = <SidebarLabel unread={unread}>{item.name}</SidebarLabel>;
+  const label = (
+    <SidebarLabel unread={unread} unreadLabel={unreadLabel}>
+      {item.name}
+    </SidebarLabel>
+  );
 
   return (
     <BaseSidebarFolder collapsible={item.collapsible} active={active} defaultOpen={item.defaultOpen}>

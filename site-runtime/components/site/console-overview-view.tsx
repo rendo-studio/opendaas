@@ -1,32 +1,35 @@
 import Link from "next/link";
 
+import type { SiteLocale } from "../../lib/i18n";
 import type { ControlPlaneSnapshot } from "../../lib/runtime-data";
+import { getSiteCopy } from "../../lib/site-copy";
 import { Progress } from "../ui/progress";
 import { DataList, RailPanel, RailSection, StatusBadge, docsPathToHref } from "./docs-rail-shared";
 
 export function ConsoleOverviewView({
+  locale,
   snapshot
 }: {
+  locale: SiteLocale;
   snapshot: ControlPlaneSnapshot;
 }) {
-  const projectName = snapshot.project?.name ?? "Project";
-  const projectSummary =
-    snapshot.project?.summary ?? "This workspace does not have a structured project overview yet.";
-  const projectDocHref = snapshot.project?.docPath ? docsPathToHref(snapshot.project.docPath) : null;
-  const endGoalName = snapshot.endGoal?.name ?? "No end goal";
-  const endGoalSummary =
-    snapshot.endGoal?.summary ?? "This workspace does not have a structured end goal yet.";
+  const copy = getSiteCopy(locale);
+  const projectName = snapshot.project?.name ?? copy.console.projectFallback;
+  const projectSummary = snapshot.project?.summary ?? copy.console.missingProjectSummary;
+  const projectDocHref = snapshot.project?.docPath ? docsPathToHref(locale, snapshot.project.docPath) : null;
+  const endGoalName = snapshot.endGoal?.name ?? copy.console.noEndGoal;
+  const endGoalSummary = snapshot.endGoal?.summary ?? copy.console.missingEndGoalSummary;
   const successCriteria = snapshot.endGoal?.successCriteria ?? [];
   const nonGoals = snapshot.endGoal?.nonGoals ?? [];
   const progress = snapshot.progress?.percent ?? 0;
-  const phase = snapshot.status?.phase ?? "unknown";
+  const phase = snapshot.status?.phase ?? copy.console.unknown;
   const changedPages = snapshot.docs.changedPages.slice(0, 6);
 
   return (
     <div className="space-y-6">
       <section className="console-surface rounded-lg px-6 py-6">
         <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-          Project
+          {copy.console.projectLabel}
         </div>
         <h1 className="mt-3 text-[2.25rem] font-semibold tracking-[-0.06em] text-[color:var(--foreground)]">
           {projectName}
@@ -38,7 +41,7 @@ export function ConsoleOverviewView({
               href={projectDocHref}
               className="text-sm font-medium text-[#0072f5] underline underline-offset-4"
             >
-              Read project overview
+              {copy.console.readProjectOverview}
             </Link>
           </div>
         ) : null}
@@ -46,7 +49,7 @@ export function ConsoleOverviewView({
 
       <div className="space-y-6">
         <RailPanel>
-          <RailSection label="End goal">
+          <RailSection label={copy.console.endGoal}>
             <div className="space-y-4">
               <div className="text-xl font-semibold tracking-[-0.03em] text-[color:var(--foreground)]">{endGoalName}</div>
               <p className="text-sm leading-7 text-[color:var(--muted-foreground)]">{endGoalSummary}</p>
@@ -54,19 +57,19 @@ export function ConsoleOverviewView({
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-                      Progress
+                      {copy.console.progress}
                     </div>
                     <div className="mt-1 text-2xl font-semibold tracking-[-0.05em] text-[color:var(--foreground)]">
                       {progress}%
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <StatusBadge status={phase} />
+                    <StatusBadge status={phase} locale={locale} />
                     <Link
-                      href="/docs/console/tasks"
+                      href={`/${locale}/docs/console/tasks`}
                       className="rounded-md bg-[color:var(--foreground)] px-3 py-2 text-sm font-medium text-[color:var(--background)]"
                     >
-                      View tasks
+                      {copy.console.viewTasks}
                     </Link>
                   </div>
                 </div>
@@ -80,51 +83,51 @@ export function ConsoleOverviewView({
 
         <div className="grid gap-6 lg:grid-cols-2">
           <RailPanel>
-            <RailSection label="Success criteria">
-              <DataList items={successCriteria} emptyLabel="No success criteria are defined yet." />
+            <RailSection label={copy.console.successCriteria}>
+              <DataList items={successCriteria} emptyLabel={copy.console.noSuccessCriteria} />
             </RailSection>
           </RailPanel>
 
           <RailPanel>
-            <RailSection label="Non-goals">
-              <DataList items={nonGoals} emptyLabel="No non-goals are defined yet." />
+            <RailSection label={copy.console.nonGoals}>
+              <DataList items={nonGoals} emptyLabel={copy.console.noNonGoals} />
             </RailSection>
           </RailPanel>
 
           <RailPanel>
-            <RailSection label="Changed docs">
+            <RailSection label={copy.console.changedDocs}>
               {changedPages.length > 0 ? (
                 <div className="space-y-2">
                   {changedPages.map((page) => (
                     <Link
                       key={page.path}
-                      href={`/docs/${page.slug.join("/")}`}
+                      href={`/${locale}/docs/${page.slug.join("/")}`}
                       className="console-item flex items-center justify-between gap-3 rounded-md px-3 py-3 text-sm leading-6 text-[color:var(--foreground)] transition hover:text-[#00a35c]"
                     >
                       <span className="min-w-0 truncate">{page.title}</span>
                       <span className="rounded-full bg-[#ecfff5] px-2 py-0.5 text-[11px] font-medium text-[#00663a]">
-                        {page.revisionCount} rev
+                        {page.revisionCount} {copy.console.versionsShort}
                       </span>
                     </Link>
                   ))}
                 </div>
               ) : (
                 <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">
-                  No authored docs have historical revisions yet.
+                  {copy.console.noDocHistory}
                 </div>
               )}
             </RailSection>
           </RailPanel>
 
           <RailPanel>
-            <RailSection label="Workflow guide">
+            <RailSection label={copy.console.workflowGuide}>
               <div className="space-y-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
-                <p>Use the OpenDaaS Workflow Guide as the authority for first-hour orientation and round-start behavior.</p>
+                <p>{copy.console.workflowGuideIntro}</p>
                 <div className="rounded-md border border-[color:var(--color-border)] px-3 py-3 text-[color:var(--foreground)]">
                   <div className="font-medium">CLI</div>
                   <div className="mt-1 font-mono text-xs">opendaas guide</div>
                 </div>
-                <p>The guide is shipped with the CLI and mirrored into generated Agent artifacts. It is no longer an authored docs page.</p>
+                <p>{copy.console.workflowGuideMirror}</p>
               </div>
             </RailSection>
           </RailPanel>

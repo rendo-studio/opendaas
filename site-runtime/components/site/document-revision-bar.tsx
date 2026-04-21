@@ -1,14 +1,16 @@
 import Link from "next/link";
 
+import type { SiteLocale } from "../../lib/i18n";
 import type { RuntimeDocRevisionRecord } from "../../lib/runtime-data";
+import { formatSiteDate, getSiteCopy } from "../../lib/site-copy";
 
-function formatTimestamp(value: string): string {
-  return new Intl.DateTimeFormat("zh-CN", {
+function formatTimestamp(locale: SiteLocale, value: string): string {
+  return formatSiteDate(locale, value, {
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit"
-  }).format(new Date(value));
+  });
 }
 
 function withQuery(pathname: string, key: "revision" | "compare", value?: string): string {
@@ -22,16 +24,19 @@ function withQuery(pathname: string, key: "revision" | "compare", value?: string
 }
 
 export function DocumentRevisionSidebar({
+  locale,
   pathname,
   record,
   activeRevisionId,
   compareRevisionId
 }: {
+  locale: SiteLocale;
   pathname: string;
   record: RuntimeDocRevisionRecord;
   activeRevisionId: string | null;
   compareRevisionId: string | null;
 }) {
+  const copy = getSiteCopy(locale);
   const latestRevision = record.revisions.at(-1);
   const recentRevisions = [...record.revisions].reverse().slice(0, 6);
 
@@ -43,10 +48,10 @@ export function DocumentRevisionSidebar({
     <section className="mt-6 border-t border-[color:var(--color-border)] pt-4">
       <div className="mb-3">
         <div className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--muted-foreground)]">
-          Revision Line
+          {copy.revisions.title}
         </div>
         <div className="mt-1 text-xs leading-5 text-[color:var(--muted-foreground)]">
-          最近更新于 {formatTimestamp(record.updatedAt)}，共 {record.revisions.length} 个版本。
+          {copy.revisions.updatedSummary(formatTimestamp(locale, record.updatedAt), record.revisions.length)}
         </div>
       </div>
 
@@ -73,11 +78,11 @@ export function DocumentRevisionSidebar({
                       : "text-[color:var(--foreground)] hover:text-[#00a35c]"
                   }`}
                 >
-                  {isCurrent ? "当前版本" : formatTimestamp(revision.createdAt)}
+                  {isCurrent ? copy.revisions.currentVersion : formatTimestamp(locale, revision.createdAt)}
                 </Link>
                 {isCurrent ? (
                   <span className="rounded-full bg-[color:var(--foreground)] px-2 py-0.5 text-[10px] font-medium text-[color:var(--background)]">
-                    live
+                    {copy.revisions.live}
                   </span>
                 ) : null}
               </div>
@@ -92,7 +97,7 @@ export function DocumentRevisionSidebar({
                         : "text-[color:var(--muted-foreground)] hover:text-[#00a35c]"
                     }`}
                   >
-                    查看版本
+                    {copy.revisions.viewRevision}
                   </Link>
                   <Link
                     href={withQuery(pathname, "compare", revision.id)}
@@ -102,7 +107,7 @@ export function DocumentRevisionSidebar({
                         : "text-[color:var(--muted-foreground)] hover:text-[#00a35c]"
                     }`}
                   >
-                    对比当前
+                    {copy.revisions.compareCurrent}
                   </Link>
                 </div>
               ) : null}
@@ -116,7 +121,7 @@ export function DocumentRevisionSidebar({
           href={pathname}
           className="mt-3 inline-flex text-xs font-medium text-[color:var(--muted-foreground)] transition hover:text-[#00a35c]"
         >
-          回到当前版本
+          {copy.revisions.backToCurrent}
         </Link>
       ) : null}
     </section>

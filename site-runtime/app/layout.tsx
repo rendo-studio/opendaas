@@ -1,17 +1,13 @@
 import type { ReactNode } from "react";
-import { RootProvider } from "fumadocs-ui/provider/next";
-import { Toaster } from "sonner";
 
+import { SiteClientShell } from "../components/site/site-provider";
 import "./global.css";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body>
-        <RootProvider>
-          {children}
-          <Toaster position="top-right" richColors expand={false} />
-        </RootProvider>
+        <SiteClientShell>{children}</SiteClientShell>
       </body>
     </html>
   );

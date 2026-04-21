@@ -1,15 +1,12 @@
 import type { ReactNode } from "react";
 
 import { Badge } from "../ui/badge";
+import type { SiteLocale } from "../../lib/i18n";
 import { cn } from "../../lib/utils";
+import { docsHref, getSiteCopy } from "../../lib/site-copy";
 
-export function docsPathToHref(docPath: string): string {
-  const normalized = docPath.replace(/\\/g, "/").replace(/\.(md|mdx)$/i, "");
-  if (normalized.endsWith("/index")) {
-    return `/docs/${normalized.slice(0, -"/index".length)}`;
-  }
-
-  return `/docs/${normalized}`;
+export function docsPathToHref(locale: SiteLocale, docPath: string): string {
+  return docsHref(locale, docPath);
 }
 
 export function RailPanel({
@@ -73,8 +70,18 @@ export function Metric({
   );
 }
 
-export function StatusBadge({ status }: { status: string }) {
-  const normalized = status.replaceAll("_", " ");
+export function StatusBadge({
+  status,
+  locale
+}: {
+  status: string;
+  locale: SiteLocale;
+}) {
+  const labels = getSiteCopy(locale).status;
+  const normalized =
+    status in labels
+      ? labels[status as keyof typeof labels]
+      : status.replaceAll("_", " ");
   const dotTone =
     status === "done"
       ? "bg-[#171717]"

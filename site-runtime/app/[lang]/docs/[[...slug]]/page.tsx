@@ -3,18 +3,15 @@ import defaultMdxComponents, { createRelativeLink } from "fumadocs-ui/mdx";
 import { DocsBody, DocsPage } from "fumadocs-ui/layouts/docs/page";
 import type { ComponentProps, ComponentType } from "react";
 
-import { ConsoleOverviewView } from "../../../components/site/console-overview-view";
-import { ConsoleTasksView } from "../../../components/site/console-tasks-view";
-import { DocumentCompareView, DocumentRevisionPreview } from "../../../components/site/document-compare-view";
-import { DocumentRevisionSidebar } from "../../../components/site/document-revision-bar";
-import { loadControlPlaneSnapshot, loadDocsRevisionState } from "../../../lib/runtime-data";
-import { source } from "../../../lib/source";
+import { ConsoleOverviewView } from "../../../../components/site/console-overview-view";
+import { ConsoleTasksView } from "../../../../components/site/console-tasks-view";
+import { DocumentCompareView, DocumentRevisionPreview } from "../../../../components/site/document-compare-view";
+import { DocumentRevisionSidebar } from "../../../../components/site/document-revision-bar";
+import { i18n, isSiteLocale } from "../../../../lib/i18n";
+import { loadControlPlaneSnapshot, loadDocsRevisionState } from "../../../../lib/runtime-data";
+import { getSource } from "../../../../lib/source";
 
-export function generateStaticParams() {
-  return source.generateParams();
-}
-
-function findPage(slug: string[] | undefined) {
+function findPage(source: ReturnType<typeof getSource>, slug: string[] | undefined) {
   const normalized = slug ?? [];
   const direct = source.getPage(normalized);
 
@@ -29,7 +26,7 @@ function findPage(slug: string[] | undefined) {
       return true;
     }
 
-    const candidatePath = candidate.url.replace(/^\/docs\/?/, "");
+    const candidatePath = candidate.url.replace(/^\/[^/]+\/docs\/?/, "");
     return candidatePath === joined;
   });
 }
@@ -40,20 +37,35 @@ interface PageDataShape {
   full?: boolean;
 }
 
+export async function generateStaticParams() {
+  return i18n.languages.flatMap((lang) =>
+    getSource(lang).generateParams().map(({ slug }) => ({
+      lang,
+      slug
+    }))
+  );
+}
+
 export default async function Page(props: {
-  params: Promise<{ slug?: string[] }>;
+  params: Promise<{ lang: string; slug?: string[] }>;
   searchParams: Promise<{ compare?: string; revision?: string }>;
 }) {
   const params = await props.params;
   const searchParams = await props.searchParams;
+  const { lang } = params;
+  if (!isSiteLocale(lang)) {
+    notFound();
+  }
+
   const key = (params.slug ?? []).join("/");
   const resolvedSlug = params.slug ?? [];
+  const source = getSource(lang);
 
   const useOverviewConsole = key === "console";
   const useTasksConsole = key === "console/tasks";
   const useConsoleView = useOverviewConsole || useTasksConsole;
   const snapshot = await loadControlPlaneSnapshot();
-  const page = findPage(resolvedSlug);
+  const page = findPage(source, resolvedSlug);
   const currentDocPath =
     useConsoleView ? null : snapshot.docs.pages.find((entry) => entry.slug.join("/") === key)?.path ?? null;
   const revisionState = currentDocPath ? await loadDocsRevisionState() : null;
@@ -75,10 +87,10 @@ export default async function Page(props: {
     selectedRevision && selectedRevision.id !== latestRevision?.id ? selectedRevision : null;
   const effectiveComparedRevision =
     comparedRevision && comparedRevision.id !== latestRevision?.id ? comparedRevision : null;
-  const pathname = `/docs/${key}`.replace(/\/+$/, "") || "/docs";
+  const pathname = `/${lang}/docs/${key}`.replace(/\/+$/, "") || `/${lang}/docs`;
 
   if (key === "console/overview") {
-    redirect("/docs/console");
+    redirect(`/${lang}/docs/console`);
   }
 
   if (!useConsoleView && !page) {
@@ -106,6 +118,7 @@ export default async function Page(props: {
           : {
               footer: (
                 <DocumentRevisionSidebar
+                  locale={lang}
                   pathname={pathname}
                   record={revisionRecord}
                   activeRevisionId={effectiveSelectedRevision?.id ?? null}
@@ -118,16 +131,16 @@ export default async function Page(props: {
       <DocsBody>
         {useConsoleView ? (
           useOverviewConsole ? (
-            <ConsoleOverviewView snapshot={snapshot} />
+            <ConsoleOverviewView locale={lang} snapshot={snapshot} />
           ) : (
-            <ConsoleTasksView snapshot={snapshot} />
+            <ConsoleTasksView locale={lang} snapshot={snapshot} />
           )
         ) : (
           <>
             {effectiveComparedRevision && latestRevision ? (
-              <DocumentCompareView previous={effectiveComparedRevision} current={latestRevision} />
+              <DocumentCompareView locale={lang} previous={effectiveComparedRevision} current={latestRevision} />
             ) : effectiveSelectedRevision ? (
-              <DocumentRevisionPreview revision={effectiveSelectedRevision} components={components} />
+              <DocumentRevisionPreview locale={lang} revision={effectiveSelectedRevision} components={components} />
             ) : (
               MDX ? <MDX components={components} /> : null
             )}

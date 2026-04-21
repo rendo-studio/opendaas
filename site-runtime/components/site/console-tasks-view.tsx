@@ -1,18 +1,23 @@
 import Link from "next/link";
 
+import type { SiteLocale } from "../../lib/i18n";
 import type { ControlPlaneSnapshot, RuntimeTaskNode } from "../../lib/runtime-data";
+import { getSiteCopy } from "../../lib/site-copy";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Badge } from "../ui/badge";
 import { Progress } from "../ui/progress";
 import { DataList, RailPanel, RailSection, StatusBadge } from "./docs-rail-shared";
 
 function TaskAccordionGroup({
+  locale,
   items,
   planNamesById
 }: {
+  locale: SiteLocale;
   items: RuntimeTaskNode[];
   planNamesById: Map<string, string>;
 }) {
+  const copy = getSiteCopy(locale);
   return (
     <Accordion type="multiple" className="-my-2 w-full">
       {items.map((item) => (
@@ -25,18 +30,18 @@ function TaskAccordionGroup({
                   {item.summary ?? item.name}
                 </div>
               </div>
-              <StatusBadge status={item.status} />
+              <StatusBadge status={item.status} locale={locale} />
             </div>
           </AccordionTrigger>
           <AccordionContent className="space-y-3">
             <p className="text-sm leading-6 text-[color:var(--muted-foreground)]">{item.summary ?? item.name}</p>
             <div className="flex flex-wrap gap-2">
               <Badge>{planNamesById.get(item.planRef) ?? item.planRef}</Badge>
-              <Badge>{item.countedForProgress ? "Progress unit" : "Grouping node"}</Badge>
+              <Badge>{item.countedForProgress ? copy.console.progressUnit : copy.console.groupingNode}</Badge>
             </div>
             {item.children.length > 0 ? (
               <div className="border-l border-[color:var(--color-border)] pl-4">
-                <TaskAccordionGroup items={item.children} planNamesById={planNamesById} />
+                <TaskAccordionGroup locale={locale} items={item.children} planNamesById={planNamesById} />
               </div>
             ) : null}
           </AccordionContent>
@@ -47,10 +52,13 @@ function TaskAccordionGroup({
 }
 
 export function ConsoleTasksView({
+  locale,
   snapshot
 }: {
+  locale: SiteLocale;
   snapshot: ControlPlaneSnapshot;
 }) {
+  const copy = getSiteCopy(locale);
   const allPlans = snapshot.plans?.items ?? [];
   const totalPlans = allPlans.length;
   const donePlans = allPlans.filter((item) => item.status === "done").length;
@@ -67,22 +75,22 @@ export function ConsoleTasksView({
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
       <RailPanel className="min-w-0">
-        <RailSection label="Task tree" className="max-h-[72rem] overflow-y-auto">
+        <RailSection label={copy.console.taskTree} className="max-h-[72rem] overflow-y-auto">
           {snapshot.tasks?.tree.length ? (
-            <TaskAccordionGroup items={snapshot.tasks.tree} planNamesById={planNamesById} />
+            <TaskAccordionGroup locale={locale} items={snapshot.tasks.tree} planNamesById={planNamesById} />
           ) : (
-            <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">No task data is currently available.</div>
+            <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">{copy.console.noTaskData}</div>
           )}
         </RailSection>
       </RailPanel>
 
       <div className="space-y-6">
         <RailPanel>
-          <RailSection label="Progress">
+          <RailSection label={copy.console.progress}>
             <div className="space-y-5">
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="text-sm font-medium text-[color:var(--foreground)]">Plans</div>
+                  <div className="text-sm font-medium text-[color:var(--foreground)]">{copy.console.plans}</div>
                   <div className="text-sm text-[color:var(--muted-foreground)]">{donePlans} / {totalPlans}</div>
                 </div>
                 <Progress value={planPercent} />
@@ -90,39 +98,42 @@ export function ConsoleTasksView({
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-3">
-                  <div className="text-sm font-medium text-[color:var(--foreground)]">Tasks</div>
+                  <div className="text-sm font-medium text-[color:var(--foreground)]">{copy.console.tasks}</div>
                   <div className="text-sm text-[color:var(--muted-foreground)]">{doneTasks} / {totalTasks}</div>
                 </div>
                 <Progress value={taskPercent} />
               </div>
 
               <div className="pt-1">
-                <StatusBadge status={snapshot.status?.phase ?? "unknown"} />
+                <StatusBadge status={snapshot.status?.phase ?? copy.console.unknown} locale={locale} />
               </div>
             </div>
           </RailSection>
         </RailPanel>
 
         <RailPanel>
-          <RailSection label="Recent completion">
-            <DataList items={recentCompleted} emptyLabel="No completed work has been recorded yet." />
+          <RailSection label={copy.console.recentCompletion}>
+            <DataList items={recentCompleted} emptyLabel={copy.console.noRecentCompletion} />
           </RailSection>
         </RailPanel>
 
         <RailPanel>
-          <RailSection label="Blockers">
-            <DataList items={blockers.filter((item) => item !== "暂无明确 blocker")} emptyLabel="No active blockers." />
+          <RailSection label={copy.console.blockers}>
+            <DataList
+              items={blockers.filter((item) => item !== copy.console.noExplicitBlocker)}
+              emptyLabel={copy.console.noActiveBlockers}
+            />
           </RailSection>
         </RailPanel>
 
         {changePages.length > 0 ? (
           <RailPanel>
-            <RailSection label="Linked changes">
+            <RailSection label={copy.console.linkedChanges}>
               <div className="space-y-2">
                 {changePages.map((page) => (
                   <Link
                     key={page.path}
-                    href={`/docs/${page.slug.join("/")}`}
+                    href={`/${locale}/docs/${page.slug.join("/")}`}
                     className="console-item block rounded-md px-3 py-2 text-sm leading-6 text-[color:var(--foreground)] transition hover:text-[#0072f5]"
                   >
                     {page.title}
