@@ -3,14 +3,15 @@ import { AclipApp, stringArgument } from "@rendo-studio/aclip";
 import {
   addPlan,
   buildPlanTree,
+  derivePlanStatuses,
   deletePlan,
   describeTopLevelPlans,
   loadPlans,
   renderPlanTreeLines,
-  syncPlanStatuses,
   updatePlan
 } from "../../core/plans.js";
 import { syncStatusDocs } from "../../core/status.js";
+import { loadTasks } from "../../core/tasks.js";
 import { withGuideHint } from "../guide-hint.js";
 
 function assertTaskStatus(status: string): "pending" | "in_progress" | "done" | "blocked" {
@@ -19,6 +20,17 @@ function assertTaskStatus(status: string): "pending" | "in_progress" | "done" | 
   }
 
   return status as "pending" | "in_progress" | "done" | "blocked";
+}
+
+async function loadDerivedPlansForView(
+  plansState?: Awaited<ReturnType<typeof loadPlans>>
+) {
+  const [plans, tasks] = await Promise.all([
+    plansState ? Promise.resolve(plansState) : loadPlans(),
+    loadTasks()
+  ]);
+
+  return derivePlanStatuses(plans, tasks);
 }
 
 export function registerPlanGroup(app: AclipApp) {
@@ -64,10 +76,11 @@ export function registerPlanGroup(app: AclipApp) {
           status: status ? assertTaskStatus(String(status)) : undefined
         });
         await syncStatusDocs();
+        const plans = await loadDerivedPlansForView();
 
         return {
-          plan: result.plan,
-          topLevelPlans: describeTopLevelPlans(result.plans)
+          plan: plans.items.find((plan) => plan.id === result.plan.id) ?? result.plan,
+          topLevelPlans: describeTopLevelPlans(plans)
         };
       }
     })
@@ -111,10 +124,11 @@ export function registerPlanGroup(app: AclipApp) {
           status: status ? assertTaskStatus(String(status)) : undefined
         });
         await syncStatusDocs();
+        const plans = await loadDerivedPlansForView();
 
         return {
-          plan: result.plan,
-          topLevelPlans: describeTopLevelPlans(result.plans)
+          plan: plans.items.find((plan) => plan.id === result.plan.id) ?? result.plan,
+          topLevelPlans: describeTopLevelPlans(plans)
         };
       }
     })
@@ -123,7 +137,7 @@ export function registerPlanGroup(app: AclipApp) {
       description: withGuideHint("Inspect the current structured plan tree."),
       examples: ["opendaas plan show"],
       handler: async () => {
-        const plans = await loadPlans();
+        const plans = await loadDerivedPlansForView();
         const tree = buildPlanTree(plans.items);
         return {
           plans,
@@ -150,25 +164,10 @@ export function registerPlanGroup(app: AclipApp) {
           id: String(id)
         });
         await syncStatusDocs();
+        const plans = await loadDerivedPlansForView(result.plans);
         return {
           deletedPlanIds: result.deletedPlanIds,
           deletedTaskIds: result.deletedTaskIds,
-          topLevelPlans: describeTopLevelPlans(result.plans)
-        };
-      }
-    })
-    .command("sync", {
-      summary: "Sync plan statuses from task state.",
-      description: withGuideHint("Recompute plan statuses from current task statuses and persist the result."),
-      examples: ["opendaas plan sync"],
-      handler: async () => {
-        const plans = await syncPlanStatuses();
-        const tree = buildPlanTree(plans.items);
-        await syncStatusDocs();
-        return {
-          plans,
-          planTree: tree,
-          lines: renderPlanTreeLines(tree),
           topLevelPlans: describeTopLevelPlans(plans)
         };
       }

@@ -117,7 +117,7 @@ test/                 # 自动化测试
 实现：
 
 1. `status show`
-2. `status sync`
+2. 自动派生状态视图
 3. `baseline.json`
 4. `pending.json`
 

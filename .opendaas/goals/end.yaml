@@ -6,7 +6,7 @@ successCriteria:
   - opendaas keeps authored docs, structured workspace state, and local docs-site views aligned for human developers and development agents
   - opendaas supports a complete and repeatable loop from project understanding to planning, implementation, validation, and release coordination
   - human developers and development agents can install or adopt OpenDaaS, follow an authoritative workflow guide, and reach a correct first closed loop without guessing undocumented conventions
-  - opendaas provides production-grade guardrails around bootstrap, validation, status sync, site runtime, packaging, and adoption UX across real project edge cases
+  - opendaas provides production-grade guardrails around bootstrap, validation, automatic derived-state consistency, site runtime, packaging, and adoption UX across real project edge cases
 nonGoals:
   - public hosted docs platform
   - full SaaS control plane

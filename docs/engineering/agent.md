@@ -33,7 +33,7 @@ description: 面向开发端 Agent 的稳定接手说明页，解释应读什么
 ```bash
 npm run dev -- validate --repair
 npm run dev -- status show
-npm run dev -- status sync
+npm run dev -- plan show
 npm run dev -- site open
 npm run dev -- site stop
 ```

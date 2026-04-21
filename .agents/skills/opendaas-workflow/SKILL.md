@@ -169,14 +169,8 @@ This means:
 
 1. Update `.opendaas` immediately.
 2. Make the next plan/task state explicit.
-3. Recompute derived status.
+3. Re-read the derived status view when you need confirmation.
 4. Re-open the docs site only if a human needs the refreshed projection.
-
-Typical refresh sequence after direct `.opendaas` edits that bypass normal CLI mutation helpers:
-
-```bash
-opendaas status sync
-```
 
 Do not let code move ahead of the control plane. Humans should always be able to open the site and see what happens next.
 
@@ -201,8 +195,8 @@ Use CLI as the best practice when:
 Important rules:
 
 - CLI mutations already refresh derived state where appropriate
-- direct edits to `.opendaas/` should be followed by `opendaas status sync`
-- use `opendaas plan sync` only when plan status needs to be recomputed from manually edited task state
+- direct edits to `.opendaas/` are reflected automatically in `opendaas status show`, `opendaas plan show`, and the docs-site snapshot
+- there is no manual sync ritual in the normal operating loop
 - do not treat CLI as the only valid way to edit the control plane
 
 ## Command Discovery Protocol
@@ -363,10 +357,10 @@ opendaas status show
 ```
 
 6. Make the current work explicit in `.opendaas` before touching code.
-7. Complete one small loop, then refresh the derived status:
+7. Complete one small loop, then re-check the derived view:
 
 ```bash
-opendaas status sync
+opendaas status show
 ```
 
 If you cannot explain the project overview, end goal, current plans, current tasks, and current docs-site URL, you are not ready to implement.

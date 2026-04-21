@@ -187,7 +187,7 @@ items:
     planRef: unify-agent-first-guide-source-1
     parentTaskId: task-guide-source
     countedForProgress: true
-    summary: Teach init, adopt, overview, end goal, plans, tasks, docs-vs-.opendaas writes, status sync, and first-loop operation in a single Agent-first guide.
+    summary: Teach init, adopt, overview, end goal, plans, tasks, docs-vs-.opendaas writes, automatic derived status views, and first-loop operation in a single Agent-first guide.
   - id: task-guide-refinement
     name: Refine the Agent guide and site workflow
     status: done
@@ -320,7 +320,7 @@ items:
     planRef: improve-bootstrap-and-live-sync-1
     parentTaskId: task-bootstrap-live-sync
     countedForProgress: true
-    summary: Stop letting status show mutate control-plane files, keep status sync as the explicit write path, and align docs/tests with the corrected semantics.
+    summary: Stop letting status show mutate control-plane files, keep derived views read-consistent, and align docs/tests with the corrected semantics.
   - id: task-bootstrap-live-sync-3
     name: Tighten docs-site refresh around workspace and control-plane mutations
     status: done
