@@ -242,6 +242,66 @@ describe("site runtime staging", () => {
     expect(workspaceRevisionFileExists).toBe(false);
   });
 
+  it("exposes project versions and decisions from explicit control-plane records", async () => {
+    const fixture = await createWorkspaceFixture();
+    restorers.push(fixture.use());
+    cleanups.push(fixture.cleanup);
+
+    await fs.writeFile(
+      path.join(fixture.root, ".opendaas", "decisions", "records.yaml"),
+      [
+        "items:",
+        "  - id: define-version-policy",
+        "    name: Define version policy",
+        "    description: Introduce low-frequency project-level versions.",
+        "    docPath: internal/decision-log/version-policy.md",
+        "    category: version",
+        "    proposedBy: agent",
+        "    context: The project needs a stable version model.",
+        "    impactOfNoAction: Version history remains ambiguous.",
+        "    expectedOutcome: Versions become explicit and low-frequency.",
+        "    boundary: Only project-level version semantics.",
+        "    status: approved",
+        "    decisionSummary: Approved for the current framework model.",
+        "    revisitCondition: Revisit if version semantics change materially.",
+        "    createdAt: 2026-04-23T00:00:00Z",
+        "    decidedAt: 2026-04-23T00:10:00Z",
+        ""
+      ].join("\n"),
+      "utf8"
+    );
+    await fs.writeFile(
+      path.join(fixture.root, ".opendaas", "versions", "records.yaml"),
+      [
+        "items:",
+        "  - id: 0-2-0-baseline",
+        "    version: 0.2.0",
+        "    title: Stable baseline",
+        "    summary: First stable framework baseline.",
+        "    docPath: internal/changelog/0-2-0.md",
+        "    status: recorded",
+        "    decisionRefs:",
+        "      - define-version-policy",
+        "    highlights:",
+        "      - Introduced stable docs-site lifecycle",
+        "    breakingChanges: []",
+        "    migrationNotes: []",
+        "    validationSummary: Core runtime and docs model validated.",
+        "    createdAt: 2026-04-23T00:00:00Z",
+        "    recordedAt: 2026-04-23T00:20:00Z",
+        ""
+      ].join("\n"),
+      "utf8"
+    );
+
+    const snapshot = await buildSiteControlPlaneSnapshot(path.join(fixture.root, "docs"));
+
+    expect(snapshot.decisions?.items[0]?.docPath).toBe("internal/decision-log/version-policy.md");
+    expect(snapshot.decisions?.items[0]?.status).toBe("approved");
+    expect(snapshot.versions?.items[0]?.docPath).toBe("internal/changelog/0-2-0.md");
+    expect(snapshot.versions?.items[0]?.status).toBe("recorded");
+  });
+
   it("stops the runtime without deleting the staged runtime root", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());

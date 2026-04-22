@@ -85,18 +85,26 @@ export function StatusBadge({
   const dotTone =
     status === "done"
       ? "bg-[#171717]"
+      : status === "approved"
+        ? "bg-[#171717]"
       : status === "in_progress"
         ? "bg-[#0a72ef]"
-        : status === "blocked"
+      : status === "blocked"
+        ? "bg-[#b42318]"
+        : status === "rejected"
           ? "bg-[#b42318]"
           : "bg-[#9a9a9a]";
 
   const badgeTone =
     status === "done"
       ? "border-[color:var(--foreground)] bg-[color:var(--foreground)] text-[color:var(--background)]"
+      : status === "approved"
+        ? "border-[color:var(--foreground)] bg-[color:var(--foreground)] text-[color:var(--background)]"
       : status === "in_progress"
         ? "border-[#d8e8ff] bg-[#f7faff] text-[#171717]"
-        : status === "blocked"
+      : status === "blocked"
+        ? "border-[#f3d6d3] bg-[#fff8f7] text-[#171717]"
+        : status === "rejected"
           ? "border-[#f3d6d3] bg-[#fff8f7] text-[#171717]"
           : "border-[color:var(--color-border)] bg-[color:var(--muted)] text-[color:var(--muted-foreground)]";
 

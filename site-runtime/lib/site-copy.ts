@@ -35,8 +35,14 @@ interface SiteCopy {
     noExplicitBlocker: string;
     projectVersions: string;
     noProjectVersions: string;
+    versionEmptyHint: string;
+    decisions: string;
+    noDecisions: string;
+    decisionEmptyHint: string;
     recordedAtLabel: string;
     createdAtLabel: string;
+    decidedAtLabel: string;
+    categoryLabel: string;
   };
   revisions: {
     title: string;
@@ -62,6 +68,8 @@ interface SiteCopy {
     in_progress: string;
     done: string;
     blocked: string;
+    approved: string;
+    rejected: string;
     draft: string;
     recorded: string;
   };
@@ -106,8 +114,14 @@ const copy: Record<SiteLocale, SiteCopy> = {
       noExplicitBlocker: "暂无明确 blocker",
       projectVersions: "项目版本",
       noProjectVersions: "当前还没有项目级版本记录。",
+      versionEmptyHint: "当项目进入新的整体成熟状态并值得长期保留时，再创建版本记录。",
+      decisions: "决策",
+      noDecisions: "当前还没有正式决策记录。",
+      decisionEmptyHint: "只有高价值、低频、值得长期保留的项目决策才应记录为 decision。",
       recordedAtLabel: "记录时间",
-      createdAtLabel: "创建时间"
+      createdAtLabel: "创建时间",
+      decidedAtLabel: "决策时间",
+      categoryLabel: "类别"
     },
     revisions: {
       title: "Revision Line",
@@ -133,6 +147,8 @@ const copy: Record<SiteLocale, SiteCopy> = {
       in_progress: "进行中",
       done: "已完成",
       blocked: "阻塞",
+      approved: "已批准",
+      rejected: "已拒绝",
       draft: "草稿",
       recorded: "已记录"
     },
@@ -175,8 +191,14 @@ const copy: Record<SiteLocale, SiteCopy> = {
       noExplicitBlocker: "暂无明确 blocker",
       projectVersions: "Project versions",
       noProjectVersions: "No project-level version records yet.",
+      versionEmptyHint: "Record a version only when the project reaches a new overall state worth preserving.",
+      decisions: "Decisions",
+      noDecisions: "No formal decision records yet.",
+      decisionEmptyHint: "Use decisions only for high-value, low-frequency choices worth preserving long term.",
       recordedAtLabel: "Recorded at",
-      createdAtLabel: "Created at"
+      createdAtLabel: "Created at",
+      decidedAtLabel: "Decided at",
+      categoryLabel: "Category"
     },
     revisions: {
       title: "Revision Line",
@@ -202,6 +224,8 @@ const copy: Record<SiteLocale, SiteCopy> = {
       in_progress: "in progress",
       done: "done",
       blocked: "blocked",
+      approved: "approved",
+      rejected: "rejected",
       draft: "draft",
       recorded: "recorded"
     },

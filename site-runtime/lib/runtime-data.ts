@@ -145,9 +145,12 @@ export interface ControlPlaneSnapshot {
         items: Array<{
           id: string;
           name: string;
+          description: string;
+          docPath: string | null;
           category: string;
           status: "pending" | "approved" | "rejected";
           createdAt: string;
+          decidedAt: string | null;
         }>;
       }
     | null;

@@ -6,6 +6,7 @@ import { getSiteCopy } from "../../lib/site-copy";
 import { Progress } from "../ui/progress";
 import { DataList, RailPanel, RailSection, StatusBadge, docsPathToHref } from "./docs-rail-shared";
 import { ConsoleDocChangePanels } from "./console-doc-change-panels";
+import { ConsoleGovernancePanels } from "./console-governance-panels";
 
 export function ConsoleOverviewView({
   locale,
@@ -95,6 +96,7 @@ export function ConsoleOverviewView({
           </RailPanel>
 
           <ConsoleDocChangePanels locale={locale} pages={snapshot.docs.changedPages} />
+          <ConsoleGovernancePanels locale={locale} snapshot={snapshot} />
         </div>
       </div>
     </div>
