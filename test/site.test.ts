@@ -44,7 +44,7 @@ describe("site runtime staging", () => {
       .then(() => true)
       .catch(() => false);
 
-    expect(sharedOverview).toContain("title: Shared Overview");
+    expect(sharedOverview).toContain("title: Project Overview");
     expect(stagedIndexExists).toBe(false);
   });
 

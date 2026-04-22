@@ -345,58 +345,54 @@ function renderDocTemplate(file: ManagedDocFile): string {
 function buildDocsFiles(
   projectName: string,
   projectSummary: string | undefined,
-  endGoal: GoalState
+  endGoal: GoalState,
+  options: {
+    hasExplicitProjectSummary: boolean;
+    hasExplicitEndGoal: boolean;
+  }
 ): ManagedDocFile[] {
-  const projectOverview = buildProjectOverview(projectName, projectSummary);
   return [
     {
       relativePath: "docs/shared/overview.md",
-      name: "Shared Overview",
-      description: `${projectName} 的共享项目介绍锚点。`,
+      name: "Project Overview",
+      description: "Shared project overview anchor.",
       title: "Project Overview",
-      bodyPrefix: `${projectName} 的共享项目介绍由 .opendaas/project/overview.yaml 和本页共同定义：前者提供结构化摘要与文档路径，后者提供更完整的书面上下文。`,
       sections: [
         {
           heading: "项目摘要",
-          body: projectOverview.summary
+          body: options.hasExplicitProjectSummary ? (projectSummary?.trim() ?? "") : ""
         },
         {
           heading: "项目介绍、最终目标与当前计划",
-          body: [
-            "项目介绍回答“这个项目是什么”；最终目标回答“这个项目要到哪里”；计划与任务回答“当前这轮怎么推进”。",
-            "",
-            "共享层只保留最稳定、最通用的项目上下文。更具体的对外与内部文档应分别落在 `docs/public/` 和 `docs/internal/`。"
-          ].join("\n")
+          body: ""
         }
       ]
     },
     {
       relativePath: "docs/shared/goal.md",
-      name: "Shared Goal",
-      description: `${projectName} 的共享目标锚点。`,
+      name: "Project Goal",
+      description: "Shared project goal anchor.",
       title: "Project Goal",
-      bodyPrefix: `${projectName} 的长期目标已经固定到共享控制面，并作为后续计划、任务与状态的最高优先级锚点。`,
       sections: [
-        { heading: "最终目标", body: `${endGoal.name}\n\n${endGoal.summary}` },
+        {
+          heading: "最终目标",
+          body: options.hasExplicitEndGoal ? `${endGoal.name}\n\n${endGoal.summary}` : ""
+        },
         {
           heading: "背景与理由",
-          body: "当前项目已经进入正式推进阶段，因此需要把最终目标固定到共享文档包中，避免后续目标漂移。"
+          body: ""
         },
         {
           heading: "完成标准",
-          body: endGoal.successCriteria.map((item) => `- ${item}`).join("\n")
+          body: ""
         },
         {
           heading: "明确不做什么",
-          body: endGoal.nonGoals.map((item) => `- ${item}`).join("\n")
+          body: ""
         },
         {
           heading: "当前进度摘要",
-          body: [
-            "版本、计划和任务的执行视图由 Console 与 `opendaas status show` 在读取时自动计算。",
-            "",
-            "共享层只固定长期目标本身；更细的执行状态不需要作为 authored docs 真相单独持久化。"
-          ].join("\n")
+          body: ""
         }
       ]
     }
@@ -556,6 +552,8 @@ async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResul
   const preserveExistingDocs = Boolean(input.preserveExistingDocs);
   const projectKind = input.projectKind ?? "general";
   const docsMode = input.docsMode ?? "standard";
+  const hasExplicitProjectSummary = Boolean(input.projectSummary?.trim());
+  const hasExplicitEndGoal = Boolean(input.endGoalName?.trim() && input.endGoalSummary?.trim());
 
   await ensureDirectory(root);
   const initStrategy = await resolveInitStrategy(root);
@@ -578,7 +576,10 @@ async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResul
 
   const allowMergeExistingDocs = false;
 
-  for (const doc of buildDocsFiles(projectName, projectSummary, endGoal)) {
+  for (const doc of buildDocsFiles(projectName, projectSummary, endGoal, {
+    hasExplicitProjectSummary,
+    hasExplicitEndGoal
+  })) {
     if (preserveExistingDocs && existsSync(path.join(root, doc.relativePath))) {
       result.skippedFiles.push(doc.relativePath);
       continue;

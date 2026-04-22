@@ -5,6 +5,7 @@ import type { ControlPlaneSnapshot } from "../../lib/runtime-data";
 import { getSiteCopy } from "../../lib/site-copy";
 import { Progress } from "../ui/progress";
 import { DataList, RailPanel, RailSection, StatusBadge, docsPathToHref } from "./docs-rail-shared";
+import { ConsoleDocChangePanels } from "./console-doc-change-panels";
 
 export function ConsoleOverviewView({
   locale,
@@ -23,7 +24,6 @@ export function ConsoleOverviewView({
   const nonGoals = snapshot.endGoal?.nonGoals ?? [];
   const progress = snapshot.progress?.percent ?? 0;
   const phase = snapshot.status?.phase ?? copy.console.unknown;
-  const changedPages = snapshot.docs.changedPages.slice(0, 6);
 
   return (
     <div className="space-y-6">
@@ -94,43 +94,7 @@ export function ConsoleOverviewView({
             </RailSection>
           </RailPanel>
 
-          <RailPanel>
-            <RailSection label={copy.console.changedDocs}>
-              {changedPages.length > 0 ? (
-                <div className="space-y-2">
-                  {changedPages.map((page) => (
-                    <Link
-                      key={page.path}
-                      href={`/${locale}/docs/${page.slug.join("/")}`}
-                      className="console-item flex items-center justify-between gap-3 rounded-md px-3 py-3 text-sm leading-6 text-[color:var(--foreground)] transition hover:text-[#00a35c]"
-                    >
-                      <span className="min-w-0 truncate">{page.title}</span>
-                      <span className="rounded-full bg-[#ecfff5] px-2 py-0.5 text-[11px] font-medium text-[#00663a]">
-                        {page.revisionCount} {copy.console.versionsShort}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">
-                  {copy.console.noDocHistory}
-                </div>
-              )}
-            </RailSection>
-          </RailPanel>
-
-          <RailPanel>
-            <RailSection label={copy.console.workflowGuide}>
-              <div className="space-y-3 text-sm leading-6 text-[color:var(--muted-foreground)]">
-                <p>{copy.console.workflowGuideIntro}</p>
-                <div className="rounded-md border border-[color:var(--color-border)] px-3 py-3 text-[color:var(--foreground)]">
-                  <div className="font-medium">CLI</div>
-                  <div className="mt-1 font-mono text-xs">opendaas guide</div>
-                </div>
-                <p>{copy.console.workflowGuideMirror}</p>
-              </div>
-            </RailSection>
-          </RailPanel>
+          <ConsoleDocChangePanels locale={locale} pages={snapshot.docs.changedPages} />
         </div>
       </div>
     </div>

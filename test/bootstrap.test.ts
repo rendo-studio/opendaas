@@ -74,6 +74,25 @@ describe("init", () => {
     }
   });
 
+  it("generates neutral shared docs instead of injecting OpenDaaS framework narration", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-neutral-docs-"));
+    cleanups.push(root);
+
+    await initWorkspace({
+      targetPath: root,
+      projectName: "Example Project"
+    });
+
+    const overviewDoc = await fs.readFile(path.join(root, "docs", "shared", "overview.md"), "utf8");
+    const goalDoc = await fs.readFile(path.join(root, "docs", "shared", "goal.md"), "utf8");
+
+    expect(overviewDoc).not.toContain(".opendaas/project/overview.yaml");
+    expect(overviewDoc).not.toContain("共享层只保留最稳定、最通用的项目上下文");
+    expect(goalDoc).not.toContain("Console");
+    expect(goalDoc).not.toContain("opendaas status show");
+    expect(goalDoc).not.toContain("共享控制面");
+  });
+
   it("initializes an existing project without destroying existing docs content", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-"));
     cleanups.push(root);

@@ -17,12 +17,11 @@ interface SiteCopy {
     noSuccessCriteria: string;
     nonGoals: string;
     noNonGoals: string;
-    changedDocs: string;
-    noDocHistory: string;
-    versionsShort: string;
-    workflowGuide: string;
-    workflowGuideIntro: string;
-    workflowGuideMirror: string;
+    unreadChangedDocs: string;
+    noUnreadChangedDocs: string;
+    recentChangedDocs: string;
+    noRecentChangedDocs: string;
+    changedAtLabel: string;
     taskTree: string;
     noTaskData: string;
     progressUnit: string;
@@ -86,12 +85,11 @@ const copy: Record<SiteLocale, SiteCopy> = {
       noSuccessCriteria: "尚未定义完成标准。",
       nonGoals: "明确不做什么",
       noNonGoals: "尚未定义非目标。",
-      changedDocs: "已变更文档",
-      noDocHistory: "尚未产生共享文档历史版本。",
-      versionsShort: "版本",
-      workflowGuide: "工作流指南",
-      workflowGuideIntro: "将 OpenDaaS Workflow Guide 视为 first-hour orientation 与 round-start 行为的唯一权威。",
-      workflowGuideMirror: "指南由 CLI 内置，并同步镜像到生成的仓库指导工件中；它不再是 authored docs 页面。",
+      unreadChangedDocs: "未读变更文档",
+      noUnreadChangedDocs: "当前没有未读文档变更。",
+      recentChangedDocs: "最近变更文档",
+      noRecentChangedDocs: "尚未产生共享文档变更历史。",
+      changedAtLabel: "变更时间",
       taskTree: "任务树",
       noTaskData: "当前没有可展示的任务数据。",
       progressUnit: "进度单元",
@@ -153,14 +151,11 @@ const copy: Record<SiteLocale, SiteCopy> = {
       noSuccessCriteria: "No success criteria are defined yet.",
       nonGoals: "Non-goals",
       noNonGoals: "No non-goals are defined yet.",
-      changedDocs: "Changed docs",
-      noDocHistory: "No authored docs have historical revisions yet.",
-      versionsShort: "versions",
-      workflowGuide: "Workflow guide",
-      workflowGuideIntro:
-        "Use the OpenDaaS Workflow Guide as the authority for first-hour orientation and round-start behavior.",
-      workflowGuideMirror:
-        "The guide is shipped with the CLI and mirrored into generated workspace guidance artifacts. It is no longer an authored docs page.",
+      unreadChangedDocs: "Unread changed docs",
+      noUnreadChangedDocs: "There are no unread doc updates right now.",
+      recentChangedDocs: "Recently changed docs",
+      noRecentChangedDocs: "No authored docs have changed yet.",
+      changedAtLabel: "Changed at",
       taskTree: "Task tree",
       noTaskData: "No task data is currently available.",
       progressUnit: "Progress unit",
