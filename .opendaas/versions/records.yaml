@@ -3,6 +3,7 @@ items:
     version: 0.1.0-alpha.1
     title: Public alpha baseline
     summary: First externally trialable OpenDaaS baseline.
+    docPath: internal/versions/0-1-0-alpha-1-public-alpha-baseline.md
     status: recorded
     decisionRefs:
       - introduce-public-alpha-install-path

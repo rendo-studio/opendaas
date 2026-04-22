@@ -1,5 +1,6 @@
 import path from "node:path";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { parse } from "yaml";
 
 export interface WorkspacePaths {
   root: string;
@@ -17,8 +18,39 @@ export interface WorkspacePaths {
   versionFile: string;
   docsSharedOverviewFile: string;
   docsSharedGoalFile: string;
-  docsDecisionsIndexFile: string;
-  docsVersionsIndexFile: string;
+}
+
+interface WorkspaceMetaLike {
+  docsRoot?: string;
+}
+
+interface WorkspaceConfigLike {
+  docsSite?: {
+    sourcePath?: string | null;
+  };
+}
+
+function readYamlIfExists<T>(filePath: string): T | null {
+  if (!existsSync(filePath)) {
+    return null;
+  }
+
+  try {
+    return parse(readFileSync(filePath, "utf8")) as T;
+  } catch {
+    return null;
+  }
+}
+
+function resolveDocsRoot(root: string): string {
+  const workspaceRoot = path.join(root, ".opendaas");
+  const config = readYamlIfExists<WorkspaceConfigLike>(path.join(workspaceRoot, "config", "workspace.yaml"));
+  const meta = readYamlIfExists<WorkspaceMetaLike>(path.join(workspaceRoot, "meta", "workspace.yaml"));
+  const configuredSourcePath = config?.docsSite?.sourcePath?.trim();
+  const configuredDocsRoot = meta?.docsRoot?.trim();
+  const docsRoot = configuredSourcePath || configuredDocsRoot || "docs";
+
+  return path.join(root, docsRoot);
 }
 
 export function resolveWorkspaceRoot(start = process.cwd()): string {
@@ -31,16 +63,15 @@ export function resolveWorkspaceRoot(start = process.cwd()): string {
 
   while (true) {
     const hasWorkspace = existsSync(path.join(current, ".opendaas"));
-    const hasDocs = existsSync(path.join(current, "docs"));
 
-    if (hasWorkspace && hasDocs) {
+    if (hasWorkspace) {
       return current;
     }
 
     const parent = path.dirname(current);
     if (parent === current) {
       throw new Error(
-        `Unable to locate an OpenDaaS workspace from ${start}. Expected both .opendaas and docs.`
+        `Unable to locate an OpenDaaS workspace from ${start}. Expected a .opendaas workspace root.`
       );
     }
     current = parent;
@@ -49,7 +80,7 @@ export function resolveWorkspaceRoot(start = process.cwd()): string {
 
 export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
   const root = resolveWorkspaceRoot(start);
-  const docsRoot = path.join(root, "docs");
+  const docsRoot = resolveDocsRoot(root);
   const workspaceRoot = path.join(root, ".opendaas");
 
   return {
@@ -67,9 +98,7 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
     decisionFile: path.join(workspaceRoot, "decisions", "records.yaml"),
     versionFile: path.join(workspaceRoot, "versions", "records.yaml"),
     docsSharedOverviewFile: path.join(docsRoot, "shared", "overview.md"),
-    docsSharedGoalFile: path.join(docsRoot, "shared", "goal.md"),
-    docsDecisionsIndexFile: path.join(docsRoot, "project", "decisions", "index.md"),
-    docsVersionsIndexFile: path.join(docsRoot, "internal", "versions", "index.md")
+    docsSharedGoalFile: path.join(docsRoot, "shared", "goal.md")
   };
 }
 

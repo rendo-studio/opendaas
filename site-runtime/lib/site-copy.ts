@@ -33,7 +33,10 @@ interface SiteCopy {
     blockers: string;
     noActiveBlockers: string;
     noExplicitBlocker: string;
-    linkedChanges: string;
+    projectVersions: string;
+    noProjectVersions: string;
+    recordedAtLabel: string;
+    createdAtLabel: string;
   };
   revisions: {
     title: string;
@@ -101,7 +104,10 @@ const copy: Record<SiteLocale, SiteCopy> = {
       blockers: "阻塞项",
       noActiveBlockers: "当前没有活跃阻塞项。",
       noExplicitBlocker: "暂无明确 blocker",
-      linkedChanges: "关联变更"
+      projectVersions: "项目版本",
+      noProjectVersions: "当前还没有项目级版本记录。",
+      recordedAtLabel: "记录时间",
+      createdAtLabel: "创建时间"
     },
     revisions: {
       title: "Revision Line",
@@ -167,7 +173,10 @@ const copy: Record<SiteLocale, SiteCopy> = {
       blockers: "Blockers",
       noActiveBlockers: "No active blockers.",
       noExplicitBlocker: "暂无明确 blocker",
-      linkedChanges: "Linked changes"
+      projectVersions: "Project versions",
+      noProjectVersions: "No project-level version records yet.",
+      recordedAtLabel: "Recorded at",
+      createdAtLabel: "Created at"
     },
     revisions: {
       title: "Revision Line",

@@ -13,12 +13,13 @@ export async function saveEndGoal(input: GoalState): Promise<GoalState> {
   return input;
 }
 
-export async function updateEndGoal(input: Pick<GoalState, "name" | "summary">): Promise<GoalState> {
+export async function updateEndGoal(input: Partial<Pick<GoalState, "name" | "summary" | "docPath">>): Promise<GoalState> {
   const current = await loadEndGoal();
   const next: GoalState = {
     ...current,
-    name: input.name,
-    summary: input.summary
+    ...(input.name ? { name: input.name } : {}),
+    ...(input.summary ? { summary: input.summary } : {}),
+    ...(input.docPath ? { docPath: input.docPath } : {})
   };
 
   return saveEndGoal(next);

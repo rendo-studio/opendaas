@@ -1,8 +1,4 @@
-import path from "node:path";
-import { existsSync } from "node:fs";
-
-import { replaceSectionContent } from "./markdown.js";
-import { readYamlFile, writeText, writeYamlFile } from "./storage.js";
+import { readYamlFile, writeYamlFile } from "./storage.js";
 import { getWorkspacePaths } from "./workspace.js";
 import type { VersionRecord, VersionRecordStatus, VersionState } from "./types.js";
 
@@ -13,140 +9,6 @@ function slugify(input: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 64);
-}
-
-function renderBulletOrNone(items: string[]): string {
-  return items.length === 0 ? "- 暂无" : items.map((item) => `- ${item}`).join("\n");
-}
-
-function labelForStatus(status: VersionRecordStatus): string {
-  switch (status) {
-    case "draft":
-      return "draft";
-    case "recorded":
-      return "recorded";
-  }
-}
-
-function versionDocFilePath(recordId: string): string {
-  const paths = getWorkspacePaths();
-  return path.join(path.dirname(paths.docsVersionsIndexFile), `${recordId}.md`);
-}
-
-async function ensureVersionIndexDocExists() {
-  const paths = getWorkspacePaths();
-  if (existsSync(paths.docsVersionsIndexFile)) {
-    return;
-  }
-
-  const content = `---
-name: Versions
-description: 项目的版本记录与更新摘要入口页。
----
-
-# Versions
-
-## 版本摘要
-
-当前还没有正式记录的项目级版本 entry。
-
-## 最近版本
-
-- 暂无
-
-## 重要变化
-
-- 暂无
-`;
-  await writeText(paths.docsVersionsIndexFile, content);
-}
-
-function renderVersionDoc(record: VersionRecord): string {
-  return `---
-name: ${record.id}
-description: ${record.title} 的项目级版本记录。
----
-
-# ${record.id}
-
-## Version
-
-${record.version}
-
-## Title
-
-${record.title}
-
-## Status
-
-${labelForStatus(record.status)}
-
-## Summary
-
-${record.summary}
-
-## Decision Refs
-
-${renderBulletOrNone(record.decisionRefs)}
-
-## Highlights
-
-${renderBulletOrNone(record.highlights)}
-
-## Breaking Changes
-
-${renderBulletOrNone(record.breakingChanges)}
-
-## Migration Notes
-
-${renderBulletOrNone(record.migrationNotes)}
-
-## Validation Summary
-
-${record.validationSummary ?? "待补充"}
-
-## Timeline
-
-- Created: ${record.createdAt}
-- Recorded: ${record.recordedAt ?? "待定"}
-`;
-}
-
-async function syncVersionDocs(state: VersionState) {
-  const paths = getWorkspacePaths();
-  await ensureVersionIndexDocExists();
-  const sorted = [...state.items].sort((left, right) => right.createdAt.localeCompare(left.createdAt));
-  const summary =
-    sorted.length === 0
-      ? "当前还没有正式记录的项目级版本 entry。"
-      : `当前最新的项目级版本记录是：**${sorted[0].version} ${sorted[0].title}**`;
-
-  const recent =
-    sorted.length === 0
-      ? "- 暂无"
-      : sorted
-          .slice(0, 5)
-          .map((record) => `- [${record.version} ${record.title}](./${record.id}.md) [${labelForStatus(record.status)}]`)
-          .join("\n");
-
-  const highlights =
-    sorted.length === 0
-      ? "- 暂无"
-      : sorted
-          .flatMap((record) => record.highlights.slice(0, 3).map((item) => `${record.version}: ${item}`))
-          .slice(0, 5);
-
-  await replaceSectionContent(paths.docsVersionsIndexFile, "版本摘要", summary);
-  await replaceSectionContent(paths.docsVersionsIndexFile, "最近版本", recent);
-  await replaceSectionContent(
-    paths.docsVersionsIndexFile,
-    "重要变化",
-    Array.isArray(highlights) ? renderBulletOrNone(highlights) : highlights
-  );
-
-  for (const record of state.items) {
-    await writeText(versionDocFilePath(record.id), renderVersionDoc(record));
-  }
 }
 
 export async function loadVersionState(): Promise<VersionState> {
@@ -160,7 +22,6 @@ export async function loadVersionState(): Promise<VersionState> {
 export async function saveVersionState(state: VersionState): Promise<void> {
   const paths = getWorkspacePaths();
   await writeYamlFile(paths.versionFile, state);
-  await syncVersionDocs(state);
 }
 
 export async function listVersionRecords(): Promise<VersionRecord[]> {
@@ -181,6 +42,7 @@ export async function createVersionRecord(input: {
   version: string;
   title: string;
   summary: string;
+  docPath?: string;
   decisionRefs?: string[];
 }) {
   const state = await loadVersionState();
@@ -198,6 +60,7 @@ export async function createVersionRecord(input: {
     version: input.version,
     title: input.title,
     summary: input.summary,
+    docPath: input.docPath ?? null,
     status: "draft",
     decisionRefs: input.decisionRefs ?? [],
     highlights: [],
@@ -218,6 +81,7 @@ export async function createVersionRecord(input: {
 export async function updateVersionRecord(input: {
   id: string;
   summary?: string;
+  docPath?: string | null;
   status?: VersionRecordStatus;
   addDecisionRefs?: string[];
   addHighlights?: string[];
@@ -238,6 +102,7 @@ export async function updateVersionRecord(input: {
   const updated: VersionRecord = {
     ...current,
     ...(input.summary ? { summary: input.summary } : {}),
+    ...(input.docPath !== undefined ? { docPath: input.docPath } : {}),
     status: nextStatus,
     decisionRefs: unique([...current.decisionRefs, ...(input.addDecisionRefs ?? [])]),
     highlights: unique([...current.highlights, ...(input.addHighlights ?? [])]),

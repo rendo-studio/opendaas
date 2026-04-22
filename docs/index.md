@@ -54,7 +54,6 @@ OpenDaaS 是一个 `CLI-first` 的人类开发者与开发端 Agent 项目上下
 - [Status Model](./project/status.md)
 - [Current Work](./project/current-work.md)
 - [Task Model](./project/tasks.md)
-- [Changes](./project/changes/index.md)
 - [Decisions](./project/decisions/index.md)
 
 ### Engineering
@@ -109,7 +108,6 @@ OpenDaaS 是一个 `CLI-first` 的人类开发者与开发端 Agent 项目上下
 - [当前状态](./project/status.md)
 - [当前工作](./project/current-work.md)
 - [任务闭环](./project/tasks.md)
-- [Changes](./project/changes/index.md)
 - [Decisions](./project/decisions/index.md)
 
 ### 开发入口

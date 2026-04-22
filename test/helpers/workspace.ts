@@ -28,6 +28,7 @@ const defaultEndGoal: GoalState = {
   goalId: "end-goal-test",
   name: "Test end goal",
   summary: "Exercise the OpenDaaS project context control plane in isolation.",
+  docPath: "shared/goal.md",
   successCriteria: ["Persist and project control-plane state."],
   nonGoals: ["External deployment."]
 };

@@ -15,21 +15,31 @@ export function registerGoalGroup(app: AclipApp) {
       ),
       arguments: [
         stringArgument("name", {
-          required: true,
-          description: "Human-readable end goal name."
+          required: false,
+          description: "Optional replacement end goal name."
         }),
         stringArgument("description", {
-          required: true,
-          description: "One-sentence end goal description."
+          required: false,
+          description: "Optional replacement end goal description."
+        }),
+        stringArgument("doc-path", {
+          required: false,
+          description: "Optional replacement goal doc path relative to the docs package root."
         })
       ],
       examples: [
-        "opendaas goal set --name 'Make OpenDaaS durable' --description 'Turn OpenDaaS into a stable project context control plane for human developers and development agents.'"
+        "opendaas goal set --name 'Make OpenDaaS durable' --description 'Turn OpenDaaS into a stable project context control plane for human developers and development agents.'",
+        "opendaas goal set --doc-path shared/goal.md"
       ],
-      handler: async ({ name, description }) => {
+      handler: async ({ name, description, "doc-path": docPath }) => {
+        if (!name && !description && !docPath) {
+          throw new Error("goal set requires at least one of --name, --description, or --doc-path.");
+        }
+
         const goal = await updateEndGoal({
-          name: String(name),
-          summary: String(description)
+          ...(name ? { name: String(name) } : {}),
+          ...(description ? { summary: String(description) } : {}),
+          ...(docPath ? { docPath: String(docPath) } : {})
         });
 
         return {

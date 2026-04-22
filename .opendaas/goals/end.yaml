@@ -1,6 +1,7 @@
 goalId: end-goal-opendaas-framework
 name: OpenDaaS long-term end goal
 summary: 让 OpenDaaS 成为面向 Agent 编程的项目上下文控制面最佳实践框架，提供清晰稳定的人类开发者与开发端 Agent 协作标准，以及从项目介绍、最终目标、计划、任务、决策、工作流指南到验证和项目级版本记录的完整闭环。
+docPath: shared/goal.md
 successCriteria:
   - opendaas defines stable standards for project overview, end goal, plans, tasks, decisions, version records, and workflow guidance
   - opendaas keeps authored docs, structured workspace state, and local docs-site views aligned for human developers and development agents

@@ -125,6 +125,7 @@ function buildEndGoal(
     goalId: `end-goal-${slugify(name) || "project"}`,
     name,
     summary,
+    docPath: "shared/goal.md",
     successCriteria: hasExplicitGoal
       ? [
           `${projectName} exposes a stable project overview, end goal, plans, tasks, decisions, and version records as structured control-plane data`,

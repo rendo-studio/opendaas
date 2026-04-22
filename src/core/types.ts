@@ -8,6 +8,7 @@ export interface GoalState {
   goalId: string;
   name: string;
   summary: string;
+  docPath: string;
   successCriteria: string[];
   nonGoals: string[];
 }
@@ -144,6 +145,7 @@ export interface DecisionRecord {
   id: string;
   name: string;
   description: string;
+  docPath: string | null;
   category: DecisionCategory;
   proposedBy: string;
   context: string;
@@ -166,6 +168,7 @@ export interface VersionRecord {
   version: string;
   title: string;
   summary: string;
+  docPath: string | null;
   status: VersionRecordStatus;
   decisionRefs: string[];
   highlights: string[];

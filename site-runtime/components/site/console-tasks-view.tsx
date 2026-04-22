@@ -2,11 +2,11 @@ import Link from "next/link";
 
 import type { SiteLocale } from "../../lib/i18n";
 import type { ControlPlaneSnapshot, RuntimeTaskNode } from "../../lib/runtime-data";
-import { getSiteCopy } from "../../lib/site-copy";
+import { formatSiteDate, getSiteCopy } from "../../lib/site-copy";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Badge } from "../ui/badge";
 import { Progress } from "../ui/progress";
-import { DataList, RailPanel, RailSection, StatusBadge } from "./docs-rail-shared";
+import { DataList, RailPanel, RailSection, StatusBadge, docsPathToHref } from "./docs-rail-shared";
 
 function TaskAccordionGroup({
   locale,
@@ -67,7 +67,11 @@ export function ConsoleTasksView({
   const doneTasks = actionableTasks.filter((item) => item.status === "done").length;
   const recentCompleted = snapshot.tasks?.recentCompleted ?? [];
   const blockers = snapshot.tasks?.blockers ?? [];
-  const changePages = snapshot.docs.changePages;
+  const versions = [...(snapshot.versions?.items ?? [])].sort((left, right) => {
+    const leftTime = left.recordedAt ?? left.createdAt;
+    const rightTime = right.recordedAt ?? right.createdAt;
+    return rightTime.localeCompare(leftTime);
+  });
   const planNamesById = new Map((snapshot.plans?.items ?? []).map((item) => [item.id, item.name]));
   const planPercent = totalPlans > 0 ? Math.round((donePlans / totalPlans) * 100) : 0;
   const taskPercent = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
@@ -126,23 +130,61 @@ export function ConsoleTasksView({
           </RailSection>
         </RailPanel>
 
-        {changePages.length > 0 ? (
-          <RailPanel>
-            <RailSection label={copy.console.linkedChanges}>
+        <RailPanel>
+          <RailSection label={copy.console.projectVersions}>
+            {versions.length === 0 ? (
+              <div className="text-sm leading-6 text-[color:var(--muted-foreground)]">{copy.console.noProjectVersions}</div>
+            ) : (
               <div className="space-y-2">
-                {changePages.map((page) => (
-                  <Link
-                    key={page.path}
-                    href={`/${locale}/docs/${page.slug.join("/")}`}
-                    className="console-item block rounded-md px-3 py-2 text-sm leading-6 text-[color:var(--foreground)] transition hover:text-[#0072f5]"
-                  >
-                    {page.title}
-                  </Link>
-                ))}
+                {versions.map((record) => {
+                  const timestamp = record.recordedAt ?? record.createdAt;
+                  const timestampLabel = record.recordedAt
+                    ? copy.console.recordedAtLabel
+                    : copy.console.createdAtLabel;
+                  const content = (
+                    <>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="truncate text-sm font-medium text-[color:var(--foreground)]">
+                            {record.version} {record.title}
+                          </div>
+                          <div className="mt-1 text-xs leading-5 text-[color:var(--muted-foreground)]">
+                            {timestampLabel}:{" "}
+                            {formatSiteDate(locale, timestamp, {
+                              month: "short",
+                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit"
+                            })}
+                          </div>
+                        </div>
+                        <StatusBadge status={record.status} locale={locale} />
+                      </div>
+                    </>
+                  );
+
+                  if (record.docPath) {
+                    return (
+                      <Link
+                        key={record.id}
+                        href={docsPathToHref(locale, record.docPath)}
+                        className="console-item block rounded-md px-3 py-2 transition hover:text-[#0072f5]"
+                      >
+                        {content}
+                      </Link>
+                    );
+                  }
+
+                  return (
+                    <div key={record.id} className="console-item rounded-md px-3 py-2">
+                      {content}
+                    </div>
+                  );
+                })}
               </div>
-            </RailSection>
-          </RailPanel>
-        ) : null}
+            )}
+          </RailSection>
+        </RailPanel>
       </div>
     </div>
   );

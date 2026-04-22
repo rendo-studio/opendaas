@@ -87,7 +87,6 @@ export interface SiteControlPlaneSnapshot {
   versions: Awaited<ReturnType<typeof loadVersionState>> | null;
   docs: {
     pages: DocManifestEntry[];
-    changePages: Array<Pick<DocManifestEntry, "path" | "slug" | "title" | "description">>;
     changedPages: DocManifestEntry[];
   };
 }
@@ -172,12 +171,7 @@ export function slugToDocsPath(slug: string[]): string {
     return "index.md";
   }
 
-  const joined = slug.join("/");
-  if (joined.includes("changes") || joined.includes("decisions") || joined.includes("versions")) {
-    return `${joined}/index.md`;
-  }
-
-  return `${joined}.md`;
+  return `${slug.join("/")}.md`;
 }
 
 async function resolveDocsRevisionState(options?: BuildSiteSnapshotOptions): Promise<DocsRevisionState> {
@@ -321,14 +315,6 @@ async function loadWorkspaceSiteSnapshot(
       versions,
       docs: {
         pages: docsManifest,
-        changePages: docsManifest
-          .filter((page) => page.path.startsWith("project/changes/") && page.path !== "project/changes/index.md")
-          .map(({ path: pagePath, slug, title, description }) => ({
-            path: pagePath,
-            slug,
-            title,
-            description
-          })),
         changedPages
       }
     };
@@ -371,14 +357,6 @@ export async function buildSiteControlPlaneSnapshot(
     versions: null,
     docs: {
       pages: docsManifest,
-      changePages: docsManifest
-        .filter((page) => page.path.startsWith("project/changes/") && page.path !== "project/changes/index.md")
-        .map(({ path: pagePath, slug, title, description }) => ({
-          path: pagePath,
-          slug,
-          title,
-          description
-        })),
       changedPages
     }
   };

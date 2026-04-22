@@ -25,15 +25,24 @@ afterEach(async () => {
 });
 
 describe("version control plane", () => {
-  it("creates, updates, and records low-frequency project-level version records", async () => {
+  it("creates, updates, and records low-frequency project-level version records through explicit doc paths", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
+
+    const docPath = "internal/changelog/0-2-0.md";
+    await fs.mkdir(path.join(fixture.root, "docs", "internal", "changelog"), { recursive: true });
+    await fs.writeFile(
+      path.join(fixture.root, "docs", "internal", "changelog", "0-2-0.md"),
+      "---\nname: v0.2.0\ndescription: Version log.\n---\n\n# v0.2.0\n",
+      "utf8"
+    );
 
     const draft = await createVersionRecord({
       version: "0.2.0",
       title: "Stable control-plane baseline",
       summary: "First version where the OpenDaaS control plane is stable enough to preserve as a project-level milestone.",
+      docPath,
       decisionRefs: ["define-version-record-policy"]
     });
 
@@ -49,14 +58,6 @@ describe("version control plane", () => {
       status: "recorded"
     });
 
-    const versionDoc = await fs.readFile(
-      path.join(fixture.root, "docs", "internal", "versions", `${draft.id}.md`),
-      "utf8"
-    );
-    const indexDoc = await fs.readFile(
-      path.join(fixture.root, "docs", "internal", "versions", "index.md"),
-      "utf8"
-    );
     const listed = await listVersionRecords();
     const loaded = await getVersionRecord(draft.id);
 
@@ -64,8 +65,7 @@ describe("version control plane", () => {
     expect(recorded.status).toBe("recorded");
     expect(loaded.recordedAt).not.toBeNull();
     expect(listed).toHaveLength(1);
-    expect(versionDoc).toContain("## Highlights");
-    expect(versionDoc).toContain("Removed persisted derived state");
-    expect(indexDoc).toContain("0.2.0 Stable control-plane baseline");
+    expect(loaded.docPath).toBe(docPath);
+    expect(loaded.highlights).toContain("Removed persisted derived state");
   });
 });

@@ -81,6 +81,7 @@ export interface ControlPlaneSnapshot {
         goalId: string;
         name: string;
         summary: string;
+        docPath: string;
         successCriteria: string[];
         nonGoals: string[];
       }
@@ -156,14 +157,21 @@ export interface ControlPlaneSnapshot {
           id: string;
           version: string;
           title: string;
+          summary: string;
+          docPath: string | null;
           status: "draft" | "recorded";
+          decisionRefs: string[];
+          highlights: string[];
+          breakingChanges: string[];
+          migrationNotes: string[];
+          validationSummary: string | null;
           createdAt: string;
+          recordedAt: string | null;
         }>;
       }
     | null;
   docs: {
     pages: RuntimeDocPage[];
-    changePages: Array<Pick<RuntimeDocPage, "path" | "slug" | "title" | "description">>;
     changedPages: RuntimeDocPage[];
   };
 }
@@ -216,7 +224,6 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
     versions: null,
     docs: {
       pages: [],
-      changePages: [],
       changedPages: []
     }
   });

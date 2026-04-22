@@ -91,7 +91,8 @@ function renderGoal(payload: Record<string, unknown>, nextAction?: string): stri
     "# End Goal",
     "",
     `- ID: ${typeof payload.goalId === "string" ? inlineCode(payload.goalId) : "Unknown"}`,
-    `- Name: ${typeof payload.name === "string" ? payload.name : "Unknown"}`
+    `- Name: ${typeof payload.name === "string" ? payload.name : "Unknown"}`,
+    `- Goal doc: ${typeof payload.docPath === "string" ? inlineCode(payload.docPath) : "Unknown"}`
   ];
 
   if (typeof payload.summary === "string" && payload.summary.trim().length > 0) {
@@ -306,6 +307,10 @@ function renderDecisionRecord(payload: Record<string, unknown>): string {
     `- Status: ${typeof payload.status === "string" ? inlineCode(payload.status) : "Unknown"}`
   ];
 
+  if (typeof payload.docPath === "string" && payload.docPath.trim().length > 0) {
+    lines.push(`- Decision doc: ${inlineCode(payload.docPath)}`);
+  }
+
   if (typeof payload.description === "string") {
     lines.push("", renderSection("Description", payload.description));
   }
@@ -368,6 +373,10 @@ function renderVersionRecord(payload: Record<string, unknown>): string {
     `- Title: ${typeof payload.title === "string" ? payload.title : "Unknown"}`,
     `- Status: ${typeof payload.status === "string" ? inlineCode(payload.status) : "Unknown"}`
   ];
+
+  if (typeof payload.docPath === "string" && payload.docPath.trim().length > 0) {
+    lines.push(`- Version doc: ${inlineCode(payload.docPath)}`);
+  }
 
   if (typeof payload.summary === "string") {
     lines.push("", renderSection("Summary", payload.summary));

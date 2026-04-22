@@ -2,15 +2,9 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { existsSync } from "node:fs";
 
-import { replaceSectionContent } from "./markdown.js";
-import { readYamlFile, writeText, writeYamlFile } from "./storage.js";
+import { readYamlFile, writeYamlFile } from "./storage.js";
 import { getWorkspacePaths } from "./workspace.js";
-import type {
-  DecisionCategory,
-  DecisionRecord,
-  DecisionState,
-  DecisionStatus
-} from "./types.js";
+import type { DecisionCategory, DecisionRecord, DecisionState, DecisionStatus } from "./types.js";
 
 interface LegacyDecisionRecordShape {
   id: string;
@@ -34,36 +28,6 @@ function slugify(input: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 64);
-}
-
-function labelForStatus(status: DecisionStatus): string {
-  switch (status) {
-    case "approved":
-      return "批准";
-    case "rejected":
-      return "拒绝";
-    default:
-      return "待决";
-  }
-}
-
-function labelForCategory(category: DecisionCategory): string {
-  switch (category) {
-    case "goal":
-      return "goal";
-    case "scope":
-      return "scope";
-    case "change":
-      return "change";
-    case "architecture":
-      return "architecture";
-    case "version":
-      return "version";
-    case "policy":
-      return "policy";
-    default:
-      return "other";
-  }
 }
 
 function looksLikeLegacyDecisionRecord(value: unknown): value is LegacyDecisionRecordShape {
@@ -96,6 +60,7 @@ function mapLegacyRecord(record: LegacyDecisionRecordShape): DecisionRecord {
     id: record.id,
     name: record.name,
     description: record.description,
+    docPath: null,
     category: "change",
     proposedBy: record.proposedBy ?? "agent",
     context: record.description,
@@ -108,128 +73,6 @@ function mapLegacyRecord(record: LegacyDecisionRecordShape): DecisionRecord {
     createdAt: record.createdAt ?? new Date().toISOString(),
     decidedAt: record.decidedAt ?? null
   };
-}
-
-function renderDecisionDoc(record: DecisionRecord): string {
-  const decisionHeading =
-    record.status === "pending" ? "待决" : record.status === "approved" ? "**批准**" : "**拒绝**";
-
-  return `---
-name: ${record.id}
-description: ${record.name} 的决策记录。
----
-
-# ${record.id}
-
-## Candidate
-
-${record.name}
-
-${record.description}
-
-## Category
-
-${labelForCategory(record.category)}
-
-## Proposed By
-
-${record.proposedBy}
-
-## Context
-
-${record.context}
-
-## Impact Of No Action
-
-${record.impactOfNoAction}
-
-## Expected Outcome
-
-${record.expectedOutcome}
-
-## Boundary
-
-${record.boundary}
-
-## Decision
-
-${decisionHeading}
-
-## Decision Summary
-
-${record.decisionSummary ?? "待决"}
-
-## Revisit Condition
-
-${record.revisitCondition ?? "待补充"}
-`;
-}
-
-async function ensureDecisionIndexDocExists() {
-  const paths = getWorkspacePaths();
-  if (existsSync(paths.docsDecisionsIndexFile)) {
-    return;
-  }
-
-  const content = `---
-name: Decisions
-description: 项目的重要决策索引页。
----
-
-# Decisions
-
-## 决策摘要
-
-当前还没有正式记录的重要决策。
-
-## 关键决策列表
-
-- 暂无
-
-## 最近新增决策
-
-- 暂无
-`;
-  await writeText(paths.docsDecisionsIndexFile, content);
-}
-
-async function syncDecisionDocs(state: DecisionState) {
-  const paths = getWorkspacePaths();
-  await ensureDecisionIndexDocExists();
-  const sorted = [...state.items].sort((left, right) => right.createdAt.localeCompare(left.createdAt));
-  const summary =
-    sorted.length === 0
-      ? "当前还没有正式记录的重要决策。"
-      : `当前最关键的决策是：**${sorted[0].id}**`;
-  const list =
-    sorted.length === 0
-      ? "- 暂无"
-      : sorted.map((item) => `- [${item.id}](./${item.id}.md) [${labelForStatus(item.status)}]`).join("\n");
-  const latest =
-    sorted.length === 0
-      ? "- 暂无"
-      : sorted.slice(0, 5).map((item) => `- ${item.id}：${labelForStatus(item.status)}`).join("\n");
-
-  await replaceSectionContent(paths.docsDecisionsIndexFile, "决策摘要", summary);
-  await replaceSectionContent(paths.docsDecisionsIndexFile, "关键决策列表", list);
-  await replaceSectionContent(paths.docsDecisionsIndexFile, "最近新增决策", latest);
-
-  const decisionsDir = path.dirname(paths.docsDecisionsIndexFile);
-  const expectedFiles = new Set(state.items.map((record) => `${record.id}.md`));
-  const currentFiles = await fs.readdir(decisionsDir).catch(() => []);
-
-  for (const fileName of currentFiles) {
-    if (fileName === "index.md" || !fileName.endsWith(".md") || expectedFiles.has(fileName)) {
-      continue;
-    }
-    await fs.rm(path.join(decisionsDir, fileName), { force: true });
-  }
-
-  for (const record of state.items) {
-    const filePath = path.join(decisionsDir, `${record.id}.md`);
-    const content = renderDecisionDoc(record);
-    await writeText(filePath, content);
-  }
 }
 
 async function findLegacyDecisionRecordFiles(): Promise<string[]> {
@@ -305,7 +148,6 @@ export async function saveDecisionState(state: DecisionState): Promise<void> {
   const paths = getWorkspacePaths();
   await writeYamlFile(paths.decisionFile, state);
   await purgeLegacyDecisionState();
-  await syncDecisionDocs(state);
 }
 
 export async function migrateDecisionState() {
@@ -352,6 +194,7 @@ export async function getDecisionRecord(id: string): Promise<DecisionRecord> {
 export async function createDecisionRecord(input: {
   name: string;
   description: string;
+  docPath?: string;
   category: DecisionCategory;
   proposedBy: string;
   context: string;
@@ -373,6 +216,7 @@ export async function createDecisionRecord(input: {
     id,
     name: input.name,
     description: input.description,
+    docPath: input.docPath ?? null,
     category: input.category,
     proposedBy: input.proposedBy,
     context: input.context,

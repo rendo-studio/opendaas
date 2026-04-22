@@ -17,7 +17,7 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 ## 1. 文档目的
 
-本文档定义从 `docs/` 到文档站的最小信息架构与渲染规则。
+本文档定义从“配置的文档包根路径”到文档站的最小信息架构与渲染规则。
 
 它要回答的是：
 
@@ -46,7 +46,7 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 因此，文档站必须满足：
 
-1. 只从 `docs/` 源文档派生
+1. 只从配置的文档包源内容派生
 2. 优先帮助人类理解项目当前现实
 3. 稳定暴露固定锚点
 4. 有内容的自适应区块才进入导航
@@ -72,6 +72,9 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 ## 4. 固定锚点的导航映射
 
+下面的路径示例只是官方推荐 docs package 下的默认落点，不是运行时必须依赖的固定目录结构。
+真正的绑定应优先来自控制面中的显式 `docPath`。
+
 ### 4.1 `Shared / Overview`
 
 映射：
@@ -88,7 +91,8 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 映射：
 
-- `docs/project/goal.md`
+- 默认推荐：`docs/shared/goal.md`
+- 实际运行时：以 end goal 的 `docPath` 为准
 
 作用：
 
@@ -114,17 +118,7 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 - 当前高层工作焦点
 
-### 4.5 `Project / Changes`
-
-映射：
-
-- `docs/project/changes/index.md`
-
-作用：
-
-- 高层变化可见入口
-
-### 4.6 `Project / Tasks`
+### 4.5 `Project / Tasks`
 
 映射：
 
@@ -134,7 +128,7 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 - 当前完整任务树与闭环入口
 
-### 4.7 `Engineering / Development`
+### 4.6 `Engineering / Development`
 
 映射：
 
@@ -160,13 +154,13 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 映射：
 
-- `docs/project/decisions/index.md`
+- 控制面 decision records 中显式声明的 `docPath`
 
 ### 5.3 `Internal / Versions`
 
 映射：
 
-- `docs/internal/versions/index.md`
+- 控制面 version records 中显式声明的 `docPath`
 
 ---
 
@@ -221,10 +215,9 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 1. 最终目标
 2. 当前状态
 3. 当前工作
-4. Changes
-5. Tasks
-6. Decisions（存在时）
-7. Versions（存在时）
+4. Tasks
+5. Decisions（存在时）
+6. Versions（存在时）
 
 理由：
 
@@ -258,8 +251,8 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 推荐渲染入口：
 
-- `Project / Changes`
-- 首页中的最近变化摘要卡片或链接
+- 首页中的最近文档变化摘要卡片或链接
+- Console 中的未读/最近文档变化面板
 
 ---
 
@@ -317,8 +310,8 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 `opendaas site` 至少应能够：
 
-1. 从 `docs/` 识别固定锚点页面
-2. 从 `docs/` 识别存在内容的自适应区块
+1. 从配置的文档包根路径识别固定锚点页面
+2. 从配置的文档包根路径识别存在内容的自适应区块
 3. 读取最终目标与当前进度的展示入口
 4. 构建稳定导航
 5. 过滤 `.opendaas/` 和其他非共享源内容

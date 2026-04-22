@@ -15,6 +15,7 @@ CLI 主要负责：
 - 校验与修复
 - 文档站运行时
 - 结构化 project / goal / plan / task / decision / version mutation
+- 显式维护 `docPath` 引用
 - 输出渐进式工作流指南
 
 CLI 不负责：
@@ -91,6 +92,8 @@ docs/
 ## `version`
 
 `version` 用于记录低频、项目级的正式版本状态。
+
+如果需要人类可读的版本文档，应通过 `--doc-path` 显式绑定，而不是依赖固定 docs 目录投影。
 
 它不是：
 

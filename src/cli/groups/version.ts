@@ -53,6 +53,11 @@ export function registerVersionGroup(app: AclipApp) {
           required: true,
           description: "Version summary."
         }),
+        stringArgument("doc-path", {
+          required: false,
+          description: "Optional version doc path relative to the docs package root.",
+          flag: "--doc-path"
+        }),
         stringArgument("decisionRefs", {
           required: false,
           description: "Optional comma-separated decision refs.",
@@ -67,6 +72,7 @@ export function registerVersionGroup(app: AclipApp) {
           version: String(payload.version),
           title: String(payload.title),
           summary: String(payload.summary),
+          docPath: payload["doc-path"] ? String(payload["doc-path"]) : undefined,
           decisionRefs: splitCsv(payload.decisionRefs ? String(payload.decisionRefs) : undefined)
         })
       })
@@ -107,6 +113,11 @@ export function registerVersionGroup(app: AclipApp) {
           required: false,
           description: "Optional replacement summary."
         }),
+        stringArgument("doc-path", {
+          required: false,
+          description: "Optional replacement doc path relative to the docs package root.",
+          flag: "--doc-path"
+        }),
         stringArgument("status", {
           required: false,
           description: "Optional new status: draft or recorded."
@@ -144,6 +155,7 @@ export function registerVersionGroup(app: AclipApp) {
         version: await updateVersionRecord({
           id: String(payload.id),
           summary: payload.summary ? String(payload.summary) : undefined,
+          docPath: payload["doc-path"] ? String(payload["doc-path"]) : undefined,
           status: payload.status ? assertVersionStatus(String(payload.status)) : undefined,
           addDecisionRefs: splitCsv(payload.decisionRefs ? String(payload.decisionRefs) : undefined),
           addHighlights: splitCsv(payload.highlights ? String(payload.highlights) : undefined),

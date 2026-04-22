@@ -25,14 +25,23 @@ afterEach(async () => {
 });
 
 describe("decision control plane", () => {
-  it("creates and decides important records, then syncs decision docs", async () => {
+  it("creates and decides important records without relying on implicit docs directories", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
 
+    const docPath = "internal/decision-log/version-record-policy.md";
+    await fs.mkdir(path.join(fixture.root, "docs", "internal", "decision-log"), { recursive: true });
+    await fs.writeFile(
+      path.join(fixture.root, "docs", "internal", "decision-log", "version-record-policy.md"),
+      "---\nname: Version record policy\ndescription: Decision log entry.\n---\n\n# Version record policy\n",
+      "utf8"
+    );
+
     const record = await createDecisionRecord({
       name: "Define version record policy",
       description: "Introduce low-frequency project-level version records.",
+      docPath,
       category: "version",
       proposedBy: "agent",
       context: "The framework still mixes project versions with delivery-event semantics.",
@@ -48,21 +57,10 @@ describe("decision control plane", () => {
     });
 
     const all = await listDecisionRecords();
-    const decisionDoc = await fs.readFile(
-      path.join(fixture.root, "docs", "project", "decisions", `${record.id}.md`),
-      "utf8"
-    );
-    const indexDoc = await fs.readFile(
-      path.join(fixture.root, "docs", "project", "decisions", "index.md"),
-      "utf8"
-    );
 
     expect(decided.status).toBe("approved");
     expect(all).toHaveLength(1);
-    expect(decisionDoc).toContain("## Decision");
-    expect(decisionDoc).toContain("**批准**");
-    expect(indexDoc).toContain(record.id);
-    expect(indexDoc).toContain("批准");
+    expect(all[0]?.docPath).toBe(docPath);
   });
 
   it("migrates a legacy decision record file into the generic control plane", async () => {

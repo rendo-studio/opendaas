@@ -48,6 +48,11 @@ export function registerDecisionGroup(app: AclipApp) {
           required: true,
           description: "Decision description."
         }),
+        stringArgument("doc-path", {
+          required: false,
+          description: "Optional decision doc path relative to the docs package root.",
+          flag: "--doc-path"
+        }),
         stringArgument("category", {
           required: true,
           description: "Decision category.",
@@ -86,6 +91,7 @@ export function registerDecisionGroup(app: AclipApp) {
         decision: await createDecisionRecord({
           name: String(payload.name),
           description: String(payload.description),
+          docPath: payload["doc-path"] ? String(payload["doc-path"]) : undefined,
           category: assertCategory(String(payload.category)),
           proposedBy: payload.proposedBy ? String(payload.proposedBy) : "agent",
           context: String(payload.context),

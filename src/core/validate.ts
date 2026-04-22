@@ -26,6 +26,14 @@ function unique(items: string[]): string[] {
   return [...new Set(items)];
 }
 
+function resolveDocPath(docsRoot: string, docPath: string | null | undefined): string | null {
+  if (!docPath?.trim()) {
+    return null;
+  }
+
+  return path.join(docsRoot, docPath);
+}
+
 async function loadMetaAndConfig() {
   const paths = getWorkspacePaths();
   let meta: WorkspaceMetaState | null = null;
@@ -53,9 +61,11 @@ async function loadMetaAndConfig() {
 
 export async function validateWorkspace() {
   const paths = getWorkspacePaths();
-  const [endGoal, projectOverview] = await Promise.all([
+  const [endGoal, projectOverview, decisions, versions] = await Promise.all([
     loadEndGoal(),
-    loadProjectOverview().catch(() => null)
+    loadProjectOverview().catch(() => null),
+    readYamlFile<{ items?: Array<{ docPath?: string | null }> }>(paths.decisionFile).catch(() => ({ items: [] })),
+    readYamlFile<{ items?: Array<{ docPath?: string | null }> }>(paths.versionFile).catch(() => ({ items: [] }))
   ]);
   const requiredFiles = [
     paths.projectOverviewFile,
@@ -68,16 +78,21 @@ export async function validateWorkspace() {
     path.join(paths.root, "AGENTS.md"),
     path.join(paths.root, ".agents", "skills", "opendaas-workflow", "SKILL.md")
   ];
-  const overviewDocPath = projectOverview?.docPath
-    ? path.join(paths.docsRoot, projectOverview.docPath)
-    : null;
-  if (overviewDocPath) {
-    requiredFiles.push(overviewDocPath);
-  }
+  const referencedDocPaths = [
+    resolveDocPath(paths.docsRoot, projectOverview?.docPath),
+    resolveDocPath(paths.docsRoot, endGoal.docPath),
+    ...(decisions.items ?? []).map((item) => resolveDocPath(paths.docsRoot, item.docPath)),
+    ...(versions.items ?? []).map((item) => resolveDocPath(paths.docsRoot, item.docPath))
+  ].filter((filePath): filePath is string => Boolean(filePath));
+
+  requiredFiles.push(...referencedDocPaths);
 
   const missingFiles = requiredFiles.filter((filePath) => !existsSync(filePath));
   const metadataChecks = {
-    overview: overviewDocPath ? await hasMinimalMetadata(overviewDocPath).catch(() => false) : true
+    overview: projectOverview?.docPath
+      ? await hasMinimalMetadata(path.join(paths.docsRoot, projectOverview.docPath)).catch(() => false)
+      : true,
+    goal: endGoal.docPath ? await hasMinimalMetadata(path.join(paths.docsRoot, endGoal.docPath)).catch(() => false) : true
   };
   const tasks = await loadTasks();
   assertValidTaskTree(tasks.items);
@@ -137,20 +152,13 @@ export async function validateWorkspace() {
     repairableIssues.push("Backfill missing managed files and docs anchors");
   }
 
-  if (projectOverview?.docPath) {
-    const resolvedOverviewDocPath = path.join(paths.docsRoot, projectOverview.docPath);
-    if (!existsSync(resolvedOverviewDocPath) && !missingFiles.includes(resolvedOverviewDocPath)) {
-      missingFiles.push(resolvedOverviewDocPath);
-      repairableIssues.push("Backfill missing managed files and docs anchors");
-    }
-  }
-
   const repairNeeded = missingFiles.length > 0 || schemaIssues.length > 0;
 
   return {
     ok:
       missingFiles.length === 0 &&
       metadataChecks.overview &&
+      metadataChecks.goal &&
       schemaIssues.length === 0,
     missingFiles,
     metadataChecks,

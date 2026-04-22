@@ -358,7 +358,7 @@ items:
     summary: Update workspace specs, bootstrap templates, migration checks, and regression tests so OpenDaaS documents and enforces the new explicit-facts-only workspace model.
   - id: task-safe-init-version
     name: Align safe init and project-level version records
-    status: in_progress
+    status: done
     planRef: align-safe-init-and-version-records-1
     parentTaskId: null
     countedForProgress: false
@@ -379,7 +379,7 @@ items:
     summary: Rename the command surface, workspace files, docs projection, and related semantics to low-frequency project-level version records.
   - id: task-safe-init-version-3
     name: Align docs, guidance, and runtime projections with the new model
-    status: in_progress
+    status: done
     planRef: align-safe-init-and-version-records-1
     parentTaskId: task-safe-init-version
     countedForProgress: true
