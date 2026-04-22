@@ -1,0 +1,3 @@
+name: OpenDaaS
+summary: OpenDaaS is a CLI-first project context control plane for human developers and development agents. It persists project overview, end goal, plans, tasks, decisions, version records, workflow guidance, and local docs-site views so both sides can work against the same shared reality instead of drifting through black-box code and stale notes.
+docPath: shared/overview.md

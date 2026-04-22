@@ -641,6 +641,23 @@ async function findWindowsRuntimeProcessIds(runtimeRoot: string): Promise<number
     .filter((value) => Number.isFinite(value) && value !== process.pid);
 }
 
+async function terminateWindowsRuntimeProcesses(runtimeRoot: string): Promise<void> {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const pids = [...new Set(await findWindowsRuntimeProcessIds(runtimeRoot))];
+    if (pids.length === 0) {
+      return;
+    }
+
+    for (const pid of pids) {
+      if (processExists(pid)) {
+        await terminateProcessTree(pid);
+      }
+    }
+
+    await delay(200 * (attempt + 1));
+  }
+}
+
 function waitForPort(port: number, timeoutMs = 15000): Promise<boolean> {
   const start = Date.now();
 
@@ -1149,6 +1166,7 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
 }
 
 export async function buildSiteRuntime(inputPath?: string) {
+  await stopSiteRuntime(inputPath).catch(() => undefined);
   const stage = await stageDocsForSiteRuntime(inputPath);
   await ensureRuntimeTemplate(stage.runtimeRoot);
   await clearGeneratedSourceArtifacts(stage.runtimeRoot);
@@ -1225,12 +1243,7 @@ export async function stopSiteRuntime(inputPath?: string) {
   }
 
   if (process.platform === "win32" && nodeFs.existsSync(target.runtimeRoot)) {
-    const extraPids = await findWindowsRuntimeProcessIds(target.runtimeRoot);
-    for (const pid of [...new Set(extraPids)]) {
-      if (processExists(pid)) {
-        await terminateProcessTree(pid);
-      }
-    }
+    await terminateWindowsRuntimeProcesses(target.runtimeRoot);
   }
 
   const runtimeExists = nodeFs.existsSync(target.runtimeRoot);

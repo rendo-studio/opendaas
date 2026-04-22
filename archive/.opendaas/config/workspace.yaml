@@ -1,0 +1,9 @@
+siteFramework: fumadocs
+packageManager: npm
+projectKind: general
+docsMode: standard
+docsSite:
+  enabled: true
+  sourcePath: docs
+  preferredPort: null
+workspaceSchemaVersion: 8

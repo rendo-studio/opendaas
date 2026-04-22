@@ -1,62 +1,14 @@
-endGoalRef: end-goal-opendaas-framework
+endGoalRef: end-goal-ship-opendaas-as-a-stable-public-framework
 items:
-  - id: reposition-opendaas-as-project-context-control-plane-1
-    name: Reposition OpenDaaS as a project context control plane
+  - id: re-integrate-opendaas-repository-1
+    name: Re-integrate the repository under a fresh OpenDaaS workspace
+    summary: Re-establish the repository as a clean OpenDaaS workspace without relying on archived control-plane or docs material.
     parentPlanId: null
-    summary: Refresh the product narrative and shared entry surfaces around the project-context-control-plane model.
-  - id: remove-active-goal-from-core-model-1
-    name: Remove active goal from the core model
+  - id: author-formal-public-docs-package-1
+    name: Author a formal public docs package
+    summary: Replace scaffold docs with concise external documentation that explains how to use OpenDaaS without exposing repository-specific maintainer detail.
     parentPlanId: null
-    summary: Simplify the control plane so end goal stays stable and current focus is expressed through plans and tasks.
-  - id: ship-onboarding-and-workflow-guidance-1
-    name: Ship onboarding and workflow guidance
+  - id: align-maintainer-docs-and-verification-1
+    name: Align maintainer docs and verification
+    summary: Keep internal maintainer guidance, validation rules, and docs-site checks aligned with the new clean integration.
     parentPlanId: null
-    summary: Give human developers and development agents an authoritative first-hour path through a workflow guide, CLI guide entry, AGENTS.md, and default skills.
-  - id: simplify-control-plane-refresh-model-1
-    name: Simplify control-plane refresh around .opendaas state
-    parentPlanId: null
-    summary: Center synchronization around structured control-plane state instead of a separate workspace change ledger.
-  - id: add-console-editing-for-opendaas-state-1
-    name: Add console editing for .opendaas state
-    parentPlanId: null
-    summary: Let humans edit structured project state from the console without polluting authored docs.
-  - id: harden-cli-runtime-packaging-and-distribution-1
-    name: Harden CLI runtime packaging and distribution
-    parentPlanId: null
-    summary: Make the site runtime and template assets explicit, portable, and safe across packaged multi-workspace installs.
-  - id: production-readiness-hardening-and-first-hour-1
-    name: Production-readiness hardening and first-hour validation
-    parentPlanId: null
-    summary: Close edge cases, missing guardrails, and bootstrap UX gaps so 100% completion means a real production-grade closure for users and development agents.
-  - id: unify-agent-first-guide-source-1
-    name: Unify the Agent-first guide source
-    parentPlanId: null
-    summary: Move the workflow guide into a CLI-owned canonical asset, make guide and skill content identical, and remove docs as the user-facing source.
-  - id: refine-agent-guide-and-site-workflow-1
-    name: Refine the Agent guide and site workflow
-    parentPlanId: null
-    summary: Tighten the canonical guide, complete the project-plan-task command surface, and make the docs site a configured round-start default.
-  - id: rewrite-guide-as-agent-protocol-1
-    name: Rewrite the guide as a strict Agent protocol
-    parentPlanId: null
-    summary: Turn the workflow guide from a command-heavy explanation into a tighter round-start and workspace-refresh protocol for development agents.
-  - id: ship-agent-friendly-cli-output-1
-    name: Ship Agent-friendly CLI output
-    parentPlanId: null
-    summary: Replace default JSON command output with Markdown that development agents can digest quickly while preserving explicit JSON access.
-  - id: optimize-agent-guide-for-warm-context-rounds-1
-    name: Optimize the Agent guide for warm-context rounds
-    parentPlanId: null
-    summary: Rework the canonical guide around cold-start, warm-continuation, and desync-suspicion states so agents can start safely without wasting tokens on redundant checks.
-  - id: improve-bootstrap-and-live-sync-1
-    name: Improve bootstrap ergonomics and live sync
-    parentPlanId: null
-    summary: Make init cheaper for agents to invoke from the current workspace, cover both new and existing repositories safely, make status show truly read-only, and tighten docs-site refresh around real workspace changes.
-  - id: remove-persisted-derived-state-from-workspace-1
-    name: Remove persisted derived state from the workspace model
-    parentPlanId: null
-    summary: Keep `.opendaas` limited to explicit facts, derive progress and plan execution status on read, and align validation, docs, and tests with the Agent-first model.
-  - id: align-safe-init-and-version-records-1
-    name: Align safe init and project-level version records
-    parentPlanId: null
-    summary: Make init the single bootstrap path with safe existing-project behavior, finalize low-frequency project-level version records, and align docs plus runtime projections with the new model.
