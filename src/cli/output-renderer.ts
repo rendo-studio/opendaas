@@ -359,9 +359,9 @@ function renderDecisionPayload(payload: Record<string, unknown>): string {
   return renderDecisionRecord(isRecord(payload.decision) ? payload.decision : payload);
 }
 
-function renderReleaseRecord(payload: Record<string, unknown>): string {
+function renderVersionRecord(payload: Record<string, unknown>): string {
   const lines = [
-    "# Release",
+    "# Version",
     "",
     `- ID: ${typeof payload.id === "string" ? inlineCode(payload.id) : "Unknown"}`,
     `- Version: ${typeof payload.version === "string" ? payload.version : "Unknown"}`,
@@ -374,8 +374,6 @@ function renderReleaseRecord(payload: Record<string, unknown>): string {
   }
 
   lines.push(
-    "",
-    renderSection("Change Refs", renderList(asStringArray(payload.changeRefs))),
     "",
     renderSection("Decision Refs", renderList(asStringArray(payload.decisionRefs))),
     "",
@@ -393,31 +391,31 @@ function renderReleaseRecord(payload: Record<string, unknown>): string {
   return ensureTrailingNewline(lines.join("\n"));
 }
 
-function renderReleasePayload(payload: Record<string, unknown>): string {
-  if (Array.isArray(payload.release)) {
-    const releases = asRecordArray(payload.release);
+function renderVersionPayload(payload: Record<string, unknown>): string {
+  if (Array.isArray(payload.version)) {
+    const versions = asRecordArray(payload.version);
     return ensureTrailingNewline(
       [
-        "# Releases",
+        "# Versions",
         "",
         renderSection(
           "Records",
           renderList(
-            releases.map((record) => {
+            versions.map((record) => {
               const id = typeof record.id === "string" ? record.id : "unknown";
               const version = typeof record.version === "string" ? record.version : "unknown";
               const title = typeof record.title === "string" ? record.title : "Unknown";
               const status = typeof record.status === "string" ? record.status : "unknown";
               return `${inlineCode(id)} | ${status} | ${version} ${title}`;
             }),
-            "No release records."
+            "No version records."
           )
         )
       ].join("\n")
     );
   }
 
-  return renderReleaseRecord(isRecord(payload.release) ? payload.release : payload);
+  return renderVersionRecord(isRecord(payload.version) ? payload.version : payload);
 }
 
 function renderValidationSnapshot(payload: Record<string, unknown>): string {
@@ -430,7 +428,7 @@ function renderValidationSnapshot(payload: Record<string, unknown>): string {
     "# Validation",
     "",
     `- OK: ${payload.ok === true ? "yes" : "no"}`,
-    `- Migration needed: ${payload.migrationNeeded === true ? "yes" : "no"}`,
+    `- Repair needed: ${payload.repairNeeded === true ? "yes" : "no"}`,
     `- End goal name: ${typeof payload.endGoalName === "string" ? payload.endGoalName : "Unknown"}`,
     `- Task count: ${typeof payload.taskCount === "number" ? inlineCode(String(payload.taskCount)) : "Unknown"}`
   ];
@@ -556,8 +554,8 @@ function renderSuccessPayload(payload: unknown): string {
     return renderDecisionPayload(payload);
   }
 
-  if ("release" in payload) {
-    return renderReleasePayload(payload);
+  if ("version" in payload) {
+    return renderVersionPayload(payload);
   }
 
   if ("validation" in payload) {

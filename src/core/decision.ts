@@ -57,8 +57,8 @@ function labelForCategory(category: DecisionCategory): string {
       return "change";
     case "architecture":
       return "architecture";
-    case "release":
-      return "release";
+    case "version":
+      return "version";
     case "policy":
       return "policy";
     default:
@@ -243,7 +243,7 @@ async function findLegacyDecisionRecordFiles(): Promise<string[]> {
     }
 
     const candidate = path.join(paths.workspaceRoot, entry.name, "records.yaml");
-    if (candidate === paths.decisionFile || candidate === paths.releaseFile || !existsSync(candidate)) {
+    if (candidate === paths.decisionFile || candidate === paths.versionFile || !existsSync(candidate)) {
       continue;
     }
 

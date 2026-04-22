@@ -1,11 +1,11 @@
 import { AclipApp, stringArgument } from "@rendo-studio/aclip";
 
 import {
-  createReleaseRecord,
-  getReleaseRecord,
-  listReleaseRecords,
-  updateReleaseRecord
-} from "../../core/release.js";
+  createVersionRecord,
+  getVersionRecord,
+  listVersionRecords,
+  updateVersionRecord
+} from "../../core/version.js";
 import { withGuideHint } from "../guide-hint.js";
 
 function splitCsv(value?: string): string[] {
@@ -19,44 +19,39 @@ function splitCsv(value?: string): string[] {
     .filter(Boolean);
 }
 
-function assertReleaseStatus(value: string): "draft" | "frozen" | "published" {
-  if (!["draft", "frozen", "published"].includes(value)) {
-    throw new Error(`Unsupported release status "${value}". Use draft, frozen, or published.`);
+function assertVersionStatus(value: string): "draft" | "recorded" {
+  if (!["draft", "recorded"].includes(value)) {
+    throw new Error(`Unsupported version status "${value}". Use draft or recorded.`);
   }
 
-  return value as "draft" | "frozen" | "published";
+  return value as "draft" | "recorded";
 }
 
-export function registerReleaseGroup(app: AclipApp) {
+export function registerVersionGroup(app: AclipApp) {
   app
-    .group("release", {
-      summary: "Manage structured release and changelog entries.",
+    .group("version", {
+      summary: "Manage project-level version records.",
       description: withGuideHint(
-        "Persist structured release/changelog records in .opendaas and project them into docs/project/releases."
+        "Persist low-frequency project-level version records in .opendaas and project them into authored internal docs."
       )
     })
     .command("new", {
-      summary: "Create a draft release entry.",
+      summary: "Create a draft version record.",
       description: withGuideHint(
-        "Create a new draft release/changelog entry. This becomes the structured truth source for later docs projection."
+        "Create a new draft project-level version record for a version that has become meaningful enough to track explicitly."
       ),
       arguments: [
         stringArgument("version", {
           required: true,
-          description: "Version or iteration label."
+          description: "Version label."
         }),
         stringArgument("title", {
           required: true,
-          description: "Human-readable release title."
+          description: "Human-readable version title."
         }),
         stringArgument("summary", {
           required: true,
-          description: "Release summary."
-        }),
-        stringArgument("changeRefs", {
-          required: false,
-          description: "Optional comma-separated change refs.",
-          flag: "--change-refs"
+          description: "Version summary."
         }),
         stringArgument("decisionRefs", {
           required: false,
@@ -65,49 +60,48 @@ export function registerReleaseGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas release new --version 0.1.0-alpha.1 --title 'Public alpha baseline' --summary 'First externally trialable OpenDaaS baseline.' --change-refs release-readiness-iteration-1 --decision-refs introduce-public-alpha-install-path"
+        "opendaas version new --version 0.2.0 --title 'Stable control-plane baseline' --summary 'First version where the OpenDaaS control plane is considered stable for real project use.' --decision-refs define-version-record-policy"
       ],
       handler: async (payload) => ({
-        release: await createReleaseRecord({
+        version: await createVersionRecord({
           version: String(payload.version),
           title: String(payload.title),
           summary: String(payload.summary),
-          changeRefs: splitCsv(payload.changeRefs ? String(payload.changeRefs) : undefined),
           decisionRefs: splitCsv(payload.decisionRefs ? String(payload.decisionRefs) : undefined)
         })
       })
     })
     .command("list", {
-      summary: "List release entries.",
-      description: withGuideHint("Show structured release/changelog entries in descending creation order."),
-      examples: ["opendaas release list"],
+      summary: "List version records.",
+      description: withGuideHint("Show project-level version records in descending creation order."),
+      examples: ["opendaas version list"],
       handler: async () => ({
-        release: await listReleaseRecords()
+        version: await listVersionRecords()
       })
     })
     .command("show", {
-      summary: "Show one release entry.",
-      description: withGuideHint("Inspect one structured release/changelog entry by id."),
+      summary: "Show one version record.",
+      description: withGuideHint("Inspect one project-level version record by id."),
       arguments: [
         stringArgument("id", {
           required: true,
-          description: "Release record id."
+          description: "Version record id."
         })
       ],
-      examples: ["opendaas release show --id 0-1-0-alpha-1-public-alpha-baseline"],
+      examples: ["opendaas version show --id 0-2-0-stable-control-plane-baseline"],
       handler: async ({ id }) => ({
-        release: await getReleaseRecord(String(id))
+        version: await getVersionRecord(String(id))
       })
     })
     .command("update", {
-      summary: "Update a release entry.",
+      summary: "Update a version record.",
       description: withGuideHint(
-        "Append structured highlights, change refs, decision refs, breaking changes, migration notes, or advance the release status."
+        "Append highlights, breaking changes, migration notes, decision refs, validation notes, or adjust the draft/recorded status."
       ),
       arguments: [
         stringArgument("id", {
           required: true,
-          description: "Release record id."
+          description: "Version record id."
         }),
         stringArgument("summary", {
           required: false,
@@ -115,12 +109,7 @@ export function registerReleaseGroup(app: AclipApp) {
         }),
         stringArgument("status", {
           required: false,
-          description: "Optional new status: draft, frozen, or published."
-        }),
-        stringArgument("changeRefs", {
-          required: false,
-          description: "Optional comma-separated change refs to add.",
-          flag: "--change-refs"
+          description: "Optional new status: draft or recorded."
         }),
         stringArgument("decisionRefs", {
           required: false,
@@ -149,14 +138,13 @@ export function registerReleaseGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas release update --id 0-1-0-alpha-1-public-alpha-baseline --highlights 'Introduced init/adopt,Added workflow guidance artifacts' --status frozen"
+        "opendaas version update --id 0-2-0-stable-control-plane-baseline --highlights 'Removed persisted derived state,Made adopt non-invasive' --status recorded"
       ],
       handler: async (payload) => ({
-        release: await updateReleaseRecord({
+        version: await updateVersionRecord({
           id: String(payload.id),
           summary: payload.summary ? String(payload.summary) : undefined,
-          status: payload.status ? assertReleaseStatus(String(payload.status)) : undefined,
-          addChangeRefs: splitCsv(payload.changeRefs ? String(payload.changeRefs) : undefined),
+          status: payload.status ? assertVersionStatus(String(payload.status)) : undefined,
           addDecisionRefs: splitCsv(payload.decisionRefs ? String(payload.decisionRefs) : undefined),
           addHighlights: splitCsv(payload.highlights ? String(payload.highlights) : undefined),
           addBreakingChanges: splitCsv(
@@ -169,20 +157,22 @@ export function registerReleaseGroup(app: AclipApp) {
         })
       })
     })
-    .command("publish", {
-      summary: "Publish a release entry.",
-      description: withGuideHint("Mark a release entry as published."),
+    .command("record", {
+      summary: "Finalize a version record.",
+      description: withGuideHint(
+        "Mark a draft project-level version record as formally recorded once the version is stable enough to preserve."
+      ),
       arguments: [
         stringArgument("id", {
           required: true,
-          description: "Release record id."
+          description: "Version record id."
         })
       ],
-      examples: ["opendaas release publish --id 0-1-0-alpha-1-public-alpha-baseline"],
+      examples: ["opendaas version record --id 0-2-0-stable-control-plane-baseline"],
       handler: async ({ id }) => ({
-        release: await updateReleaseRecord({
+        version: await updateVersionRecord({
           id: String(id),
-          status: "published"
+          status: "recorded"
         })
       })
     });

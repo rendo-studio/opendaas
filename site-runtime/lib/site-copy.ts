@@ -61,8 +61,7 @@ interface SiteCopy {
     done: string;
     blocked: string;
     draft: string;
-    frozen: string;
-    published: string;
+    recorded: string;
   };
   sidebar: {
     unreadUpdate: string;
@@ -131,8 +130,7 @@ const copy: Record<SiteLocale, SiteCopy> = {
       done: "已完成",
       blocked: "阻塞",
       draft: "草稿",
-      frozen: "冻结",
-      published: "已发布"
+      recorded: "已记录"
     },
     sidebar: {
       unreadUpdate: "未读更新"
@@ -201,8 +199,7 @@ const copy: Record<SiteLocale, SiteCopy> = {
       done: "done",
       blocked: "blocked",
       draft: "draft",
-      frozen: "frozen",
-      published: "published"
+      recorded: "recorded"
     },
     sidebar: {
       unreadUpdate: "Unread update"

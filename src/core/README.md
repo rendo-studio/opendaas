@@ -10,7 +10,6 @@ description: 说明 src/core 预留用于共享领域模型、文件系统操作
 后续实现应优先落在这里的内容包括：
 
 - 文档包与 `.opendaas` 的读写模型
-- `goal / plan / task / progress` 的领域对象
-- 差异追踪与确认逻辑
+- `goal / plan / task` 的领域对象，以及读取时派生的 status/progress 视图
 - 元信息校验
 - 同步与投影规则

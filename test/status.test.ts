@@ -20,7 +20,7 @@ afterEach(async () => {
 });
 
 describe("status snapshot", () => {
-  it("derives current phase and progress without mutating persisted plan or progress files", async () => {
+  it("derives current phase and progress without mutating persisted workspace files", async () => {
     const fixture = await createWorkspaceFixture({
       plans: {
         endGoalRef: "end-goal-test",
@@ -29,7 +29,6 @@ describe("status snapshot", () => {
             id: "plan-root",
             name: "Root plan",
             summary: "Default top-level plan used by workspace fixtures.",
-            status: "pending",
             parentPlanId: null
           }
         ]
@@ -46,31 +45,35 @@ describe("status snapshot", () => {
             countedForProgress: true
           }
         ]
-      },
-      progress: {
-        percent: 0,
-        countedTasks: 0,
-        doneTasks: 0,
-        computedAt: null
       }
     });
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
 
     const planFile = path.join(fixture.root, ".opendaas", "plans", "current.yaml");
-    const progressFile = path.join(fixture.root, ".opendaas", "state", "progress.yaml");
+    await fs.writeFile(
+      planFile,
+      [
+        "endGoalRef: end-goal-test",
+        "items:",
+        "  - id: plan-root",
+        "    name: Root plan",
+        "    summary: Default top-level plan used by workspace fixtures.",
+        "    status: pending",
+        "    parentPlanId: null",
+        ""
+      ].join("\n"),
+      "utf8"
+    );
     const beforePlan = await fs.readFile(planFile, "utf8");
-    const beforeProgress = await fs.readFile(progressFile, "utf8");
 
     const status = await getStatusSnapshot();
 
     const afterPlan = await fs.readFile(planFile, "utf8");
-    const afterProgress = await fs.readFile(progressFile, "utf8");
 
     expect(status.phase).toBe("Completed");
     expect(status.progress.percent).toBe(100);
     expect(status.topLevelPlans).toEqual(["Root plan [done]"]);
     expect(beforePlan).toBe(afterPlan);
-    expect(beforeProgress).toBe(afterProgress);
   });
 });

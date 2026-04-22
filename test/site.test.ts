@@ -4,6 +4,7 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
+import { initWorkspace } from "../src/core/bootstrap.js";
 import { stageDocsForSiteRuntime, stopSiteRuntime } from "../src/core/site.js";
 import { buildSiteControlPlaneSnapshot } from "../src/core/site-data.js";
 import { resolveSiteWatchRoots } from "../src/core/site-watch-roots.js";
@@ -23,6 +24,30 @@ afterEach(async () => {
 });
 
 describe("site runtime staging", () => {
+  it("stages a freshly initialized minimal docs package without requiring docs/index.md", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-site-init-"));
+    cleanups.push(async () => {
+      await fs.rm(root, { recursive: true, force: true });
+    });
+
+    await initWorkspace({
+      targetPath: root,
+      projectName: "Minimal Docs Workspace",
+      endGoalName: "Stabilize minimal docs workspace",
+      endGoalSummary: "Keep the docs site functional even when the scaffold only contains shared/public/internal."
+    });
+
+    const staged = await stageDocsForSiteRuntime(root);
+    const sharedOverview = await fs.readFile(path.join(staged.stagedDocsRoot, "shared", "overview.md"), "utf8");
+    const stagedIndexExists = await fs
+      .stat(path.join(staged.stagedDocsRoot, "index.md"))
+      .then(() => true)
+      .catch(() => false);
+
+    expect(sharedOverview).toContain("title: Shared Overview");
+    expect(stagedIndexExists).toBe(false);
+  });
+
   it("translates OpenDaaS doc frontmatter into Fumadocs-compatible title/description", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());
@@ -113,7 +138,7 @@ describe("site runtime staging", () => {
           sourcePath: "docs-pack",
           preferredPort: 4555
         },
-        workspaceSchemaVersion: 7
+        workspaceSchemaVersion: 8
       }
     });
     restorers.push(fixture.use());

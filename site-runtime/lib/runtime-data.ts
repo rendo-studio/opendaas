@@ -150,14 +150,14 @@ export interface ControlPlaneSnapshot {
         }>;
       }
     | null;
-  releases:
+  versions:
     | {
         items: Array<{
           id: string;
           version: string;
           title: string;
-          status: "draft" | "frozen" | "published";
-          startedAt: string;
+          status: "draft" | "recorded";
+          createdAt: string;
         }>;
       }
     | null;
@@ -213,7 +213,7 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
     progress: null,
     tasks: null,
     decisions: null,
-    releases: null,
+    versions: null,
     docs: {
       pages: [],
       changePages: [],

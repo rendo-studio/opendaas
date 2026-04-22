@@ -31,14 +31,14 @@ describe("decision control plane", () => {
     cleanups.push(fixture.cleanup);
 
     const record = await createDecisionRecord({
-      name: "Introduce public alpha install path",
-      description: "Add the minimum installation path required for external users.",
-      category: "release",
+      name: "Define version record policy",
+      description: "Introduce low-frequency project-level version records.",
+      category: "version",
       proposedBy: "agent",
-      context: "Public alpha readiness still lacks a repeatable install path.",
-      impactOfNoAction: "External users cannot try OpenDaaS repeatably.",
-      expectedOutcome: "A real external trial path becomes possible.",
-      boundary: "Only the alpha installation path; no hosted control plane."
+      context: "The framework still mixes project versions with delivery-event semantics.",
+      impactOfNoAction: "Version history remains ambiguous and hard to maintain consistently.",
+      expectedOutcome: "Project-level version records become explicit and low-frequency.",
+      boundary: "Only the version-record model; no external publish workflow."
     });
 
     const decided = await decideDecisionRecord({

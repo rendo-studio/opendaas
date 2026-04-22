@@ -7,7 +7,7 @@ import { registerPlanGroup } from "./groups/plan.js";
 import { registerStatusGroup } from "./groups/status.js";
 import { registerTaskGroup } from "./groups/task.js";
 import { registerSiteGroup } from "./groups/site.js";
-import { registerReleaseGroup } from "./groups/release.js";
+import { registerVersionGroup } from "./groups/version.js";
 import { registerValidateCommand } from "./commands/validate.js";
 import { registerInitCommand } from "./commands/init.js";
 import { registerAdoptCommand } from "./commands/adopt.js";
@@ -33,7 +33,7 @@ export function createApp() {
   registerPlanGroup(app);
   registerStatusGroup(app);
   registerTaskGroup(app);
-  registerReleaseGroup(app);
+  registerVersionGroup(app);
   registerSiteGroup(app);
   registerValidateCommand(app);
 

@@ -542,6 +542,18 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function resetLogFile(logFile: string): Promise<void> {
+  try {
+    await fs.writeFile(logFile, "", "utf8");
+  } catch (error) {
+    const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
+    if (["EBUSY", "EPERM"].includes(code) && nodeFs.existsSync(logFile)) {
+      return;
+    }
+    throw error;
+  }
+}
+
 async function waitForProcessExit(pid: number | null, timeoutMs = 5000): Promise<void> {
   const startedAt = Date.now();
   while (processExists(pid)) {
@@ -777,6 +789,18 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
   }
 }
 
+async function clearGeneratedSourceArtifacts(runtimeRoot: string): Promise<void> {
+  const generatedSourceFiles = [
+    path.join(runtimeRoot, ".source", "server.ts"),
+    path.join(runtimeRoot, ".source", "browser.ts"),
+    path.join(runtimeRoot, ".source", "dynamic.ts")
+  ];
+
+  for (const filePath of generatedSourceFiles) {
+    await fs.rm(filePath, { force: true, maxRetries: 3, retryDelay: 200 });
+  }
+}
+
 async function writeRuntimeVersion(runtimeDataRoot: string): Promise<string> {
   const payload = {
     updatedAt: new Date().toISOString()
@@ -995,6 +1019,13 @@ async function ensureWatcher(stage: StageResult, registry: SiteRuntimeRegistry |
 
 async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev") {
   await ensureRuntimeTemplate(stage.runtimeRoot);
+  await clearGeneratedSourceArtifacts(stage.runtimeRoot);
+  await fs.rm(path.join(stage.runtimeRoot, ".next"), {
+    recursive: true,
+    force: true,
+    maxRetries: 3,
+    retryDelay: 200
+  });
 
   const existing = await readRegistry(stage.runtimeRoot);
   const configuredPort = stage.preferredPort;
@@ -1023,7 +1054,7 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
       "--port",
       String(port)
     ]);
-    await fs.writeFile(stage.logFile, "", "utf8");
+    await resetLogFile(stage.logFile);
 
     if (process.platform === "win32") {
       const serverScript = path.join(stage.runtimeDataRoot, "next-server.ps1");
@@ -1120,6 +1151,7 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
 export async function buildSiteRuntime(inputPath?: string) {
   const stage = await stageDocsForSiteRuntime(inputPath);
   await ensureRuntimeTemplate(stage.runtimeRoot);
+  await clearGeneratedSourceArtifacts(stage.runtimeRoot);
   await fs.rm(path.join(stage.runtimeRoot, ".next"), { recursive: true, force: true });
 
   const invocation = createNextInvocation(stage.runtimeRoot, "build");

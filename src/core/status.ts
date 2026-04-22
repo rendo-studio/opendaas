@@ -1,16 +1,11 @@
-import { describeTopLevelPlans, derivePlanStatuses, getCurrentPhase, loadPlans, syncPlanStatuses } from "./plans.js";
-import { computeProgress, recomputeAndPersistProgress } from "./progress.js";
+import { describeTopLevelPlans, derivePlanStatuses, getCurrentPhase, loadPlans } from "./plans.js";
+import { computeProgress } from "./progress.js";
 import { loadEndGoal } from "./end-goal.js";
 import {
   describeBlockers,
   findNextActions,
   loadTasks
 } from "./tasks.js";
-
-export async function syncStatusDocs(): Promise<void> {
-  const tasksState = await loadTasks();
-  await Promise.all([syncPlanStatuses(tasksState), recomputeAndPersistProgress(tasksState)]);
-}
 
 export async function getStatusSnapshot() {
   const [endGoal, tasks, plans] = await Promise.all([

@@ -1,9 +1,8 @@
 import { renderBulletList } from "./markdown.js";
 import { readYamlFile, writeYamlFile } from "./storage.js";
 import { getWorkspacePaths } from "./workspace.js";
+import { computeProgress } from "./progress.js";
 import type { TaskNode, TasksState, TaskStatus, TaskTreeNode } from "./types.js";
-import { loadProgress } from "./progress.js";
-import { syncStatusDocs } from "./status.js";
 import { loadPlans } from "./plans.js";
 
 export async function loadTasks(): Promise<TasksState> {
@@ -84,8 +83,7 @@ export async function addTask(input: {
   };
   assertValidTaskTree(next.items);
   await writeYamlFile(paths.taskFile, next);
-  await syncStatusDocs();
-  const progress = await loadProgress();
+  const progress = computeProgress(next.items);
 
   return { task, progressPercent: progress.percent };
 }
@@ -162,8 +160,7 @@ export async function updateTask(input: {
   const next: TasksState = { items: nextItems };
   assertValidTaskTree(next.items);
   await writeYamlFile(paths.taskFile, next);
-  await syncStatusDocs();
-  const progress = await loadProgress();
+  const progress = computeProgress(next.items);
 
   return { task: updatedTask, progressPercent: progress.percent };
 }
@@ -184,8 +181,7 @@ export async function deleteTask(input: {
   };
 
   await writeYamlFile(paths.taskFile, next);
-  await syncStatusDocs();
-  const progress = await loadProgress();
+  const progress = computeProgress(next.items);
 
   return {
     deletedTaskIds,

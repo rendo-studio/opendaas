@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { addPlan, buildPlanTree, deletePlan, loadPlans, syncPlanStatuses, updatePlan } from "../src/core/plans.js";
+import { addPlan, buildPlanTree, deletePlan, derivePlanStatuses, loadPlans, updatePlan } from "../src/core/plans.js";
 import { writeYamlFile } from "../src/core/storage.js";
 import { loadTasks } from "../src/core/tasks.js";
 import { getWorkspacePaths } from "../src/core/workspace.js";
@@ -36,21 +36,21 @@ describe("plan control plane", () => {
 
     const updated = await updatePlan({
       id: addedChild.plan.id,
-      status: "in_progress",
       name: "Add human and agent source classification"
     });
 
+    const tasks = await loadTasks();
     const plans = await loadPlans();
-    const tree = buildPlanTree(plans.items);
+    const tree = buildPlanTree(derivePlanStatuses(plans, tasks).items);
 
-    expect(updated.plan.status).toBe("in_progress");
+    expect("status" in updated.plan).toBe(false);
     expect(tree.some((node) => node.id === addedRoot.plan.id)).toBe(true);
     expect(tree.find((node) => node.id === addedRoot.plan.id)?.children[0]?.id).toBe(
       addedChild.plan.id
     );
   });
 
-  it("propagates descendant task status back to parent plans", async () => {
+  it("derives descendant task status back to parent plans without persisting plan status fields", async () => {
     const fixture = await createWorkspaceFixture({
       plans: {
         endGoalRef: "goal-test",
@@ -59,14 +59,12 @@ describe("plan control plane", () => {
             id: "plan-root",
             name: "Production hardening",
             summary: "Drive the control plane toward a stronger production baseline.",
-            status: "pending",
             parentPlanId: null
           },
           {
             id: "plan-child",
             name: "Status projection",
             summary: "Keep the control-plane projection aligned with task state.",
-            status: "pending",
             parentPlanId: "plan-root"
           }
         ]
@@ -88,10 +86,12 @@ describe("plan control plane", () => {
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
 
-    const plans = await syncPlanStatuses();
+    const plans = derivePlanStatuses(await loadPlans(), await loadTasks());
+    const persistedPlanFile = await loadPlans();
 
     expect(plans.items.find((plan) => plan.id === "plan-child")?.status).toBe("done");
     expect(plans.items.find((plan) => plan.id === "plan-root")?.status).toBe("done");
+    expect(persistedPlanFile.items.every((plan) => !("status" in plan))).toBe(true);
   });
 
   it("deletes a plan subtree together with attached tasks", async () => {

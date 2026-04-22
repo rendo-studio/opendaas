@@ -61,17 +61,3 @@ export async function refreshRuntimeData(runtime: RuntimeMetadata): Promise<void
     "utf8"
   );
 }
-
-export async function syncWorkspaceDerivedState(runtime: RuntimeMetadata): Promise<void> {
-  await withCoreWorkspace(runtime, async () => {
-    const { syncStatusDocs } = await loadCoreModule<{
-      syncStatusDocs(): Promise<void>;
-    }>(runtime, "core/status.js");
-    const { syncGuidanceArtifacts } = await loadCoreModule<{
-      syncGuidanceArtifacts(root?: string): Promise<void>;
-    }>(runtime, "core/guidance.js");
-
-    await syncStatusDocs();
-    await syncGuidanceArtifacts(runtime.sourceWorkspaceRoot ?? process.cwd());
-  });
-}

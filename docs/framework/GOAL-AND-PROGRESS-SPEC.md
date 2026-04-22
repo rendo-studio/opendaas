@@ -10,7 +10,7 @@ description: 定义最终目标锚点与进度投影的最小规范。
 项目必须存在一个正式 `end goal` 锚点，落在：
 
 - `.opendaas/goals/end.yaml`
-- `docs/project/goal.md`
+- `docs/shared/goal.md`
 
 该锚点是项目长期方向的最高优先级目标定义。
 
@@ -27,8 +27,7 @@ description: 定义最终目标锚点与进度投影的最小规范。
 
 项目进度默认从结构化 task 叶子节点计算，并同步到：
 
-- `docs/index.md`
-- `docs/project/goal.md`
+- `docs/shared/goal.md`
 - `docs/project/status.md`
 
 ## 当前状态

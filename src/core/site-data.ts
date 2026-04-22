@@ -14,7 +14,7 @@ import { readText, readYamlFile } from "./storage.js";
 import { loadProjectOverview } from "./project-overview.js";
 import { derivePlanStatuses, loadPlans } from "./plans.js";
 import { computeProgress } from "./progress.js";
-import { loadReleaseState } from "./release.js";
+import { loadVersionState } from "./version.js";
 import { loadTaskArchive, sortArchivedTasks } from "./task-archive.js";
 import {
   buildTaskTree,
@@ -23,7 +23,13 @@ import {
   loadTasks,
   summarizeRecentCompleted
 } from "./tasks.js";
-import type { DocsRevisionState, TaskArchiveState, TaskTreeNode, WorkspaceState } from "./types.js";
+import type {
+  DerivedPlansState,
+  DocsRevisionState,
+  TaskArchiveState,
+  TaskTreeNode,
+  WorkspaceState
+} from "./types.js";
 import { getStatusSnapshot } from "./status.js";
 import { getWorkspacePaths, resolveWorkspaceRoot, withWorkspaceRoot } from "./workspace.js";
 
@@ -58,7 +64,7 @@ export interface SiteControlPlaneSnapshot {
   project: Awaited<ReturnType<typeof loadProjectOverview>> | null;
   endGoal: Awaited<ReturnType<typeof loadEndGoal>> | null;
   status: Awaited<ReturnType<typeof getStatusSnapshot>> | null;
-  plans: Awaited<ReturnType<typeof loadPlans>> | null;
+  plans: DerivedPlansState | null;
   progress:
     | {
         percent: number;
@@ -78,7 +84,7 @@ export interface SiteControlPlaneSnapshot {
       }
     | null;
   decisions: Awaited<ReturnType<typeof loadDecisionState>> | null;
-  releases: Awaited<ReturnType<typeof loadReleaseState>> | null;
+  versions: Awaited<ReturnType<typeof loadVersionState>> | null;
   docs: {
     pages: DocManifestEntry[];
     changePages: Array<Pick<DocManifestEntry, "path" | "slug" | "title" | "description">>;
@@ -167,7 +173,7 @@ export function slugToDocsPath(slug: string[]): string {
   }
 
   const joined = slug.join("/");
-  if (joined.includes("changes") || joined.includes("decisions") || joined.includes("releases")) {
+  if (joined.includes("changes") || joined.includes("decisions") || joined.includes("versions")) {
     return `${joined}/index.md`;
   }
 
@@ -226,12 +232,12 @@ function createWorkspaceStateDigest(input: {
   project: Awaited<ReturnType<typeof loadProjectOverview>> | null;
   endGoal: Awaited<ReturnType<typeof loadEndGoal>> | null;
   status: Awaited<ReturnType<typeof getStatusSnapshot>> | null;
-  plans: Awaited<ReturnType<typeof loadPlans>>;
+  plans: DerivedPlansState;
   progress: ReturnType<typeof computeProgress>;
   tasks: Awaited<ReturnType<typeof loadTasks>>;
   archive: TaskArchiveState;
   decisions: Awaited<ReturnType<typeof loadDecisionState>>;
-  releases: Awaited<ReturnType<typeof loadReleaseState>>;
+  versions: Awaited<ReturnType<typeof loadVersionState>>;
 }): string {
   return hashPayload({
     activeChange: input.active.activeChange,
@@ -244,7 +250,7 @@ function createWorkspaceStateDigest(input: {
     tasks: input.tasks.items,
     archive: input.archive.items,
     decisions: input.decisions.items,
-    releases: input.releases.items
+    versions: input.versions.items
   });
 }
 
@@ -255,7 +261,7 @@ async function loadWorkspaceSiteSnapshot(
 ): Promise<SiteControlPlaneSnapshot> {
   return withWorkspaceRoot(workspaceRoot, async () => {
     const paths = getWorkspacePaths();
-    const [project, endGoal, status, plansState, tasksState, archive, decisions, releases] = await Promise.all([
+    const [project, endGoal, status, plansState, tasksState, archive, decisions, versions] = await Promise.all([
       loadProjectOverview(),
       loadEndGoal(),
       getStatusSnapshot(),
@@ -263,7 +269,7 @@ async function loadWorkspaceSiteSnapshot(
       loadTasks(),
       loadTaskArchive(),
       loadDecisionState(),
-      loadReleaseState()
+      loadVersionState()
     ]);
     const plans = derivePlanStatuses(plansState, tasksState);
     const progress = computeProgress(tasksState.items);
@@ -293,7 +299,7 @@ async function loadWorkspaceSiteSnapshot(
           tasks: tasksState,
           archive,
           decisions,
-          releases
+          versions
         })
       },
       project,
@@ -312,7 +318,7 @@ async function loadWorkspaceSiteSnapshot(
         }
       },
       decisions,
-      releases,
+      versions,
       docs: {
         pages: docsManifest,
         changePages: docsManifest
@@ -362,7 +368,7 @@ export async function buildSiteControlPlaneSnapshot(
     progress: null,
     tasks: null,
     decisions: null,
-    releases: null,
+    versions: null,
     docs: {
       pages: docsManifest,
       changePages: docsManifest

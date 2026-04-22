@@ -1,6 +1,5 @@
 import { AclipApp, stringArgument } from "@rendo-studio/aclip";
 import { loadEndGoal, updateEndGoal } from "../../core/end-goal.js";
-import { syncStatusDocs } from "../../core/status.js";
 import { withGuideHint } from "../guide-hint.js";
 
 export function registerGoalGroup(app: AclipApp) {
@@ -32,7 +31,6 @@ export function registerGoalGroup(app: AclipApp) {
           name: String(name),
           summary: String(description)
         });
-        await syncStatusDocs();
 
         return {
           goal,

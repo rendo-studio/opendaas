@@ -1,9 +1,11 @@
 {
   "pages": [
     "index",
+    "shared",
     "---Project Reality---",
     "project",
     "engineering",
+    "internal",
     "---Framework Reference---",
     "framework"
   ]

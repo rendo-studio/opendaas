@@ -1,7 +1,7 @@
 export type TaskStatus = "pending" | "in_progress" | "done" | "blocked";
-export type DecisionCategory = "goal" | "scope" | "change" | "architecture" | "release" | "policy" | "other";
+export type DecisionCategory = "goal" | "scope" | "change" | "architecture" | "version" | "policy" | "other";
 export type DecisionStatus = "pending" | "approved" | "rejected";
-export type ReleaseRecordStatus = "draft" | "frozen" | "published";
+export type VersionRecordStatus = "draft" | "recorded";
 export type PageBoundaryMode = "editable" | "projection" | "hybrid";
 
 export interface GoalState {
@@ -22,13 +22,21 @@ export interface PlanNode {
   id: string;
   name: string;
   summary: string | null;
-  status: TaskStatus;
   parentPlanId: string | null;
 }
 
 export interface PlansState {
   endGoalRef: string;
   items: PlanNode[];
+}
+
+export interface DerivedPlanNode extends PlanNode {
+  status: TaskStatus;
+}
+
+export interface DerivedPlansState {
+  endGoalRef: string;
+  items: DerivedPlanNode[];
 }
 
 export interface TaskNode {
@@ -128,7 +136,7 @@ export interface TaskTreeNode extends TaskNode {
   children: TaskTreeNode[];
 }
 
-export interface PlanTreeNode extends PlanNode {
+export interface PlanTreeNode extends DerivedPlanNode {
   children: PlanTreeNode[];
 }
 
@@ -153,25 +161,23 @@ export interface DecisionState {
   items: DecisionRecord[];
 }
 
-export interface ReleaseRecord {
+export interface VersionRecord {
   id: string;
   version: string;
   title: string;
   summary: string;
-  status: ReleaseRecordStatus;
-  changeRefs: string[];
+  status: VersionRecordStatus;
   decisionRefs: string[];
   highlights: string[];
   breakingChanges: string[];
   migrationNotes: string[];
   validationSummary: string | null;
-  startedAt: string;
-  closedAt: string | null;
-  publishedAt: string | null;
+  createdAt: string;
+  recordedAt: string | null;
 }
 
-export interface ReleaseState {
-  items: ReleaseRecord[];
+export interface VersionState {
+  items: VersionRecord[];
 }
 
 export interface PageBoundary {

@@ -7,67 +7,51 @@ description: 固定 OpenDaaS 的核心概念边界，确保框架定义层保持
 
 ## 核心概念图
 
-`goal -> change -> plan/task -> validation/release`
+`shared reality -> plan/task execution -> validation/version recording`
 
-`decision` 是一个低频控制面，用来约束重要节点，不参与每一步日常开发。
+`decision` 是低频控制面，用来约束重要节点，不参与每一步日常开发。
 
 ## docs
 
-`docs/` 是共享项目现实。
+`docs/` 是 authored context。
 
 它默认服务于：
 
 - 项目开发者
 - 开发端 Agent
-- 项目状态检查与接手协作
+- 人类的接手、审阅与协作
 
-它不是：
+推荐的最小分层是：
 
-- 产品官网
-- 用户帮助中心
-- 面向最终用户的说明站
-- 面向消费端 Agent 的默认文档面
-
-它应该承载：
-
-- 项目介绍
-- 最终目标
-- 当前状态
-- 当前工作
-- changes
-- decisions
-- releases
-- 工程入口
+- `docs/shared/`
+- `docs/public/`
+- `docs/internal/`
 
 ## .opendaas
 
-`.opendaas/` 是内部控制面工作区。
+`.opendaas/` 是 Agent-first 的结构化控制面工作区。
 
-它应该承载：
+它只应持久化显式事实与结构化意图，例如：
 
-- 结构化目标状态
-- 结构化 plan / task / progress
-- active state
-- status snapshot / sync
-- 结构化 decision 记录
-- 结构化 release 记录
-- Agent 适配产物
+- project overview
+- end goal
+- plans
+- tasks
+- decisions
+- version records
+- workspace config
+
+它不应持久化纯计算态，例如 progress 缓存。
 
 ## goal
 
-`goal` 是项目当前正式目标锚点。
+`goal` 是项目长期目标锚点。
 
-它不是临时讨论，不应被状态页或随口承诺覆盖。
-
-## change
-
-`change` 是当前一条高层变化主线。
-
-它定义本轮为何推进、覆盖什么、不覆盖什么、当前完成到哪里。
+它不是当前迭代标题，也不应随着短期执行焦点频繁波动。
 
 ## plan / task
 
-`plan` 用来表达高层拆分；`task` 用来表达执行项。
+`plan` 表达高层执行流，`task` 表达具体执行项。
 
 高频维护允许直接编辑 `.opendaas/plans/current.yaml` 与 `.opendaas/tasks/current.yaml`。
 
@@ -79,24 +63,22 @@ description: 固定 OpenDaaS 的核心概念边界，确保框架定义层保持
 
 - 为什么某个方向被批准或拒绝
 - 为什么某个目标被确立或修改
-- 为什么某个架构、范围或发布策略成立
-
-`decision` 不是某种方法论本体，也不负责替团队思考。
+- 为什么某个架构、范围或版本策略成立
 
 ## validation
 
-`validation` 表示当前工作区、变更或发布是否已经过足够验证。
+`validation` 表示当前工作区、变更或版本是否已经过足够验证。
 
-它可以来自测试、校验命令、验证总结和迁移修复结果。
+它可以来自测试、校验命令、验证总结和修复结果。
 
-## release
+## version
 
-`release` 是面向迭代或版本的结构化更新记录。
+`version` 是低频、项目级的正式版本记录。
 
-它是 changelog 的真相源，不应由环境噪声自动拼接，也不应依赖自由文本重写。
+它用于表达：
 
-## agent adaptation
+- 项目进入了新的整体成熟状态
+- 该状态值得被长期保存
+- 维护者已经决定把它作为正式版本边界记录下来
 
-OpenDaaS 默认建模的是开发端 Agent，而不是消费端 Agent。
-
-OpenDaaS 允许为开发端 Agent 提供技能包或适配文档，但这些都属于增强项，不属于核心定义层。
+它不是普通 task 日志，也不等同于外部发布事件。

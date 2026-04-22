@@ -6,4 +6,4 @@ docsSite:
   enabled: true
   sourcePath: docs
   preferredPort: null
-workspaceSchemaVersion: 7
+workspaceSchemaVersion: 8

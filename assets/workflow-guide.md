@@ -48,7 +48,7 @@ Treat the workspace as potentially desynced when one of these is true:
 - a human may have changed code, docs, or `.opendaas`
 - you are about to update `.opendaas`
 - the plan, next action, or blocker picture feels uncertain
-- you are preparing a handoff, release, or decision boundary
+- you are preparing a handoff, version, or decision boundary
 - the local docs-site view may no longer match the control plane
 
 ## Cold Round Start
@@ -128,12 +128,18 @@ Read `.opendaas/plans/current.yaml` and `.opendaas/tasks/current.yaml` only if:
 - the next task boundary is unclear
 - you need exact plan/task ids or parent relationships
 
-Read `docs/project/overview.md`, `docs/project/goal.md`, or `docs/engineering/development.md` only if:
+Read the authored overview, goal, or internal docs only if:
 
 - you need background
 - you need constraints
 - you need explanation
 - you need handoff context
+
+In repositories following the recommended docs package profile, this usually means:
+
+- `docs/shared/overview.md`
+- `docs/shared/goal.md`
+- files under `docs/internal/`
 
 Do not read both `.opendaas` state and authored docs for the same question unless there is a mismatch you are actively resolving.
 
@@ -155,11 +161,38 @@ Write to `.opendaas/` when changing:
 - plans
 - tasks
 - decisions
-- releases
-- derived status
+- version records
 - docs-site workspace config
 
 Use the Console only as a view and editing surface over `.opendaas`. It is not a second truth source.
+
+## Recommended Docs Package Profile
+
+OpenDaaS recommends a minimal authored docs profile for general projects:
+
+```text
+docs/
+  shared/
+    overview.md
+    goal.md
+  public/
+  internal/
+```
+
+Treat it as a best-practice reference, not a mandatory directory contract.
+
+Use:
+
+- `docs/shared/overview.md` for what the project is
+- `docs/shared/goal.md` for where the project is trying to go
+- `docs/public/` for external-facing authored docs
+- `docs/internal/` for maintainer-facing authored docs
+
+Important boundary:
+
+- this profile is the official recommended docs package shape
+- it is the current CLI scaffold default
+- existing repositories do not need to be force-migrated just to satisfy the recommendation
 
 ## Refresh The Workspace First
 
@@ -194,7 +227,9 @@ Use CLI as the best practice when:
 
 Important rules:
 
-- CLI mutations already refresh derived state where appropriate
+- `.opendaas` should persist explicit facts, not derived execution caches
+- progress and plan execution status are derived at read time from the current task tree
+- CLI mutations do not require a manual sync step to make derived views correct
 - direct edits to `.opendaas/` are reflected automatically in `opendaas status show`, `opendaas plan show`, and the docs-site snapshot
 - there is no manual sync ritual in the normal operating loop
 - do not treat CLI as the only valid way to edit the control plane
@@ -233,6 +268,12 @@ Bootstrap defaults to the current directory when `--target-path` is omitted.
 
 Project overview and end goal can be provisional during bootstrap. If the project shape is still unclear, initialize or adopt first, then refine the anchors later with `opendaas project set` and `opendaas goal set`.
 
+`opendaas adopt` must stay non-invasive:
+
+- it can create missing OpenDaaS-managed anchors
+- it must not rewrite existing authored docs at the same path
+- it must not reshape the existing project just to match the recommended docs package
+
 Examples:
 
 ```bash
@@ -254,7 +295,7 @@ Use `opendaas validate --repair` only when:
 - the workspace looks incomplete or damaged
 - managed files are missing
 - schema/config metadata is stale
-- you are repairing an older workspace into the current template/schema
+- you need to rehydrate the current managed files and config surface
 
 ## Set The Core Anchors
 
@@ -267,7 +308,7 @@ The project overview answers:
 Use:
 
 ```bash
-opendaas project set --name OpenDaaS --summary "CLI-first project context control plane for development agents." --doc-path project/overview.md
+opendaas project set --name OpenDaaS --summary "CLI-first project context control plane for development agents." --doc-path shared/overview.md
 opendaas project show
 ```
 
@@ -374,7 +415,7 @@ Record a formal decision when one of these changes:
 - high-cost change direction
 - architecture
 - breaking-change policy
-- release policy
+- versioning policy
 
 Do not force a decision record for ordinary in-scope implementation, low-risk refactors, or routine fixes.
 

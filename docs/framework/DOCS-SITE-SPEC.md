@@ -58,13 +58,13 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 文档站至少应包含以下稳定顶层入口：
 
-1. `Home`
+1. `Shared`
 2. `Project`
 3. `Engineering`
 
 其中：
 
-- `Home` 对应 `docs/index.md`
+- `Shared` 至少应包含 `docs/shared/overview.md` 与 `docs/shared/goal.md`
 - `Project` 对应项目级协作与推进信息
 - `Engineering` 对应开发、部署、架构等工程信息
 
@@ -72,15 +72,15 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 ## 4. 固定锚点的导航映射
 
-### 4.1 `Home`
+### 4.1 `Shared / Overview`
 
 映射：
 
-- `docs/index.md`
+- `docs/shared/overview.md`
 
 作用：
 
-- 项目入口
+- 项目共享介绍入口
 - 项目定义
 - 阅读起点
 
@@ -162,11 +162,11 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 - `docs/project/decisions/index.md`
 
-### 5.3 `Project / Releases`
+### 5.3 `Internal / Versions`
 
 映射：
 
-- `docs/project/releases/index.md`
+- `docs/internal/versions/index.md`
 
 ---
 
@@ -224,7 +224,7 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 4. Changes
 5. Tasks
 6. Decisions（存在时）
-7. Releases（存在时）
+7. Versions（存在时）
 
 理由：
 
@@ -272,7 +272,7 @@ description: 定义从 docs 到文档站的最小信息架构与渲染规则。
 
 推荐来源：
 
-- 最终目标来自 `docs/project/goal.md`
+- 最终目标来自 `docs/shared/goal.md`
 - 当前进度来自 CLI 基于原生结构化 task tree 状态的计算结果
 
 文档站不应通过解析 `docs/` 中任意 Markdown checkbox 来计算正式进度。
@@ -356,7 +356,7 @@ CLI 不应：
 
 更具体地说：
 
-> **`Home`、`Project`、`Engineering` 是当前最小稳定顶层导航；最终目标和当前进度必须处于最高可见区域；`.opendaas/` 不属于站点公开信息架构。**
+> **`Shared`、`Project`、`Engineering` 是当前最小稳定顶层导航；最终目标和当前进度必须处于最高可见区域；`.opendaas/` 不属于站点公开信息架构。**
 
 ---
 
@@ -365,7 +365,7 @@ CLI 不应：
 在文档站 IA 与渲染规则被定义后，后续应继续回答：
 
 1. 具体视觉布局与首页模块
-2. changes、decisions、releases 的更细渲染样式
+2. changes、decisions、versions 的更细渲染样式
 3. 文档站编辑能力是否开放，以及如何安全回写 `docs/`
 4. [实时文档站与编辑边界规范](./LIVE-DOCS-SPEC.md)
 5. [文档站运行时规范](./SITE-RUNTIME-SPEC.md)

@@ -40,7 +40,7 @@ export function registerProjectGroup(app: AclipApp) {
       ],
       examples: [
         "opendaas project set --name OpenDaaS --summary 'CLI-first project context control plane for development agents.'",
-        "opendaas project set --summary 'Shared control-plane workspace for a service repo.' --doc-path project/overview.md"
+        "opendaas project set --summary 'Shared control-plane workspace for a service repo.' --doc-path shared/overview.md"
       ],
       handler: async (input) => {
         if (!input.name && !input.summary && !input["doc-path"]) {

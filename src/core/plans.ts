@@ -1,15 +1,41 @@
 import { getWorkspacePaths } from "./workspace.js";
 import { readYamlFile, writeYamlFile } from "./storage.js";
-import type { PlanNode, PlansState, PlanTreeNode, TaskNode, TaskStatus, TasksState } from "./types.js";
+import type {
+  DerivedPlanNode,
+  DerivedPlansState,
+  PlanNode,
+  PlansState,
+  PlanTreeNode,
+  TaskNode,
+  TaskStatus,
+  TasksState
+} from "./types.js";
+
+function normalizePlanNode(raw: PlanNode): PlanNode {
+  return {
+    id: raw.id,
+    name: raw.name,
+    summary: raw.summary ?? null,
+    parentPlanId: raw.parentPlanId ?? null
+  };
+}
+
+export function normalizePlansState(plans: PlansState): PlansState {
+  return {
+    endGoalRef: plans.endGoalRef,
+    items: plans.items.map(normalizePlanNode)
+  };
+}
 
 export async function loadPlans(): Promise<PlansState> {
   const paths = getWorkspacePaths();
-  return readYamlFile<PlansState>(paths.planFile);
+  const plans = await readYamlFile<PlansState>(paths.planFile);
+  return normalizePlansState(plans);
 }
 
 export async function savePlans(plans: PlansState): Promise<void> {
   const paths = getWorkspacePaths();
-  await writeYamlFile(paths.planFile, plans);
+  await writeYamlFile(paths.planFile, normalizePlansState(plans));
 }
 
 export function assertValidPlanTree(plans: PlanNode[]): void {
@@ -61,7 +87,7 @@ export function createPlanId(name: string, siblingCount: number): string {
   return slug ? `${slug}-${siblingCount + 1}` : `plan-${siblingCount + 1}`;
 }
 
-export function buildPlanTree(plans: PlanNode[]): PlanTreeNode[] {
+export function buildPlanTree(plans: DerivedPlanNode[]): PlanTreeNode[] {
   const nodes = new Map<string, PlanTreeNode>();
   const roots: PlanTreeNode[] = [];
 
@@ -93,15 +119,15 @@ export function renderPlanTreeLines(tree: PlanTreeNode[], depth = 0): string[] {
   });
 }
 
-export function getTopLevelPlans(plans: PlansState): PlanNode[] {
+export function getTopLevelPlans(plans: DerivedPlansState): DerivedPlanNode[] {
   return plans.items.filter((item) => item.parentPlanId === null);
 }
 
-export function describeTopLevelPlans(plans: PlansState): string[] {
+export function describeTopLevelPlans(plans: DerivedPlansState): string[] {
   return getTopLevelPlans(plans).map((plan) => `${plan.name} [${plan.status}]`);
 }
 
-export function getCurrentPhase(plans: PlansState): string {
+export function getCurrentPhase(plans: DerivedPlansState): string {
   const topLevel = getTopLevelPlans(plans);
   const active = topLevel.find((plan) => plan.status === "in_progress");
   if (active) {
@@ -164,12 +190,12 @@ export async function deletePlan(input: {
   };
 }
 
-function derivePlanStatus(tasks: TaskNode[], currentStatus: TaskStatus): TaskStatus {
+function derivePlanStatus(tasks: TaskNode[]): TaskStatus {
   const actionableTasks = tasks.filter((task) => task.countedForProgress);
   const relevantTasks = actionableTasks.length > 0 ? actionableTasks : tasks;
 
   if (relevantTasks.length === 0) {
-    return currentStatus;
+    return "pending";
   }
 
   if (relevantTasks.every((task) => task.status === "done")) {
@@ -191,29 +217,28 @@ function derivePlanStatus(tasks: TaskNode[], currentStatus: TaskStatus): TaskSta
   return "pending";
 }
 
-export function derivePlanStatuses(plans: PlansState, tasks: TasksState): PlansState {
+export function derivePlanStatuses(plans: PlansState, tasks: TasksState): DerivedPlansState {
   const items = plans.items.map((plan) => {
     const relevantPlanIds = new Set([plan.id, ...collectDescendantPlanIds(plans.items, plan.id)]);
     const planTasks = tasks.items.filter((task) => relevantPlanIds.has(task.planRef));
 
     return {
       ...plan,
-      status: derivePlanStatus(planTasks, plan.status)
+      status: derivePlanStatus(planTasks)
     };
   });
 
-  const nextPlans: PlansState = {
+  const nextPlans: DerivedPlansState = {
     ...plans,
     items
   };
-  assertValidPlanTree(nextPlans.items);
+  assertValidPlanTree(plans.items);
   return nextPlans;
 }
 
 export async function addPlan(input: {
   name: string;
   parent: string;
-  status?: TaskStatus;
   summary?: string;
 }): Promise<{ plan: PlanNode; plans: PlansState }> {
   const plans = await loadPlans();
@@ -228,7 +253,6 @@ export async function addPlan(input: {
     id: createPlanId(input.name, siblings.length),
     name: input.name,
     summary: input.summary ?? input.name,
-    status: input.status ?? "pending",
     parentPlanId
   };
 
@@ -246,7 +270,6 @@ export async function updatePlan(input: {
   id: string;
   name?: string;
   summary?: string;
-  status?: TaskStatus;
   parent?: string;
 }): Promise<{ plan: PlanNode; plans: PlansState }> {
   const plans = await loadPlans();
@@ -256,8 +279,8 @@ export async function updatePlan(input: {
     throw new Error(`Plan "${input.id}" does not exist.`);
   }
 
-  if (!input.name && !input.summary && !input.status && input.parent === undefined) {
-    throw new Error("Plan update requires at least one of name, summary, status, or parent.");
+  if (!input.name && input.summary === undefined && input.parent === undefined) {
+    throw new Error("Plan update requires at least one of name, summary, or parent.");
   }
 
   const current = plans.items[index];
@@ -277,7 +300,6 @@ export async function updatePlan(input: {
     ...current,
     ...(input.name ? { name: input.name } : {}),
     ...(input.summary !== undefined ? { summary: input.summary } : {}),
-    ...(input.status ? { status: input.status } : {}),
     parentPlanId: nextParent
   };
 
@@ -295,13 +317,4 @@ export async function updatePlan(input: {
   await savePlans(next);
 
   return { plan: next.items[index], plans: next };
-}
-
-export async function syncPlanStatuses(tasksState?: TasksState): Promise<PlansState> {
-  const plans = await loadPlans();
-  const tasks = tasksState ?? (await readYamlFile<TasksState>(getWorkspacePaths().taskFile));
-
-  const nextPlans = derivePlanStatuses(plans, tasks);
-  await savePlans(nextPlans);
-  return nextPlans;
 }

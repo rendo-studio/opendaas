@@ -8,14 +8,14 @@ import {
 } from "../../core/decision.js";
 import { withGuideHint } from "../guide-hint.js";
 
-function assertCategory(value: string): "goal" | "scope" | "change" | "architecture" | "release" | "policy" | "other" {
-  if (!["goal", "scope", "change", "architecture", "release", "policy", "other"].includes(value)) {
+function assertCategory(value: string): "goal" | "scope" | "change" | "architecture" | "version" | "policy" | "other" {
+  if (!["goal", "scope", "change", "architecture", "version", "policy", "other"].includes(value)) {
     throw new Error(
-      `Unsupported category "${value}". Use goal, scope, change, architecture, release, policy, or other.`
+      `Unsupported category "${value}". Use goal, scope, change, architecture, version, policy, or other.`
     );
   }
 
-  return value as "goal" | "scope" | "change" | "architecture" | "release" | "policy" | "other";
+  return value as "goal" | "scope" | "change" | "architecture" | "version" | "policy" | "other";
 }
 
 function assertDecision(value: string): "approve" | "reject" {
@@ -31,13 +31,13 @@ export function registerDecisionGroup(app: AclipApp) {
     .group("decision", {
       summary: "Manage high-impact project decisions.",
       description: withGuideHint(
-        "Create, inspect, and record important project decisions for goals, scope changes, architecture, release policy, and other high-impact control points."
+        "Create, inspect, and record important project decisions for goals, scope changes, architecture, version policy, and other high-impact control points."
       )
     })
     .command("new", {
       summary: "Create an important decision record.",
       description: withGuideHint(
-        "Record a new decision candidate for a goal, scope, change, architecture, release, policy, or other high-impact control point."
+        "Record a new decision candidate for a goal, scope, change, architecture, version, policy, or other high-impact control point."
       ),
       arguments: [
         stringArgument("name", {
@@ -80,7 +80,7 @@ export function registerDecisionGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas decision new --name 'Introduce public alpha install path' --description 'Add the minimum public installation flow for OpenDaaS.' --category release --context 'Public alpha readiness still lacks a repeatable install path.' --impact-of-no-action 'External users cannot try OpenDaaS repeatably.' --expected-outcome 'A real external trial path becomes possible.' --boundary 'Only the public alpha installation path; no SaaS platform.'"
+        "opendaas decision new --name 'Define version record policy' --description 'Introduce low-frequency project-level version records.' --category version --context 'The framework needs a stable version-recording model that is not tied to external publish events.' --impact-of-no-action 'Version history stays ambiguous and mixed with delivery-event semantics.' --expected-outcome 'Project-level version records become explicit and low-frequency.' --boundary 'Only version-record semantics; no external publishing workflow.'"
       ],
       handler: async (payload) => ({
         decision: await createDecisionRecord({

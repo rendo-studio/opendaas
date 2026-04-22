@@ -1,6 +1,6 @@
 ---
 name: 0-1-0-alpha-1-public-alpha-baseline
-description: Public alpha baseline 的 release / changelog entry。
+description: Public alpha baseline 的项目级版本记录。
 ---
 
 # 0-1-0-alpha-1-public-alpha-baseline
@@ -15,15 +15,11 @@ Public alpha baseline
 
 ## Status
 
-published
+recorded
 
 ## Summary
 
 First externally trialable OpenDaaS baseline.
-
-## Change Refs
-
-- release-readiness-iteration-1
 
 ## Decision Refs
 
@@ -41,14 +37,13 @@ First externally trialable OpenDaaS baseline.
 
 ## Migration Notes
 
-- Existing workspaces should run opendaas validate --repair once.
+- Existing repositories do not need to migrate their authored docs immediately; the minimal docs package is the recommended shape for new scaffolds.
 
 ## Validation Summary
 
-Release record control plane, docs projection, and CLI flow validated.
+Version record control plane, docs projection, and CLI flow validated.
 
 ## Timeline
 
-- Started: 2026-04-17T05:08:05.034Z
-- Closed: 2026-04-17T05:08:05.821Z
-- Published: 2026-04-17T05:08:06.561Z
+- Created: 2026-04-17T05:08:05.034Z
+- Recorded: 2026-04-17T05:08:06.561Z

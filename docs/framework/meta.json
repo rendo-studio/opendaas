@@ -9,7 +9,7 @@
     "DECISION-SPEC",
     "GOAL-AND-PROGRESS-SPEC",
     "TASK-AND-PLAN-SPEC",
-    "RELEASE-SPEC",
+    "VERSION-SPEC",
     "---Docs And Runtime---",
     "PROJECT-PACK-SPEC",
     "NAMESPACE-SPEC",

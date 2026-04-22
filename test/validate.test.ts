@@ -19,7 +19,7 @@ afterEach(async () => {
 });
 
 describe("workspace validation and repair", () => {
-  it("detects migration gaps in an adopted-style workspace and repairs them", async () => {
+  it("repairs missing metadata, config, and managed docs anchors in the current schema", async () => {
     const root = path.join(process.env.TEMP ?? process.cwd(), `opendaas-validate-${Date.now()}`);
     cleanups.push(root);
 
@@ -49,18 +49,16 @@ describe("workspace validation and repair", () => {
       ].join("\n"),
       "utf8"
     );
-    await fs.rm(path.join(root, "docs", "project", "releases", "index.md"), { force: true });
     await fs.rm(path.join(root, "docs", "engineering", "agent.md"), { force: true });
     await fs.rm(path.join(root, ".opendaas", "agent", "SKILL.md"), { force: true });
 
     const before = await withWorkspaceRoot(root, async () => validateWorkspace());
-    expect(before.migrationNeeded).toBe(true);
+    expect(before.repairNeeded).toBe(true);
     expect(before.schemaIssues.length).toBeGreaterThan(0);
-    expect(before.missingFiles.some((entry) => entry.endsWith(path.join("project", "releases", "index.md")))).toBe(true);
 
     const repaired = await withWorkspaceRoot(root, async () => repairWorkspace());
     expect(repaired.repaired).toBe(true);
     expect(repaired.validation.ok).toBe(true);
-    expect(repaired.validation.migrationNeeded).toBe(false);
+    expect(repaired.validation.repairNeeded).toBe(false);
   });
 });

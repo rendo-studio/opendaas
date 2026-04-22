@@ -1,6 +1,6 @@
 ---
-name: Current Work
-description: 说明当前工作在 OpenDaaS 中如何被组织，而不是手工重复当前 task 列表。
+name: 当前工作
+description: 记录 VibeCoding 当前高层焦点、执行计划与任务树。
 ---
 
 # Current Work
@@ -45,3 +45,26 @@ task tree 负责把每个 workstream 落成可执行节点。
 
 - 结构化当前工作由 `.opendaas/` 维护
 - 文档只解释 current work 的组织方式
+
+## 最终目标锚点
+
+当前所有执行工作都以“OpenDaaS long-term end goal”作为最高优先级锚点。
+
+## 当前高层焦点
+
+- Align safe adopt and project-level version records
+
+## 当前高层计划
+
+- Switch init and adopt to the minimal docs package safely
+- Finalize project-level version records
+- Align docs, guidance, and runtime projections with the new model
+
+这些 plan 的执行状态由 task tree 在读取时自动派生，不在 `plans/current.yaml` 中单独持久化。
+
+## 当前不做什么
+
+- public hosted docs platform
+- full SaaS control plane
+- multi-agent orchestration
+- cloud sync

@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { loadProgress } from "../src/core/progress.js";
 import { addTask, deleteTask, loadTasks, updateTask, updateTaskStatus } from "../src/core/tasks.js";
 import { createWorkspaceFixture } from "./helpers/workspace.js";
 
@@ -44,7 +43,7 @@ describe("task control plane", () => {
     expect(childTask.task.planRef).toBe("plan-root");
   });
 
-  it("recomputes progress when task statuses change", async () => {
+  it("returns computed progress when task statuses change without persisting a progress cache", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
@@ -54,24 +53,23 @@ describe("task control plane", () => {
       parent: "root",
       plan: "plan-root"
     });
-    await addTask({
+    const second = await addTask({
       name: "Task B",
       parent: "root",
       plan: "plan-root"
     });
 
-    await updateTaskStatus({
+    const updated = await updateTaskStatus({
       id: first.task.id,
       status: "done"
     });
 
-    const progress = await loadProgress();
     const tasks = await loadTasks();
 
     expect(tasks.items).toHaveLength(2);
-    expect(progress.countedTasks).toBe(2);
-    expect(progress.doneTasks).toBe(1);
-    expect(progress.percent).toBe(50);
+    expect(first.progressPercent).toBe(0);
+    expect(second.progressPercent).toBe(0);
+    expect(updated.progressPercent).toBe(50);
   });
 
   it("updates task fields and deletes task subtrees", async () => {

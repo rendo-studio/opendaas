@@ -7,7 +7,6 @@ import { stringify } from "yaml";
 import type {
   GoalState,
   PlansState,
-  ProgressState,
   ProjectOverviewState,
   TasksState,
   WorkspaceConfigState,
@@ -20,7 +19,6 @@ interface WorkspaceFixtureInput {
   endGoal?: GoalState;
   plans?: PlansState;
   tasks?: TasksState;
-  progress?: ProgressState;
   active?: WorkspaceState;
   config?: WorkspaceConfigState;
   meta?: WorkspaceMetaState;
@@ -37,7 +35,7 @@ const defaultEndGoal: GoalState = {
 const defaultProject: ProjectOverviewState = {
   name: "Test Workspace",
   summary: "Test workspace for isolated OpenDaaS control-plane behavior.",
-  docPath: "project/overview.md"
+  docPath: "shared/overview.md"
 };
 
 const defaultPlans: PlansState = {
@@ -47,7 +45,6 @@ const defaultPlans: PlansState = {
       id: "plan-root",
       name: "Root plan",
       summary: "Default top-level plan used by workspace fixtures.",
-      status: "pending",
       parentPlanId: null
     }
   ]
@@ -57,20 +54,13 @@ const defaultTasks: TasksState = {
   items: []
 };
 
-const defaultProgress: ProgressState = {
-  percent: 0,
-  countedTasks: 0,
-  doneTasks: 0,
-  computedAt: null
-};
-
 const defaultActive: WorkspaceState = {
   activeChange: "test-change",
   currentRoundId: "round-test"
 };
 
 const defaultMeta: WorkspaceMetaState = {
-  schemaVersion: 7,
+  schemaVersion: 8,
   workspaceName: "test-workspace",
   docsRoot: "docs",
   workspaceRoot: ".opendaas",
@@ -92,7 +82,7 @@ const defaultConfig: WorkspaceConfigState = {
     sourcePath: "docs",
     preferredPort: null
   },
-  workspaceSchemaVersion: 7
+  workspaceSchemaVersion: 8
 };
 
 async function writeYaml(filePath: string, value: unknown) {
@@ -122,7 +112,6 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
   const endGoal = input.endGoal ?? defaultEndGoal;
   const plans = input.plans ?? defaultPlans;
   const tasks = input.tasks ?? defaultTasks;
-  const progress = input.progress ?? defaultProgress;
   const active = input.active ?? defaultActive;
   const config = input.config ?? defaultConfig;
   const meta = input.meta ?? defaultMeta;
@@ -135,28 +124,39 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
   await writeYaml(path.join(root, ".opendaas", "tasks", "current.yaml"), tasks);
   await writeYaml(path.join(root, ".opendaas", "tasks", "archive.yaml"), { items: [] });
   await writeYaml(path.join(root, ".opendaas", "decisions", "records.yaml"), { items: [] });
-  await writeYaml(path.join(root, ".opendaas", "releases", "records.yaml"), { items: [] });
-  await writeYaml(path.join(root, ".opendaas", "state", "progress.yaml"), progress);
+  await writeYaml(path.join(root, ".opendaas", "versions", "records.yaml"), { items: [] });
   await writeYaml(path.join(root, ".opendaas", "state", "active.yaml"), active);
 
   await writeText(
-    path.join(root, "docs", "index.md"),
+    path.join(root, "docs", "shared", "overview.md"),
     doc(
-      "Test index",
-      "Workspace entry page.",
+      "Shared Overview",
+      "Workspace shared overview page.",
       `
-# Test Workspace
+# Project Overview
 
-## 最终目标
-
-待同步
-
-## 当前进度
+## 项目摘要
 
 待同步
 `
     )
   );
+  await writeText(
+    path.join(root, "docs", "shared", "goal.md"),
+    doc(
+      "Shared Goal",
+      "Workspace shared goal page.",
+      `
+# Project Goal
+
+## 最终目标
+
+待同步
+`
+    )
+  );
+  await writeText(path.join(root, "docs", "public", ".gitkeep"), "");
+  await writeText(path.join(root, "docs", "internal", ".gitkeep"), "");
   await writeText(
     path.join(root, "docs", "project", "overview.md"),
     doc(
@@ -169,119 +169,7 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
 
 待同步
 `
-    )
-  );
-  await writeText(
-    path.join(root, "docs", "project", "goal.md"),
-    doc(
-      "Final Goal",
-      "Goal anchor page.",
-      `
-# Final Goal
-
-## 最终目标
-
-待同步
-
-## 完成标准
-
-- 待同步
-
-## 明确不做什么
-
-- 待同步
-
-## 当前进度摘要
-
-待同步
-`
-    )
-  );
-  await writeText(
-    path.join(root, "docs", "project", "status.md"),
-    doc(
-      "当前状态",
-      "Workspace status page.",
-      `
-# 当前状态
-
-## 状态摘要
-
-待同步
-
-## 当前阶段
-
-待同步
-
-## 当前进度
-
-待同步
-
-## 当前进展
-
-- 待同步
-
-## 主要 blocker / 风险
-
-- 待同步
-
-## 下一步动作
-
-- 待同步
-
-## 最近更新时间
-
-待同步
-`
-    )
-  );
-  await writeText(
-    path.join(root, "docs", "project", "current-work.md"),
-    doc(
-      "当前工作",
-      "Current work projection.",
-      `
-# 当前工作
-
-## 当前 active work
-
-待同步
-
-## 当前高层焦点
-
-待同步
-
-## 当前高层计划
-
-- 待同步
-
-## 当前不做什么
-
-- 待同步
-`
-    )
-  );
-  await writeText(
-    path.join(root, "docs", "project", "tasks.md"),
-    doc(
-      "任务闭环",
-      "Task closure projection.",
-      `
-# 任务闭环
-
-## 当前任务树
-
-- 待同步
-
-## 最近完成
-
-- 待同步
-
-## 历史闭环
-
-- 待同步
-`
-    )
+      )
   );
   await writeText(
     path.join(root, "docs", "project", "decisions", "index.md"),
@@ -306,24 +194,20 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
     )
   );
   await writeText(
-    path.join(root, "docs", "project", "releases", "index.md"),
+    path.join(root, "docs", "index.md"),
     doc(
-      "Releases",
-      "Release index page.",
+      "Test index",
+      "Workspace entry page.",
       `
-# Releases
+# Test Workspace
 
-## 发布摘要
+## 最终目标
 
 待同步
 
-## 最近版本
+## 当前进度
 
-- 待同步
-
-## 重要变化
-
-- 待同步
+待同步
 `
     )
   );

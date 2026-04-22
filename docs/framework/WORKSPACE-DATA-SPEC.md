@@ -1,53 +1,40 @@
 ---
 name: OpenDaaS 内部工作区文件与数据结构规范
-description: 定义 .opendaas 固定文件骨架与最小数据结构。
+description: 定义当前 `.opendaas/` 工作区的固定文件骨架、最小字段与派生规则。
 ---
 
-# OpenDaaS 内部工作区文件与数据结构规范
-## OpenDaaS Workspace Data Specification v1
+# OpenDaaS Workspace Data Specification
 
-**版本：** v1.1  
-**状态：** 当前主稿  
-**产品工作名：** `OpenDaaS`  
-**CLI 名：** `opendaas`  
-**性质：** 实施规范  
-**依赖：** [内部工作区规范](./WORKSPACE-SPEC.md)、[CLI 命令面规范](./CLI-SPEC.md)、[命名空间规范](./NAMESPACE-SPEC.md)
+## 1. 目的
 
----
+本文档定义当前 OpenDaaS 工作区的真实数据模型。
 
-## 1. 文档目的
+它回答三件事：
 
-本文档把 `.opendaas/` 的固定区块进一步映射到具体文件和最小数据结构。
+1. `.opendaas/` 里哪些文件是固定真相源
+2. 哪些字段属于显式事实，应该被持久化
+3. 哪些值属于读取时派生结果，不应该写回工作区
 
-它要回答的是：
+## 2. 基本原则
 
-- 哪些文件默认应存在
-- 这些文件各自负责什么
-- 建议使用什么文件格式
-- 哪些字段是最小必需字段
+OpenDaaS 的工作区首先服务开发端 Agent，其次服务人类检查与协作。
 
----
+因此数据模型必须满足：
 
-## 2. 基本判断
+1. Agent 直接读取 `.opendaas/` 时不会遇到过时缓存
+2. CLI 与文档站都能从同一份结构化真相源派生视图
+3. 工作区不依赖隐式数据库或后台守护进程才能保持一致
+4. 纯计算值不进入 `.opendaas` 真相层
 
-`.opendaas/` 的文件设计应同时满足：
+当前结论：
 
-1. CLI 可稳定读写
-2. Agent 可稳定读写
-3. 人类在必要时也能检查
-4. 不依赖隐式数据库才能成立
+- `.opendaas` 只持久化显式事实与结构化意图
+- `phase`、`progress`、top-level plan execution status 都在读取时自动计算
+- 运行时缓存如果存在，应留在 docs-site runtime，而不是写回 `.opendaas`
 
-因此，本规范优先采用：
+## 3. 固定目录骨架
 
-- `yaml` 作为结构化配置和状态格式
-- `json` 作为程序化索引与差异数据格式
-- `md` 作为可选的内部说明与技术推演格式
-
----
-
-## 3. 建议的固定文件总览
-
-当前建议 `.opendaas/` 至少存在以下固定文件：
+当前建议至少存在以下固定文件：
 
 ```text
 .opendaas/
@@ -57,26 +44,26 @@ description: 定义 .opendaas 固定文件骨架与最小数据结构。
     workspace.yaml
   state/
     active.yaml
-    progress.yaml
+  project/
+    overview.yaml
   goals/
-    current.yaml
-    baseline.json
-    pending.json
-    history.json
-    sources.json
+    end.yaml
   plans/
     current.yaml
   tasks/
     current.yaml
     archive.yaml
+  decisions/
+    records.yaml
+  versions/
+    records.yaml
 ```
 
 说明：
 
-- `cache/` 是固定区块，但不要求固定文件一开始就存在
-- 其他文件可按后续版本继续扩展
-
----
+- 这是当前产品实现对应的真实骨架
+- `docs/` 是 authored context，不属于 `.opendaas` 内部结构的一部分
+- docs revision history、site runtime snapshot 等运行态数据不进入这个骨架
 
 ## 4. 各固定文件职责
 
@@ -84,130 +71,105 @@ description: 定义 .opendaas 固定文件骨架与最小数据结构。
 
 职责：
 
-- 标识当前仓库已接入 OpenDaaS
-- 提供内部工作区版本与根路径上下文
+- 标识当前仓库已经接入 OpenDaaS
+- 提供 schema/template 版本与工作区根路径信息
 
 ### 4.2 `.opendaas/config/workspace.yaml`
 
 职责：
 
-- 承载 CLI 的工作区级配置
-- 承载差异检查与站点构建等行为开关
+- 提供 docs-site 和工作区运行配置
+- 提供 schema 版本与项目类型等配置性信息
 
 ### 4.3 `.opendaas/state/active.yaml`
 
 职责：
 
-- 记录当前控制面活跃状态
-- 记录 active change、当前轮次以及最近一次差异检查结果
+- 记录当前 active change
+- 记录当前 round id
 
-### 4.4 `.opendaas/state/progress.yaml`
+### 4.4 `.opendaas/project/overview.yaml`
 
 职责：
 
-- 记录当前基于原生结构化 task 状态计算出的进度摘要
+- 持久化项目介绍的结构化锚点
+- 指明 authored project overview 文档路径
 
 ### 4.5 `.opendaas/goals/end.yaml`
 
 职责：
 
-- 承载长期最终目标的原生结构化定义
+- 持久化长期 end goal
+- 提供 success criteria 与 non-goals
 
-
-职责：
-
-- 记录 `docs/` 共享源文档当前已确认的差异基线
-
+### 4.6 `.opendaas/plans/current.yaml`
 
 职责：
 
-- 记录当前尚未确认的共享源文档差异摘要
+- 持久化当前 plan tree
+- 表达计划结构，而不是缓存执行状态
 
-### 4.8 `.opendaas/plans/current.yaml`
-
-职责：
-
-- 承载当前高层 plan tree 的原生结构化定义
-
-### 4.9 `.opendaas/tasks/current.yaml`
+### 4.7 `.opendaas/tasks/current.yaml`
 
 职责：
 
-- 承载当前轮次的内部 TODO 与 task tree
+- 持久化当前 live task tree
+- 提供执行状态、归属 plan、父子关系与 progress accounting 标记
 
-### 4.10 `.opendaas/tasks/archive.yaml`
-
-职责：
-
-- 承载已经关闭或归档的任务闭环历史
-- 为任务历史视图提供稳定真相源
-
+### 4.8 `.opendaas/tasks/archive.yaml`
 
 职责：
 
-- 记录共享源文档最近一次由 CLI / Agent 写入时的来源签名
+- 持久化已经关闭的任务闭环历史
 
+### 4.9 `.opendaas/decisions/records.yaml`
 
 职责：
 
-- 记录 append-only 的差异事件流
-- 为“上一个版本 vs 当前版本”的可视化比较提供历史依据
+- 持久化正式决策记录
 
----
+### 4.10 `.opendaas/versions/records.yaml`
 
-## 5. 文件格式约定
+职责：
 
-### 5.1 `yaml`
+- 持久化低频、项目级的 version 记录
 
-适用于：
+## 5. 最小字段定义
 
-- 元信息
-- 配置
-- 当前状态
-- 内部任务清单
-
-原因：
-
-- 人类可读
-- 结构化程度足够
-- 易于 CLI 与 Agent 读写
-
-### 5.2 `json`
-
-适用于：
-
-- 差异索引
-- 差异基线
-- 差异摘要
-
-原因：
-
-- 适合程序化比对
-- 适合后续扩展字段
-
-## 6. 最小字段定义
-
-### 6.1 `meta/workspace.yaml`
+### 5.1 `meta/workspace.yaml`
 
 最少字段建议：
 
 ```yaml
-version: 1
+schemaVersion: 8
 workspaceName: opendaas
 docsRoot: docs
 workspaceRoot: .opendaas
-createdAt: 2026-04-17T00:00:00Z
+bootstrapMode: adopt
+templateVersion: 2026-04-21.agent-first-derived-state-1
+projectKind: general
+docsMode: standard
+createdAt: 2026-04-21T00:00:00Z
+lastUpgradedAt: null
 ```
 
-### 6.2 `config/workspace.yaml`
+### 5.2 `config/workspace.yaml`
 
 最少字段建议：
 
 ```yaml
-docsSiteEnabled: true
+siteFramework: fumadocs
+packageManager: npm
+projectKind: general
+docsMode: standard
+docsSite:
+  enabled: true
+  sourcePath: docs
+  preferredPort: 4310
+workspaceSchemaVersion: 8
 ```
 
-### 6.3 `state/active.yaml`
+### 5.3 `state/active.yaml`
 
 最少字段建议：
 
@@ -216,147 +178,52 @@ activeChange: null
 currentRoundId: null
 ```
 
-说明：
-
-- `activeChange` 指向当前高层执行单元
-- `currentRoundId` 指向当前开发轮次
-
-### 6.4 `state/progress.yaml`
+### 5.4 `project/overview.yaml`
 
 最少字段建议：
 
 ```yaml
-percent: 0
-countedTasks: 0
-doneTasks: 0
-computedAt: null
+name: OpenDaaS
+summary: CLI-first project context control plane for development agents.
+docPath: shared/overview.md
 ```
 
-### 6.5 `goals/end.yaml`
+### 5.5 `goals/end.yaml`
 
 最少字段建议：
 
 ```yaml
-goalId: end-goal-1
-name: null
-summary: null
+goalId: end-goal-opendaas
+name: Make OpenDaaS durable
+summary: Turn OpenDaaS into a stable project context control plane.
 successCriteria: []
 nonGoals: []
 ```
 
-
-最少字段建议：
-
-```json
-{
-  "docs/index.md": {
-    "hash": "",
-    "acknowledgedAt": null
-  }
-}
-```
-
-说明：
-
-- key 为 `docs/` 中的源文件相对路径
-- `hash` 表示最近一次确认时的内容标识
-
-
-最少字段建议：
-
-```json
-{
-  "generatedAt": null,
-  "files": []
-}
-```
-
-当存在差异时，`files` 中的每个对象至少应包含：
-
-```json
-{
-  "path": "docs/project/status.md",
-  "changeType": "modified",
-  "source": "human",
-  "hunks": [
-    {
-      "oldStart": 10,
-      "oldCount": 2,
-      "newStart": 10,
-      "newCount": 3
-    }
-  ]
-}
-```
-
-说明：
-
-- `source` 允许值建议为 `human / agent / unknown`
-- `hunks` 用于支持行级差异定位
-
-
-最少字段建议：
-
-```json
-{
-  "project/status.md": {
-    "hash": "",
-    "source": "agent",
-    "recordedAt": "2026-04-17T00:00:00Z"
-  }
-}
-```
-
-说明：
-
-- key 为 `docs/` 内相对路径
-- `hash` 对应最近一次由 CLI / Agent 写入后的共享文档内容标识
-- 若当前文档内容 hash 与记录不匹配，则默认应视为 `human`
-
-
-最少字段建议：
-
-```json
-{
-  "items": [
-    {
-      "kind": "check",
-      "generatedAt": "2026-04-18T00:00:00Z",
-      "fileCount": 2,
-      "addedCount": 0,
-      "modifiedCount": 2,
-      "deletedCount": 0,
-      "files": []
-    }
-  ]
-}
-```
-
-### 6.10 `plans/current.yaml`
+### 5.6 `plans/current.yaml`
 
 最少字段建议：
 
 ```yaml
-endGoalRef: end-goal-1
+endGoalRef: end-goal-opendaas
 items:
   - id: plan-1
-    name: establish auth flow
-    summary: define the first stable execution stream
-    status: pending
+    name: establish shared context
+    summary: anchor the project reality before implementation
     parentPlanId: null
   - id: plan-1-1
-    name: implement sign-in flow
-    summary: deliver the first concrete slice inside the plan stream
-    status: pending
+    name: refine execution slice
+    summary: turn the current slice into explicit executable work
     parentPlanId: plan-1
 ```
 
 说明：
 
-- `plans/current.yaml` 应支持树形结构
-- 根计划节点使用 `parentPlanId: null`
+- `plans/current.yaml` 只表达 plan tree
+- plan execution status 不在这个文件里持久化
+- `plan show`、`status show`、docs-site Console 会基于 task tree 自动派生 plan status
 
-### 6.11 `tasks/current.yaml`
+### 5.7 `tasks/current.yaml`
 
 最少字段建议：
 
@@ -364,19 +231,21 @@ items:
 items:
   - id: task-1
     name: build auth page
+    summary: deliver the first auth UI slice
     status: pending
     planRef: plan-1
     parentTaskId: null
     countedForProgress: true
   - id: task-1-1
     name: wire form validation flow
+    summary: connect the auth form to validation and submission behavior
     status: pending
     planRef: plan-1
     parentTaskId: task-1
     countedForProgress: true
 ```
 
-允许的 `status` 至少包括：
+允许的 `status`：
 
 - `pending`
 - `in_progress`
@@ -385,12 +254,11 @@ items:
 
 说明：
 
-- `tasks/current.yaml` 必须支持不限层级的树形结构
-- 每个 task 都必须有明确的 `parentTaskId`
-- 根任务节点使用 `parentTaskId: null`
+- task tree 必须支持不限层级的父子结构
+- 每个 task 都必须有明确 `parentTaskId`
 - `countedForProgress: true` 的 task 才进入默认进度计算
 
-### 6.12 `tasks/archive.yaml`
+### 5.8 `tasks/archive.yaml`
 
 最少字段建议：
 
@@ -401,91 +269,79 @@ items:
     planRef: plan-1
     parentTaskId: null
     status: done
-    closedAt: 2026-04-18T00:00:00Z
+    closedAt: 2026-04-21T00:00:00Z
     closedByChange: auth-rollout-1
     summary: close out the initial auth rollout
 ```
 
----
+### 5.9 `decisions/records.yaml`
 
-## 7. 差异追踪的最小运行规则
+最少字段建议：
 
-### 7.1 比对对象
+```yaml
+items: []
+```
 
+### 5.10 `versions/records.yaml`
 
-### 7.2 任务前检查
+最少字段建议：
 
-开发端 Agent 在每轮任务开始前，必须：
+```yaml
+items: []
+```
 
+## 6. 派生视图规则
 
-### 7.3 差异确认
+以下值属于派生结果，不应该持久化到 `.opendaas`：
 
-在 Agent 明确吸收差异并完成理解后，CLI 应支持：
+- `progress.percent`
+- `progress.countedTasks`
+- `progress.doneTasks`
+- `phase`
+- top-level plan execution status
+- 任何能够仅凭 `plans/current.yaml` + `tasks/current.yaml` 推导出的摘要
 
+当前规则：
 
-### 7.4 来源判定
+1. `status show` 必须读取时计算这些值
+2. `plan show` 必须读取时计算 plan execution status
+3. docs-site Console 必须读取时计算并投影这些值
+4. 如果需要运行时缓存，只能写到 docs-site runtime，而不是 `.opendaas`
 
-CLI 至少应支持：
+## 7. 为什么不持久化纯计算值
 
-1. 记录共享源文档最近一次由 Agent / CLI 写入后的来源签名
-3. 对无法匹配来源签名的共享文档变更默认判定为 `human`
+原因很直接：
 
-### 7.5 进度计算
+1. 开发端 Agent 经常直接编辑 `.opendaas`
+2. 如果纯计算值被持久化但没有可靠自动重算机制，它们就会变成过时假真相
+3. `phase` 与 `progress` 的计算成本很低，没有必要为它们引入后台同步系统
 
-CLI 应至少能够：
+因此当前最佳实践是：
 
-1. 基于 `tasks/current.yaml` 中 `countedForProgress: true` 的 task 计算默认进度
-2. 将结果写入 `state/progress.yaml`
+- 持久化显式事实
+- 读取时派生执行视图
 
----
+## 8. 不合格状态
 
-## 8. 哪些文件可以延后生成
+出现以下任一情况时，应视为工作区未对齐：
 
-以下文件或目录可以在实际需要时再生成：
+1. 缺少 `meta/workspace.yaml`
+2. 缺少 `config/workspace.yaml`
+3. 缺少 `state/active.yaml`
+4. 缺少 `project/overview.yaml`
+5. 缺少 `goals/end.yaml`
+6. 缺少 `plans/current.yaml`
+7. 缺少 `tasks/current.yaml`
+8. 缺少 `tasks/archive.yaml`
+9. `plans/current.yaml` 仍持久化 plan execution `status`
+10. 工作区仍持久化独立的 `progress.yaml`
 
-1. `cache/` 下的具体文件
-2. 更细粒度的 `plans/archive/`
-3. 更细粒度的 `tasks/archive/`
-4. 更复杂的差异快照或 patch 文件
-5. 用于内部技术推演的附加 Markdown 说明文件
-
-但第 3 节列出的固定文件，至少应在 `init` 或 `adopt` 后具备最小占位。
-
----
-
-## 9. 不合格状态
-
-出现以下任一情况时，应视为 `.opendaas/` 结构尚未正确落地：
-
-1. 没有工作区元信息文件
-2. 没有当前活跃状态文件
-3. 没有最终目标结构化文件
-4. 没有当前进度结构化文件
-5. 没有差异基线文件
-6. 没有待确认差异文件
-7. CLI 无法查询结构化 plan / task 状态
-8. 文件级变化无法稳定产出可复用的结构化结果
-9. task 缺少明确 `parentTaskId`
-10. 没有任务归档或差异历史入口却声称支持闭环历史
-
----
-
-## 10. 当前结论
+## 9. 当前结论
 
 当前可以明确：
 
-> **`.opendaas/` 的固定区块需要进一步落到固定文件。**
+> **OpenDaaS 的 `.opendaas/` 应被视为 Agent-first 的结构化真相层，而不是派生状态缓存层。**
 
 更具体地说：
 
-> **`workspace.yaml`、`active.yaml`、`progress.yaml`、`goals/end.yaml`、`baseline.json`、`pending.json`、`history.json`、`plans/current.yaml`、`tasks/current.yaml`、`tasks/archive.yaml` 已经足以构成 OpenDaaS 内部工作区的第一版可闭环文件骨架。**
-
----
-
-## 11. 下一步
-
-在内部工作区文件与数据结构被固定后，后续应继续回答：
-
-1. 差异来源如何更可靠地区分 human / agent / unknown
-2. patch 文件或快照文件是否需要独立存储
-3. 多轮任务历史如何归档
+> **`workspace.yaml`、`active.yaml`、`project/overview.yaml`、`goals/end.yaml`、`plans/current.yaml`、`tasks/current.yaml`、`tasks/archive.yaml`、`decisions/records.yaml`、`versions/records.yaml` 已足以构成当前版本的闭环工作区骨架。**

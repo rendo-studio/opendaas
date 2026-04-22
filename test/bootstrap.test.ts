@@ -31,8 +31,10 @@ describe("init and adopt", () => {
 
     expect(first.createdFiles).toContain(".opendaas/project/overview.yaml");
     expect(first.createdFiles).toContain(".opendaas/goals/end.yaml");
-    expect(first.createdFiles).toContain("docs/project/overview.md");
-    expect(first.createdFiles).toContain("docs/index.md");
+    expect(first.createdFiles).toContain("docs/shared/overview.md");
+    expect(first.createdFiles).toContain("docs/shared/goal.md");
+    expect(first.createdFiles).toContain("docs/public/.gitkeep");
+    expect(first.createdFiles).toContain("docs/internal/.gitkeep");
     expect(first.createdFiles).toContain("AGENTS.md");
     expect(first.createdFiles).toContain(".agents/skills/opendaas-workflow/SKILL.md");
 
@@ -46,6 +48,11 @@ describe("init and adopt", () => {
     expect(second.skippedFiles.length).toBeGreaterThan(0);
     const workspaceEntries = await fs.readdir(path.join(root, ".opendaas"));
     expect(workspaceEntries).not.toContain(String.fromCharCode(100, 105, 102, 102));
+    const progressFileExists = await fs
+      .stat(path.join(root, ".opendaas", "state", "progress.yaml"))
+      .then(() => true)
+      .catch(() => false);
+    expect(progressFileExists).toBe(false);
   });
 
   it("can initialize the current directory with provisional overview and end-goal anchors", async () => {
@@ -107,10 +114,17 @@ describe("init and adopt", () => {
     expect(projectOverviewExists).toBe(true);
     expect(agentsExists).toBe(true);
     expect(workflowSkillExists).toBe(true);
-    expect(indexContent).toContain("This line must survive adopt.");
-    expect(indexContent).toContain("## 默认入口");
-    expect(indexContent).toContain("name:");
-    expect(indexContent).toContain("description:");
+    const sharedOverviewExists = await fs
+      .stat(path.join(root, "docs", "shared", "overview.md"))
+      .then(() => true)
+      .catch(() => false);
+    const sharedGoalExists = await fs
+      .stat(path.join(root, "docs", "shared", "goal.md"))
+      .then(() => true)
+      .catch(() => false);
+    expect(indexContent).toBe("# Existing Docs\n\nThis line must survive adopt.\n");
+    expect(sharedOverviewExists).toBe(true);
+    expect(sharedGoalExists).toBe(true);
   });
 
   it("can adopt the current directory without requiring a final goal up front", async () => {
@@ -130,5 +144,25 @@ describe("init and adopt", () => {
     } finally {
       cwdSpy.mockRestore();
     }
+  });
+
+  it("never rewrites existing adopted docs when the target path already exists", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-adopt-existing-docs-"));
+    cleanups.push(root);
+
+    await fs.mkdir(path.join(root, "docs", "shared"), { recursive: true });
+    await fs.writeFile(
+      path.join(root, "docs", "shared", "overview.md"),
+      "# Existing shared overview\n\nDo not touch this file.\n",
+      "utf8"
+    );
+
+    await adoptWorkspace({
+      targetPath: root,
+      projectName: "Existing Project"
+    });
+
+    const sharedOverview = await fs.readFile(path.join(root, "docs", "shared", "overview.md"), "utf8");
+    expect(sharedOverview).toBe("# Existing shared overview\n\nDo not touch this file.\n");
   });
 });

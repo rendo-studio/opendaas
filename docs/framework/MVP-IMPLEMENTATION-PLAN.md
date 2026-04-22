@@ -24,7 +24,7 @@ description: 定义 OpenDaaS 进入开发阶段后的最小实现切片、目录
 1. 概念边界已基本固定
 2. CLI-first 产品形态已固定
 3. `docs/` 与 `.opendaas/` 命名空间边界已固定
-4. `goal / plan / task / progress` 的控制面模型已固定
+4. `goal / plan / task` 的控制面模型已固定，phase / progress 采用读取时派生
 5. `aclip` 已通过最小可运行 spike
 6. 文档站方向已固定为 `Fumadocs`
 
@@ -103,14 +103,14 @@ test/                 # 自动化测试
 4. 基于真实文件的 `goal set/show`
 5. 基于真实文件的 `task add/list`
 
-### 5.3 第三切片：计划树与进度
+### 5.3 第三切片：计划树与派生状态视图
 
 实现：
 
 1. `plan` 命令组
 2. `plans/current.yaml`
 3. `progress` 自动计算
-4. 状态同步到 `docs/`
+4. `status show` / Console 读取时派生 phase 与 progress
 
 ### 5.4 第四切片：共享文档差异
 

@@ -66,6 +66,7 @@ export default async function Page(props: {
   const useConsoleView = useOverviewConsole || useTasksConsole;
   const snapshot = await loadControlPlaneSnapshot();
   const page = findPage(source, resolvedSlug);
+  const sharedOverviewPage = source.getPage(["shared", "overview"]);
   const currentDocPath =
     useConsoleView ? null : snapshot.docs.pages.find((entry) => entry.slug.join("/") === key)?.path ?? null;
   const revisionState = currentDocPath ? await loadDocsRevisionState() : null;
@@ -91,6 +92,10 @@ export default async function Page(props: {
 
   if (key === "console/overview") {
     redirect(`/${lang}/docs/console`);
+  }
+
+  if (!useConsoleView && key === "" && !page && sharedOverviewPage) {
+    redirect(`/${lang}/docs/shared/overview`);
   }
 
   if (!useConsoleView && !page) {

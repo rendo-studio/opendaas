@@ -12,18 +12,13 @@ export interface WorkspacePaths {
   planFile: string;
   taskFile: string;
   taskArchiveFile: string;
-  progressFile: string;
   activeStateFile: string;
   decisionFile: string;
-  releaseFile: string;
-  docsIndexFile: string;
-  docsProjectOverviewFile: string;
-  docsGoalFile: string;
-  docsStatusFile: string;
-  docsCurrentWorkFile: string;
+  versionFile: string;
+  docsSharedOverviewFile: string;
+  docsSharedGoalFile: string;
   docsDecisionsIndexFile: string;
-  docsReleasesIndexFile: string;
-  docsTasksFile: string;
+  docsVersionsIndexFile: string;
 }
 
 export function resolveWorkspaceRoot(start = process.cwd()): string {
@@ -68,18 +63,13 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
     planFile: path.join(workspaceRoot, "plans", "current.yaml"),
     taskFile: path.join(workspaceRoot, "tasks", "current.yaml"),
     taskArchiveFile: path.join(workspaceRoot, "tasks", "archive.yaml"),
-    progressFile: path.join(workspaceRoot, "state", "progress.yaml"),
     activeStateFile: path.join(workspaceRoot, "state", "active.yaml"),
     decisionFile: path.join(workspaceRoot, "decisions", "records.yaml"),
-    releaseFile: path.join(workspaceRoot, "releases", "records.yaml"),
-    docsIndexFile: path.join(docsRoot, "index.md"),
-    docsProjectOverviewFile: path.join(docsRoot, "project", "overview.md"),
-    docsGoalFile: path.join(docsRoot, "project", "goal.md"),
-    docsStatusFile: path.join(docsRoot, "project", "status.md"),
-    docsCurrentWorkFile: path.join(docsRoot, "project", "current-work.md"),
+    versionFile: path.join(workspaceRoot, "versions", "records.yaml"),
+    docsSharedOverviewFile: path.join(docsRoot, "shared", "overview.md"),
+    docsSharedGoalFile: path.join(docsRoot, "shared", "goal.md"),
     docsDecisionsIndexFile: path.join(docsRoot, "project", "decisions", "index.md"),
-    docsReleasesIndexFile: path.join(docsRoot, "project", "releases", "index.md"),
-    docsTasksFile: path.join(docsRoot, "project", "tasks.md")
+    docsVersionsIndexFile: path.join(docsRoot, "internal", "versions", "index.md")
   };
 }
 

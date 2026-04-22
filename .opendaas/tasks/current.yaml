@@ -264,7 +264,7 @@ items:
     planRef: ship-agent-friendly-cli-output-1
     parentTaskId: task-cli-output
     countedForProgress: true
-    summary: Format guide, status, site, project, goal, plan, task, decision, release, and validation results into concise Markdown sections instead of raw JSON dumps.
+    summary: Format guide, status, site, project, goal, plan, task, decision, version, and validation results into concise Markdown sections instead of raw JSON dumps.
   - id: task-cli-output-3
     name: Update workflow guidance and verify the new default output contract
     status: done
@@ -328,3 +328,59 @@ items:
     parentTaskId: task-bootstrap-live-sync
     countedForProgress: true
     summary: Expand watcher coverage beyond the partial .opendaas subtree, refresh runtime data for more real workspace changes, and verify the site responds to control-plane edits without manual rebuild loops.
+  - id: task-derived-state-cleanup
+    name: Remove persisted derived state from the workspace model
+    status: done
+    planRef: remove-persisted-derived-state-from-workspace-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Keep `.opendaas` limited to explicit facts and remove stale computed caches that can mislead development agents.
+  - id: task-derived-state-cleanup-1
+    name: Remove progress.yaml and persisted plan status fields from the control plane
+    status: done
+    planRef: remove-persisted-derived-state-from-workspace-1
+    parentTaskId: task-derived-state-cleanup
+    countedForProgress: true
+    summary: Stop treating progress and plan execution status as persisted workspace truth, and normalize plan files so deprecated fields are stripped during repair and save paths.
+  - id: task-derived-state-cleanup-2
+    name: Switch CLI and docs-site views to read-time derivation only
+    status: done
+    planRef: remove-persisted-derived-state-from-workspace-1
+    parentTaskId: task-derived-state-cleanup
+    countedForProgress: true
+    summary: Make task mutations return computed progress directly, keep status and plan views derived on read, and prevent runtime code from reintroducing internal sync semantics.
+  - id: task-derived-state-cleanup-3
+    name: Align bootstrap, validation, docs, and tests with the Agent-first schema
+    status: done
+    planRef: remove-persisted-derived-state-from-workspace-1
+    parentTaskId: task-derived-state-cleanup
+    countedForProgress: true
+    summary: Update workspace specs, bootstrap templates, migration checks, and regression tests so OpenDaaS documents and enforces the new explicit-facts-only workspace model.
+  - id: task-safe-adopt-version
+    name: Align safe adopt and project-level version records
+    status: in_progress
+    planRef: align-safe-adopt-and-version-records-1
+    parentTaskId: null
+    countedForProgress: false
+    summary: Replace invasive adopt behavior and finalize a safer bootstrap model plus low-frequency version records.
+  - id: task-safe-adopt-version-1
+    name: Switch init and adopt to the minimal docs package safely
+    status: done
+    planRef: align-safe-adopt-and-version-records-1
+    parentTaskId: task-safe-adopt-version
+    countedForProgress: true
+    summary: Make new scaffolds generate the shared/public/internal docs package and ensure adopt never rewrites existing authored docs at the same path.
+  - id: task-safe-adopt-version-2
+    name: Finalize project-level version records
+    status: done
+    planRef: align-safe-adopt-and-version-records-1
+    parentTaskId: task-safe-adopt-version
+    countedForProgress: true
+    summary: Rename the command surface, workspace files, docs projection, and related semantics to low-frequency project-level version records.
+  - id: task-safe-adopt-version-3
+    name: Align docs, guidance, and runtime projections with the new model
+    status: in_progress
+    planRef: align-safe-adopt-and-version-records-1
+    parentTaskId: task-safe-adopt-version
+    countedForProgress: true
+    summary: Update framework specs, current authored docs, site navigation, and workflow guidance so humans and development agents see the same safe bootstrap and version-record model.

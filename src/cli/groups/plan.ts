@@ -10,17 +10,8 @@ import {
   renderPlanTreeLines,
   updatePlan
 } from "../../core/plans.js";
-import { syncStatusDocs } from "../../core/status.js";
 import { loadTasks } from "../../core/tasks.js";
 import { withGuideHint } from "../guide-hint.js";
-
-function assertTaskStatus(status: string): "pending" | "in_progress" | "done" | "blocked" {
-  if (!["pending", "in_progress", "done", "blocked"].includes(status)) {
-    throw new Error(`Unsupported plan status "${status}".`);
-  }
-
-  return status as "pending" | "in_progress" | "done" | "blocked";
-}
 
 async function loadDerivedPlansForView(
   plansState?: Awaited<ReturnType<typeof loadPlans>>
@@ -58,25 +49,19 @@ export function registerPlanGroup(app: AclipApp) {
         stringArgument("summary", {
           required: false,
           description: "Optional plan summary. Defaults to the plan name."
-        }),
-        stringArgument("status", {
-          required: false,
-          description: "Optional initial status: pending, in_progress, done, or blocked."
         })
       ],
       examples: [
         "opendaas plan add --name 'Harden workspace refresh' --parent root",
-        "opendaas plan add --name 'Add console mutation coverage' --parent harden-workspace-refresh-1 --status in_progress"
+        "opendaas plan add --name 'Add console mutation coverage' --parent harden-workspace-refresh-1"
       ],
-      handler: async ({ name, parent, summary, status }) => {
+      handler: async ({ name, parent, summary }) => {
         const result = await addPlan({
           name: String(name),
           parent: String(parent),
-          summary: summary ? String(summary) : undefined,
-          status: status ? assertTaskStatus(String(status)) : undefined
+          summary: summary ? String(summary) : undefined
         });
-        await syncStatusDocs();
-        const plans = await loadDerivedPlansForView();
+        const plans = await loadDerivedPlansForView(result.plans);
 
         return {
           plan: plans.items.find((plan) => plan.id === result.plan.id) ?? result.plan,
@@ -87,7 +72,7 @@ export function registerPlanGroup(app: AclipApp) {
     .command("update", {
       summary: "Update a plan node.",
       description: withGuideHint(
-        "Rename, re-parent, or change a plan node status and refresh shared status projection."
+        "Rename, re-parent, or edit a plan node in the structured plan tree."
       ),
       arguments: [
         stringArgument("id", {
@@ -105,26 +90,19 @@ export function registerPlanGroup(app: AclipApp) {
         stringArgument("parent", {
           required: false,
           description: "Optional replacement parent id, or root."
-        }),
-        stringArgument("status", {
-          required: false,
-          description: "Optional replacement status: pending, in_progress, done, or blocked."
         })
       ],
       examples: [
-        "opendaas plan update --id plan-1 --status done",
         "opendaas plan update --id harden-workspace-refresh-1 --name 'Harden workspace refresh and console sync'"
       ],
-      handler: async ({ id, name, summary, parent, status }) => {
+      handler: async ({ id, name, summary, parent }) => {
         const result = await updatePlan({
           id: String(id),
           name: name ? String(name) : undefined,
           summary: summary ? String(summary) : undefined,
-          parent: parent ? String(parent) : undefined,
-          status: status ? assertTaskStatus(String(status)) : undefined
+          parent: parent ? String(parent) : undefined
         });
-        await syncStatusDocs();
-        const plans = await loadDerivedPlansForView();
+        const plans = await loadDerivedPlansForView(result.plans);
 
         return {
           plan: plans.items.find((plan) => plan.id === result.plan.id) ?? result.plan,
@@ -163,7 +141,6 @@ export function registerPlanGroup(app: AclipApp) {
         const result = await deletePlan({
           id: String(id)
         });
-        await syncStatusDocs();
         const plans = await loadDerivedPlansForView(result.plans);
         return {
           deletedPlanIds: result.deletedPlanIds,
