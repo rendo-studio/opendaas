@@ -7,7 +7,7 @@ items:
     decisionRefs:
       - introduce-public-alpha-install-path
     highlights:
-      - Introduced init/adopt
+      - Introduced safe OpenDaaS bootstrap
       - Added workflow guidance artifacts
       - Added generic decision CLI and decision records
     breakingChanges: []

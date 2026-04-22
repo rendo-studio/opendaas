@@ -52,11 +52,11 @@ task tree 负责把每个 workstream 落成可执行节点。
 
 ## 当前高层焦点
 
-- Align safe adopt and project-level version records
+- Align safe init and project-level version records
 
 ## 当前高层计划
 
-- Switch init and adopt to the minimal docs package safely
+- Make init the single bootstrap path with safe existing-project attach behavior
 - Finalize project-level version records
 - Align docs, guidance, and runtime projections with the new model
 

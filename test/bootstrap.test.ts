@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { adoptWorkspace, initWorkspace } from "../src/core/bootstrap.js";
+import { initWorkspace } from "../src/core/bootstrap.js";
 
 const cleanups: string[] = [];
 
@@ -17,7 +17,7 @@ afterEach(async () => {
   }
 });
 
-describe("init and adopt", () => {
+describe("init", () => {
   it("initializes a new workspace and generates the expected control-plane files", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-"));
     cleanups.push(root);
@@ -74,19 +74,19 @@ describe("init and adopt", () => {
     }
   });
 
-  it("adopts an existing project without destroying existing docs content", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-adopt-"));
+  it("initializes an existing project without destroying existing docs content", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-"));
     cleanups.push(root);
 
     await fs.writeFile(path.join(root, "README.md"), "# Existing project\n", "utf8");
     await fs.mkdir(path.join(root, "docs"), { recursive: true });
     await fs.writeFile(
       path.join(root, "docs", "index.md"),
-      `# Existing Docs\n\nThis line must survive adopt.\n`,
+      `# Existing Docs\n\nThis line must survive init.\n`,
       "utf8"
     );
 
-    const result = await adoptWorkspace({
+    const result = await initWorkspace({
       targetPath: root,
       endGoalName: "Ship Existing MVP",
       endGoalSummary: "Stabilize and ship the first production slice of the existing project."
@@ -122,19 +122,19 @@ describe("init and adopt", () => {
       .stat(path.join(root, "docs", "shared", "goal.md"))
       .then(() => true)
       .catch(() => false);
-    expect(indexContent).toBe("# Existing Docs\n\nThis line must survive adopt.\n");
+    expect(indexContent).toBe("# Existing Docs\n\nThis line must survive init.\n");
     expect(sharedOverviewExists).toBe(true);
     expect(sharedGoalExists).toBe(true);
   });
 
-  it("can adopt the current directory without requiring a final goal up front", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-adopt-cwd-"));
+  it("can initialize the current directory when it is already an existing project", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-cwd-"));
     cleanups.push(root);
     await fs.writeFile(path.join(root, "README.md"), "# Existing project\n", "utf8");
     const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(root);
 
     try {
-      const result = await adoptWorkspace({});
+      const result = await initWorkspace({});
       const overview = await fs.readFile(path.join(root, ".opendaas", "project", "overview.yaml"), "utf8");
       const endGoal = await fs.readFile(path.join(root, ".opendaas", "goals", "end.yaml"), "utf8");
 
@@ -146,8 +146,8 @@ describe("init and adopt", () => {
     }
   });
 
-  it("never rewrites existing adopted docs when the target path already exists", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-adopt-existing-docs-"));
+  it("never rewrites existing docs when the target path already exists", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-docs-"));
     cleanups.push(root);
 
     await fs.mkdir(path.join(root, "docs", "shared"), { recursive: true });
@@ -157,7 +157,7 @@ describe("init and adopt", () => {
       "utf8"
     );
 
-    await adoptWorkspace({
+    await initWorkspace({
       targetPath: root,
       projectName: "Existing Project"
     });

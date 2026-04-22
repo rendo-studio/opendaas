@@ -15,6 +15,6 @@ description: OpenDaaS 的项目级版本记录入口页。
 
 ## 重要变化
 
-- 0.1.0-alpha.1: Introduced init/adopt
+- 0.1.0-alpha.1: Introduced safe OpenDaaS bootstrap
 - 0.1.0-alpha.1: Added workflow guidance artifacts
 - 0.1.0-alpha.1: Added generic decision CLI and decision records

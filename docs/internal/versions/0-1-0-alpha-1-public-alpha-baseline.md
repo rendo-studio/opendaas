@@ -27,7 +27,7 @@ First externally trialable OpenDaaS baseline.
 
 ## Highlights
 
-- Introduced init/adopt
+- Introduced safe OpenDaaS bootstrap
 - Added workflow guidance artifacts
 - Added generic decision CLI and decision records
 

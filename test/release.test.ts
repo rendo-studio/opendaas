@@ -39,7 +39,7 @@ describe("version control plane", () => {
 
     const updated = await updateVersionRecord({
       id: draft.id,
-      addHighlights: ["Removed persisted derived state", "Made adopt non-invasive by default"],
+      addHighlights: ["Removed persisted derived state", "Made init safe for existing repos by default"],
       addMigrationNotes: ["Existing repositories can keep their current docs layout; the new docs package profile is only the recommended default for new scaffolds."],
       validationSummary: "Core version record and docs projection flow validated."
     });

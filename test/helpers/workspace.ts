@@ -64,7 +64,7 @@ const defaultMeta: WorkspaceMetaState = {
   workspaceName: "test-workspace",
   docsRoot: "docs",
   workspaceRoot: ".opendaas",
-  bootstrapMode: "adopt",
+    bootstrapMode: "init",
   templateVersion: "test-template",
   projectKind: "general",
   docsMode: "standard",

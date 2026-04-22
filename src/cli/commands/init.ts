@@ -31,12 +31,12 @@ export function registerInitCommand(app: AclipApp) {
   app.command("init", {
     summary: "Initialize a new OpenDaaS workspace.",
     description: withGuideHint(
-      "Create a new OpenDaaS workspace in an empty directory, including docs anchors and the internal .opendaas control plane."
+      "Initialize OpenDaaS in the current directory or target path. Empty directories get a new workspace; existing projects are attached safely without rewriting existing authored docs."
     ),
     arguments: [
       stringArgument("targetPath", {
         required: false,
-        description: "Target directory for the new workspace. Defaults to the current directory.",
+        description: "Target directory to initialize. Defaults to the current directory.",
         flag: "--target-path"
       }),
       stringArgument("projectName", {
@@ -71,13 +71,14 @@ export function registerInitCommand(app: AclipApp) {
       }),
       booleanArgument("force", {
         required: false,
-        description: "Allow overwriting OpenDaaS-managed anchor files and control-plane files.",
+        description: "Allow overwriting OpenDaaS-managed control-plane files.",
         flag: "--force"
       })
     ],
     examples: [
       "opendaas init",
       "opendaas init --project-name Example --project-summary 'CLI-first project context control plane for a service repo.' --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
+      "opendaas init --target-path D:/project/existing --project-name Existing --project-summary 'Existing repo brought under OpenDaaS control.'",
       "opendaas init --target-path D:/project/example --project-name Example --project-summary 'Frontend app managed through OpenDaaS.' --project-kind frontend --docs-mode standard"
     ],
     handler: async (payload) => ({

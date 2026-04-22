@@ -29,7 +29,6 @@ CLI 不负责：
 
 - `guide`
 - `init`
-- `adopt`
 - `validate`
 - `project`
 - `goal`
@@ -44,6 +43,7 @@ CLI 不负责：
 
 - `agent`
 - `release`
+- 独立的 existing-project bootstrap 命令
 - 手动 `sync` ritual
 
 ## 使用原则
@@ -52,10 +52,14 @@ CLI 不负责：
 - CLI 负责安全护栏、结构化写入和运行时动作
 - 派生视图必须读取时计算，而不是依赖手动同步
 
-## `init` 与 `adopt`
+## `init`
 
-- `init` 面向空目录或新项目目录
-- `adopt` 面向已有仓库
+`init` 是唯一的公开 bootstrap 入口。
+
+它同时处理：
+
+- 空目录或新项目目录
+- 已有仓库的安全接入
 
 当前默认 docs scaffold 应使用最小通用文档包：
 
@@ -68,7 +72,7 @@ docs/
   internal/
 ```
 
-`adopt` 必须是安全无侵入的：
+当 `init` 作用于已有仓库时，必须是安全无侵入的：
 
 - 只补 OpenDaaS 自己负责的控制面和最小锚点
 - 不重写现有 authored docs 正文
@@ -112,4 +116,4 @@ docs/
 
 ## 当前结论
 
-OpenDaaS CLI 应被视为轻量控制面护栏，而不是强制所有操作都经过的唯一入口。
+OpenDaaS CLI 应被视为轻量控制面护栏，而 `init` 应作为唯一 bootstrap 入口覆盖新建与既有项目两类场景。

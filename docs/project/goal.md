@@ -70,8 +70,8 @@ OpenDaaS long-term end goal
 - OpenDaaS defines stable standards for project overview, end goal, plans, tasks, decisions, version records, and workflow guidance
 - OpenDaaS keeps authored docs, structured workspace state, and local docs-site views aligned for human developers and development agents
 - OpenDaaS supports a complete and repeatable loop from project understanding to planning, implementation, validation, and version recording
-- Human developers and development agents can install or adopt OpenDaaS, follow an authoritative workflow guide, and reach a correct first closed loop without guessing undocumented conventions
-- OpenDaaS provides production-grade guardrails around bootstrap, validation, automatic derived-state consistency, site runtime, packaging, and adoption UX across real project edge cases
+- Human developers and development agents can initialize OpenDaaS in new or existing repositories, follow an authoritative workflow guide, and reach a correct first closed loop without guessing undocumented conventions
+- OpenDaaS provides production-grade guardrails around bootstrap, validation, automatic derived-state consistency, site runtime, packaging, and existing-project initialization UX across real project edge cases
 
 ## 明确不做什么
 

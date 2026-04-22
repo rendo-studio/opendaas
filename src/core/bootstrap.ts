@@ -39,7 +39,7 @@ interface BootstrapInput {
 }
 
 interface BootstrapResult {
-  mode: "init" | "adopt";
+  mode: "init";
   root: string;
   docsRoot: string;
   workspaceRoot: string;
@@ -96,28 +96,19 @@ async function listDirEntries(dirPath: string): Promise<string[]> {
   }
 }
 
-async function assertInitTargetIsSafe(root: string): Promise<void> {
+async function resolveInitStrategy(root: string): Promise<"new" | "existing"> {
   const entries = await listDirEntries(root);
 
   if (entries.length === 0) {
-    return;
+    return "new";
   }
 
   const isExistingWorkspace = entries.includes(".opendaas") && entries.includes("docs");
   if (isExistingWorkspace) {
-    return;
+    return "existing";
   }
 
-  throw new Error(
-    `init only supports an empty directory or an existing OpenDaaS workspace. Use adopt for an existing project: ${root}`
-  );
-}
-
-async function assertAdoptTargetExists(root: string): Promise<void> {
-  const stats = await fs.stat(root).catch(() => null);
-  if (!stats?.isDirectory()) {
-    throw new Error(`adopt requires an existing target directory: ${root}`);
-  }
+  return "existing";
 }
 
 function buildEndGoal(
@@ -259,7 +250,7 @@ function buildActiveState(activeChangeId: string): WorkspaceState {
 }
 
 function buildWorkspaceFiles(
-  mode: "init" | "adopt",
+  mode: "init",
   activeChangeId: string,
   endGoal: GoalState,
   projectName: string,
@@ -552,7 +543,7 @@ async function writeManagedWorkspaceFile(
   result[existed ? "updatedFiles" : "createdFiles"].push(file.relativePath);
 }
 
-async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput): Promise<BootstrapResult> {
+async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResult> {
   const root = path.resolve(input.targetPath ?? process.cwd());
   const projectName = input.projectName?.trim() || path.basename(root);
   const projectSummary = input.projectSummary?.trim() || undefined;
@@ -567,12 +558,8 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
   const docsMode = input.docsMode ?? "standard";
 
   await ensureDirectory(root);
-
-  if (mode === "init") {
-    await assertInitTargetIsSafe(root);
-  } else {
-    await assertAdoptTargetExists(root);
-  }
+  const initStrategy = await resolveInitStrategy(root);
+  const mode = "init";
 
   const result: BootstrapResult = {
     mode,
@@ -589,7 +576,7 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
     await writeManagedWorkspaceFile(root, file, force, result);
   }
 
-  const allowMergeExistingDocs = mode !== "adopt";
+  const allowMergeExistingDocs = false;
 
   for (const doc of buildDocsFiles(projectName, projectSummary, endGoal)) {
     if (preserveExistingDocs && existsSync(path.join(root, doc.relativePath))) {
@@ -600,7 +587,7 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
   }
 
   for (const file of buildDocsTextFiles()) {
-    await writeManagedTextFile(root, file, force, mode !== "adopt", result);
+    await writeManagedTextFile(root, file, force, initStrategy === "new", result);
   }
 
   await withWorkspaceRoot(root, async () => {
@@ -627,9 +614,5 @@ async function bootstrapWorkspace(mode: "init" | "adopt", input: BootstrapInput)
 }
 
 export async function initWorkspace(input: BootstrapInput): Promise<BootstrapResult> {
-  return bootstrapWorkspace("init", input);
-}
-
-export async function adoptWorkspace(input: BootstrapInput): Promise<BootstrapResult> {
-  return bootstrapWorkspace("adopt", input);
+  return bootstrapWorkspace(input);
 }

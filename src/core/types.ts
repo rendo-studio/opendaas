@@ -109,7 +109,7 @@ export interface WorkspaceMetaState {
   workspaceName: string;
   docsRoot: string;
   workspaceRoot: string;
-  bootstrapMode: "init" | "adopt";
+  bootstrapMode: "init";
   templateVersion: string;
   projectKind: "general" | "frontend" | "library" | "service";
   docsMode: "minimal" | "standard";

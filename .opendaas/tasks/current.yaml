@@ -63,7 +63,7 @@ items:
     countedForProgress: true
     summary: Expose the workflow guide through a dedicated CLI command and short reminders across command help output.
   - id: task-onboarding-3
-    name: Scaffold AGENTS.md and default .agents skills during init and adopt
+    name: Scaffold AGENTS.md and default .agents skills during bootstrap
     status: done
     planRef: ship-onboarding-and-workflow-guidance-1
     parentTaskId: task-onboarding
@@ -138,7 +138,7 @@ items:
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: null
     countedForProgress: false
-    summary: Make sure 100% completion means users and development agents can actually adopt and operate OpenDaaS safely.
+    summary: Make sure 100% completion means users and development agents can actually initialize and operate OpenDaaS safely.
   - id: task-production-readiness-1
     name: Define a production-readiness checklist and closure bar
     status: done
@@ -152,14 +152,14 @@ items:
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: task-production-readiness
     countedForProgress: true
-    summary: Close the highest-impact gaps across init, adopt, validate, site runtime, and user-facing guidance so the framework behaves predictably in real projects.
+    summary: Close the highest-impact gaps across init, validate, site runtime, and user-facing guidance so the framework behaves predictably in real projects.
   - id: task-production-readiness-3
     name: Validate the first-hour human and development-agent loop end to end
     status: done
     planRef: production-readiness-hardening-and-first-hour-1
     parentTaskId: task-production-readiness
     countedForProgress: true
-    summary: Verify that a human and a development agent can install or adopt OpenDaaS, orient themselves, and complete a correct first closed loop using the documented workflow.
+    summary: Verify that a human and a development agent can initialize OpenDaaS in a real repository, orient themselves, and complete a correct first closed loop using the documented workflow.
   - id: task-guide-source
     name: Unify the Agent-first guide source
     status: done
@@ -187,7 +187,7 @@ items:
     planRef: unify-agent-first-guide-source-1
     parentTaskId: task-guide-source
     countedForProgress: true
-    summary: Teach init, adopt, overview, end goal, plans, tasks, docs-vs-.opendaas writes, automatic derived status views, and first-loop operation in a single Agent-first guide.
+    summary: Teach init, overview, end goal, plans, tasks, docs-vs-.opendaas writes, automatic derived status views, and first-loop operation in a single Agent-first guide.
   - id: task-guide-refinement
     name: Refine the Agent guide and site workflow
     status: done
@@ -306,9 +306,9 @@ items:
     planRef: improve-bootstrap-and-live-sync-1
     parentTaskId: null
     countedForProgress: false
-    summary: Reduce agent friction in init and adopt, make status show truly observational, and make docs-site refresh track real workspace mutations more reliably.
+    summary: Reduce agent friction in init, make status show truly observational, and make docs-site refresh track real workspace mutations more reliably.
   - id: task-bootstrap-live-sync-1
-    name: Make init and adopt cheaper to invoke from the current workspace
+    name: Make init cheaper to invoke from the current workspace
     status: done
     planRef: improve-bootstrap-and-live-sync-1
     parentTaskId: task-bootstrap-live-sync
@@ -356,31 +356,31 @@ items:
     parentTaskId: task-derived-state-cleanup
     countedForProgress: true
     summary: Update workspace specs, bootstrap templates, migration checks, and regression tests so OpenDaaS documents and enforces the new explicit-facts-only workspace model.
-  - id: task-safe-adopt-version
-    name: Align safe adopt and project-level version records
+  - id: task-safe-init-version
+    name: Align safe init and project-level version records
     status: in_progress
-    planRef: align-safe-adopt-and-version-records-1
+    planRef: align-safe-init-and-version-records-1
     parentTaskId: null
     countedForProgress: false
-    summary: Replace invasive adopt behavior and finalize a safer bootstrap model plus low-frequency version records.
-  - id: task-safe-adopt-version-1
-    name: Switch init and adopt to the minimal docs package safely
+    summary: Replace split bootstrap commands with a safer single-init model plus low-frequency version records.
+  - id: task-safe-init-version-1
+    name: Make init the single bootstrap path with safe existing-project behavior
     status: done
-    planRef: align-safe-adopt-and-version-records-1
-    parentTaskId: task-safe-adopt-version
+    planRef: align-safe-init-and-version-records-1
+    parentTaskId: task-safe-init-version
     countedForProgress: true
-    summary: Make new scaffolds generate the shared/public/internal docs package and ensure adopt never rewrites existing authored docs at the same path.
-  - id: task-safe-adopt-version-2
+    summary: Make new scaffolds generate the shared/public/internal docs package and ensure init never rewrites existing authored docs at the same path.
+  - id: task-safe-init-version-2
     name: Finalize project-level version records
     status: done
-    planRef: align-safe-adopt-and-version-records-1
-    parentTaskId: task-safe-adopt-version
+    planRef: align-safe-init-and-version-records-1
+    parentTaskId: task-safe-init-version
     countedForProgress: true
     summary: Rename the command surface, workspace files, docs projection, and related semantics to low-frequency project-level version records.
-  - id: task-safe-adopt-version-3
+  - id: task-safe-init-version-3
     name: Align docs, guidance, and runtime projections with the new model
     status: in_progress
-    planRef: align-safe-adopt-and-version-records-1
-    parentTaskId: task-safe-adopt-version
+    planRef: align-safe-init-and-version-records-1
+    parentTaskId: task-safe-init-version
     countedForProgress: true
     summary: Update framework specs, current authored docs, site navigation, and workflow guidance so humans and development agents see the same safe bootstrap and version-record model.

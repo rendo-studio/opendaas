@@ -27,7 +27,7 @@ items:
   - id: production-readiness-hardening-and-first-hour-1
     name: Production-readiness hardening and first-hour validation
     parentPlanId: null
-    summary: Close edge cases, missing guardrails, and adoption UX gaps so 100% completion means a real production-grade closure for users and development agents.
+    summary: Close edge cases, missing guardrails, and bootstrap UX gaps so 100% completion means a real production-grade closure for users and development agents.
   - id: unify-agent-first-guide-source-1
     name: Unify the Agent-first guide source
     parentPlanId: null
@@ -51,12 +51,12 @@ items:
   - id: improve-bootstrap-and-live-sync-1
     name: Improve bootstrap ergonomics and live sync
     parentPlanId: null
-    summary: Make init and adopt cheaper for agents to invoke from the current workspace, make status show truly read-only, and tighten docs-site refresh around real workspace changes.
+    summary: Make init cheaper for agents to invoke from the current workspace, cover both new and existing repositories safely, make status show truly read-only, and tighten docs-site refresh around real workspace changes.
   - id: remove-persisted-derived-state-from-workspace-1
     name: Remove persisted derived state from the workspace model
     parentPlanId: null
     summary: Keep `.opendaas` limited to explicit facts, derive progress and plan execution status on read, and align validation, docs, and tests with the Agent-first model.
-  - id: align-safe-adopt-and-version-records-1
-    name: Align safe adopt and project-level version records
+  - id: align-safe-init-and-version-records-1
+    name: Align safe init and project-level version records
     parentPlanId: null
-    summary: Switch bootstrap to the minimal docs package safely, finalize low-frequency project-level version records, and align docs plus runtime projections with the new model.
+    summary: Make init the single bootstrap path with safe existing-project behavior, finalize low-frequency project-level version records, and align docs plus runtime projections with the new model.

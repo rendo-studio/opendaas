@@ -10,7 +10,6 @@ import { registerSiteGroup } from "./groups/site.js";
 import { registerVersionGroup } from "./groups/version.js";
 import { registerValidateCommand } from "./commands/validate.js";
 import { registerInitCommand } from "./commands/init.js";
-import { registerAdoptCommand } from "./commands/adopt.js";
 import { registerGuideCommand } from "./commands/guide.js";
 import { withGuideHint } from "./guide-hint.js";
 
@@ -25,7 +24,6 @@ export function createApp() {
   });
 
   registerInitCommand(app);
-  registerAdoptCommand(app);
   registerGuideCommand(app);
   registerProjectGroup(app);
   registerDecisionGroup(app);

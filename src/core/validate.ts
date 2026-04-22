@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 
-import { adoptWorkspace, WORKSPACE_SCHEMA_VERSION, WORKSPACE_TEMPLATE_VERSION } from "./bootstrap.js";
+import { initWorkspace, WORKSPACE_SCHEMA_VERSION, WORKSPACE_TEMPLATE_VERSION } from "./bootstrap.js";
 import { migrateDecisionState } from "./decision.js";
 import { loadEndGoal } from "./end-goal.js";
 import { loadProjectOverview } from "./project-overview.js";
@@ -168,7 +168,7 @@ export async function repairWorkspace() {
   const endGoal = await loadEndGoal();
   const { meta, config } = await loadMetaAndConfig();
 
-  const result = await adoptWorkspace({
+  const result = await initWorkspace({
     targetPath: paths.root,
     projectName: path.basename(paths.root),
     endGoalName: endGoal.name,
@@ -185,7 +185,7 @@ export async function repairWorkspace() {
     workspaceName: meta?.workspaceName ?? path.basename(paths.root),
     docsRoot: meta?.docsRoot ?? "docs",
     workspaceRoot: meta?.workspaceRoot ?? ".opendaas",
-    bootstrapMode: meta?.bootstrapMode ?? "adopt",
+    bootstrapMode: "init",
     templateVersion: WORKSPACE_TEMPLATE_VERSION,
     projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
     docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",

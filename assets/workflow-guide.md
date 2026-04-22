@@ -219,7 +219,7 @@ Use direct `.opendaas/` edits as the best practice when:
 
 Use CLI as the best practice when:
 
-- creating or adopting a workspace
+- initializing a workspace in a new or existing repository
 - validating and repairing the workspace
 - starting, building, or cleaning the docs site
 - making small targeted control-plane mutations
@@ -260,15 +260,16 @@ Default CLI output is Markdown for development agents. Add `--json` only when yo
 
 ## Bring A Workspace Under Control
 
-Use `opendaas init` for a new or empty directory.
+Use `opendaas init` for both cases:
 
-Use `opendaas adopt` for an existing repository that needs an OpenDaaS workspace.
+- empty directory: create a new OpenDaaS workspace
+- existing repository: attach the OpenDaaS control plane safely
 
 Bootstrap defaults to the current directory when `--target-path` is omitted.
 
-Project overview and end goal can be provisional during bootstrap. If the project shape is still unclear, initialize or adopt first, then refine the anchors later with `opendaas project set` and `opendaas goal set`.
+Project overview and end goal can be provisional during bootstrap. If the project shape is still unclear, initialize first, then refine the anchors later with `opendaas project set` and `opendaas goal set`.
 
-`opendaas adopt` must stay non-invasive:
+When `init` targets an existing repository, it must stay non-invasive:
 
 - it can create missing OpenDaaS-managed anchors
 - it must not rewrite existing authored docs at the same path
@@ -279,11 +280,10 @@ Examples:
 ```bash
 opendaas init
 opendaas init --project-name Example --project-summary "CLI-first project context control plane for Example." --end-goal-name "Ship Example" --end-goal-summary "Turn Example into a stable product with a clear delivery loop."
-opendaas adopt
-opendaas adopt --project-name Existing --project-summary "Existing repository brought under OpenDaaS control." --end-goal-name "Stabilize Existing Repo" --end-goal-summary "Bring the existing repository under a reliable OpenDaaS control plane."
+opendaas init --project-name Existing --project-summary "Existing repository brought under OpenDaaS control." --end-goal-name "Stabilize Existing Repo" --end-goal-summary "Bring the existing repository under a reliable OpenDaaS control plane."
 ```
 
-Immediately after `init` or `adopt`, run:
+Immediately after `init`, run:
 
 ```bash
 opendaas site open
@@ -383,7 +383,7 @@ Rules:
 
 The first-hour loop is a cold-start loop. It is not the right default for warm continuation.
 
-1. Create or adopt the workspace.
+1. Initialize the workspace.
 2. Start the docs site with `opendaas site open`.
 3. Run `opendaas validate`.
 4. If validation exposes repairable issues, run `opendaas validate --repair`.

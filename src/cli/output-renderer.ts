@@ -475,11 +475,11 @@ function renderValidationPayload(payload: Record<string, unknown>): string {
   return renderValidationSnapshot(validation);
 }
 
-function renderBootstrapPayload(kind: "init" | "adopt", payload: Record<string, unknown>): string {
+function renderBootstrapPayload(kind: "init", payload: Record<string, unknown>): string {
   const record = isRecord(payload[kind]) ? (payload[kind] as Record<string, unknown>) : payload;
   return ensureTrailingNewline(
     [
-      `# ${kind === "init" ? "Workspace Initialized" : "Workspace Adopted"}`,
+      "# Workspace Initialized",
       "",
       `- Mode: ${typeof record.mode === "string" ? inlineCode(record.mode) : inlineCode(kind)}`,
       `- Root: ${typeof record.root === "string" ? inlineCode(record.root) : "Unknown"}`,
@@ -564,10 +564,6 @@ function renderSuccessPayload(payload: unknown): string {
 
   if ("init" in payload) {
     return renderBootstrapPayload("init", payload);
-  }
-
-  if ("adopt" in payload) {
-    return renderBootstrapPayload("adopt", payload);
   }
 
   return renderGenericRecord("Result", payload);

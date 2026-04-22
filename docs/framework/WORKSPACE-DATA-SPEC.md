@@ -145,7 +145,7 @@ schemaVersion: 8
 workspaceName: opendaas
 docsRoot: docs
 workspaceRoot: .opendaas
-bootstrapMode: adopt
+bootstrapMode: init
 templateVersion: 2026-04-21.agent-first-derived-state-1
 projectKind: general
 docsMode: standard

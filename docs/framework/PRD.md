@@ -42,13 +42,13 @@ OpenDaaS 解决的不是“如何替用户做决策”，而是：
 - 方法论中立：核心层不绑定外部方法论
 - Agent-first：`.opendaas/` 优先服务开发端 Agent 的读写模型
 - Authored docs 与结构化控制面分离：`docs/` 是 authored context，`.opendaas/` 是结构化真相层
-- 最小侵入：adopt 不能破坏已有项目
+- 最小侵入：既有项目接入不能破坏已有项目
 - 派生视图读取时计算：不依赖手动 sync
 
 ## 核心能力
 
 - `guide`
-- `init / adopt`
+- `init`
 - `validate`
 - `project / goal / plan / task / status`
 - `decision`

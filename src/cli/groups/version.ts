@@ -138,7 +138,7 @@ export function registerVersionGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas version update --id 0-2-0-stable-control-plane-baseline --highlights 'Removed persisted derived state,Made adopt non-invasive' --status recorded"
+        "opendaas version update --id 0-2-0-stable-control-plane-baseline --highlights 'Removed persisted derived state,Made init safe for existing repos' --status recorded"
       ],
       handler: async (payload) => ({
         version: await updateVersionRecord({

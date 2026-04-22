@@ -16,7 +16,7 @@ description: 定义 OpenDaaS 达到生产级闭环前必须满足的收口标准
 
 ## 采用与上手
 
-- `init` 和 `adopt` 可重复执行
+- `init` 可重复执行，并在已有仓库上保持非侵入
 - `opendaas guide` 可直接提供权威工作流入口
 - `opendaas guide` 与 `.agents/skills/opendaas-workflow/SKILL.md` 内容完全一致并来自同一 CLI 资产
 - 每个 CLI help 都会把用户引回 workflow guide
