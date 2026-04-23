@@ -1,5 +1,3 @@
-# AGENTS.md
-
 ## OpenDaaS
 
 Use OpenDaaS in this repository.

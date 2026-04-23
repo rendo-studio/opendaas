@@ -14,6 +14,7 @@ OpenDaaS is a CLI-first project context control plane for development agents and
 The core rule is simple:
 
 - prefer the cheapest safe action
+- make the project identity and long-lived goal explicit before substantial implementation
 - do not spend tokens re-reading state you still trust
 - refresh the control plane when context is cold or possibly stale
 
@@ -51,6 +52,31 @@ Treat the workspace as potentially desynced when one of these is true:
 - you are preparing a handoff, version, or decision boundary
 - the local docs-site view may no longer match the control plane
 
+## Goal-Driven Development
+
+OpenDaaS expects development agents to treat project definition and long-lived intent as first-class prerequisites, not optional afterthoughts.
+
+Before substantial implementation, you should be able to answer:
+
+- what project this repository is actually trying to build
+- what the long-lived end goal is
+- whether the current request is the whole project, one feature, or one execution slice
+- what "done" means at the project level, not just the current task level
+
+If these answers are not already explicit in the workspace or authored docs:
+
+- inspect the smallest credible source first
+- if the project identity or long-lived goal is still unclear, ask the human directly
+- do not silently substitute a one-line feature request for a project definition
+
+Important distinctions:
+
+- a user request is not automatically the project overview
+- a current task is not automatically the end goal
+- a local implementation slice is not automatically the product boundary
+
+When the project definition is unclear, clarification is part of the work. Do not skip it just to start coding faster.
+
 ## Cold Round Start
 
 Only cold rounds require the full round-start sequence.
@@ -64,8 +90,9 @@ opendaas status show
 
 Then apply this rule:
 
-- if `status show` already gives you the goal, phase, next actions, and blockers, start work
+- if `status show` already gives you the project identity, goal, phase, next actions, and blockers, start work
 - inspect more files only if something is still unclear
+- if the project identity or long-lived goal is still unclear, clarify them before implementation
 - if a human may have changed files, inspect the touched workspace surface directly before continuing
 
 If a human does not currently need the docs site, stop it explicitly:
@@ -143,6 +170,8 @@ In repositories following the recommended docs package profile, this usually mea
 
 Do not read both `.opendaas` state and authored docs for the same question unless there is a mismatch you are actively resolving.
 
+If neither source is enough to establish what the project is or what the project is trying to become, ask the human before implementation.
+
 ## Non-Negotiable Write Rules
 
 Treat `docs/` and `.opendaas/` as two separate surfaces with different purposes.
@@ -172,6 +201,7 @@ OpenDaaS recommends a minimal authored docs profile for general projects:
 
 ```text
 docs/
+  meta.json
   shared/
     overview.md
     goal.md
@@ -183,6 +213,7 @@ Treat it as a best-practice reference, not a mandatory directory contract.
 
 Use:
 
+- `docs/meta.json` to define the intended top-level docs-site order when the default scaffold is enough
 - `docs/shared/overview.md` for what the project is
 - `docs/shared/goal.md` for where the project is trying to go
 - `docs/public/` for external-facing authored docs
@@ -308,7 +339,7 @@ The project overview answers:
 Use:
 
 ```bash
-opendaas project set --name OpenDaaS --summary "CLI-first project context control plane for development agents." --doc-path shared/overview.md
+opendaas project set --name "Example Project" --summary "One-sentence definition of what this repository is actually building." --doc-path shared/overview.md
 opendaas project show
 ```
 
@@ -319,11 +350,13 @@ If bootstrap used a provisional goal anchor, replace it as soon as the long-live
 Use:
 
 ```bash
-opendaas goal set --name "Make OpenDaaS durable" --description "Turn OpenDaaS into a stable project context control plane for development agents and the humans directing them."
+opendaas goal set --name "Ship Example" --description "Long-lived outcome that defines what success means for the whole project."
 opendaas goal show
 ```
 
 If the goal changes materially, record a decision before or alongside the change.
+
+If you cannot state the project overview and end goal without hedging, stop and clarify them before doing substantial implementation work.
 
 ## Build Plans And Tasks
 

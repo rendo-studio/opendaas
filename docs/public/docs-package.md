@@ -11,6 +11,7 @@ OpenDaaS recommends this minimal docs package profile:
 
 ```text
 docs/
+  meta.json
   shared/
     overview.md
     goal.md
@@ -36,6 +37,12 @@ docs/
 - maintainer-facing authored docs
 - implementation details, verification rules, and repository-specific notes
 
+`meta.json`
+
+- root navigation order for the default docs-site experience
+- the scaffolded example of how to make top-level docs ordering explicit
+- not a business-meaning contract; just a navigation hint for the docs site
+
 ## Important Boundary
 
 This profile is a recommendation and a default scaffold.
@@ -43,6 +50,8 @@ This profile is a recommendation and a default scaffold.
 It is not a runtime requirement.
 
 A repository may choose a different docs package shape as long as OpenDaaS references authored pages through explicit `docPath` values.
+
+The scaffold includes `docs/meta.json` because top-level navigation order is part of the human-facing reading experience, and it gives development agents a concrete minimal example of docs-site navigation configuration.
 
 ## What To Avoid
 

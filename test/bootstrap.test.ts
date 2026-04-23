@@ -33,6 +33,7 @@ describe("init", () => {
     expect(first.createdFiles).toContain(".opendaas/goals/end.yaml");
     expect(first.createdFiles).toContain("docs/shared/overview.md");
     expect(first.createdFiles).toContain("docs/shared/goal.md");
+    expect(first.createdFiles).toContain("docs/meta.json");
     expect(first.createdFiles).toContain("docs/public/.gitkeep");
     expect(first.createdFiles).toContain("docs/internal/.gitkeep");
     expect(first.createdFiles).toContain("AGENTS.md");
@@ -83,9 +84,13 @@ describe("init", () => {
       projectName: "Example Project"
     });
 
+    const docsMeta = await fs.readFile(path.join(root, "docs", "meta.json"), "utf8");
     const overviewDoc = await fs.readFile(path.join(root, "docs", "shared", "overview.md"), "utf8");
     const goalDoc = await fs.readFile(path.join(root, "docs", "shared", "goal.md"), "utf8");
 
+    expect(JSON.parse(docsMeta)).toEqual({
+      pages: ["shared", "public", "internal"]
+    });
     expect(overviewDoc).not.toContain(".opendaas/project/overview.yaml");
     expect(overviewDoc).not.toContain("共享层只保留最稳定、最通用的项目上下文");
     expect(goalDoc).not.toContain("Console");
@@ -183,5 +188,25 @@ describe("init", () => {
 
     const sharedOverview = await fs.readFile(path.join(root, "docs", "shared", "overview.md"), "utf8");
     expect(sharedOverview).toBe("# Existing shared overview\n\nDo not touch this file.\n");
+  });
+
+  it("appends the OpenDaaS guidance block to an existing AGENTS.md instead of overwriting it", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-agents-"));
+    cleanups.push(root);
+
+    await fs.writeFile(path.join(root, "README.md"), "# Existing project\n", "utf8");
+    await fs.writeFile(path.join(root, "AGENTS.md"), "# Existing AGENTS\n\nLocal rule.\n", "utf8");
+
+    await initWorkspace({
+      targetPath: root,
+      projectName: "Existing Project"
+    });
+
+    const agents = await fs.readFile(path.join(root, "AGENTS.md"), "utf8");
+
+    expect(agents).toContain("# Existing AGENTS");
+    expect(agents).toContain("Local rule.");
+    expect(agents).toContain("## OpenDaaS");
+    expect(agents).toContain("<!-- OPENDAAS:BEGIN -->");
   });
 });

@@ -39,12 +39,16 @@ describe("site runtime staging", () => {
 
     const staged = await stageDocsForSiteRuntime(root);
     const sharedOverview = await fs.readFile(path.join(staged.stagedDocsRoot, "shared", "overview.md"), "utf8");
+    const stagedMeta = await fs.readFile(path.join(staged.stagedDocsRoot, "meta.json"), "utf8");
     const stagedIndexExists = await fs
       .stat(path.join(staged.stagedDocsRoot, "index.md"))
       .then(() => true)
       .catch(() => false);
 
     expect(sharedOverview).toContain("title: Project Overview");
+    expect(JSON.parse(stagedMeta)).toEqual({
+      pages: ["console", "shared", "public", "internal"]
+    });
     expect(stagedIndexExists).toBe(false);
   });
 

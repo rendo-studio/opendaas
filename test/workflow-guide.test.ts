@@ -14,13 +14,15 @@ describe("workflow guide", () => {
     expect(guide.markdown).toContain("### Cold Round");
     expect(guide.markdown).toContain("### Warm Continuation");
     expect(guide.markdown).toContain("### Desync Suspicion");
+    expect(guide.markdown).toContain("## Goal-Driven Development");
+    expect(guide.markdown).toContain("do not silently substitute a one-line feature request for a project definition");
     expect(guide.markdown).toContain("## Cold Round Start");
     expect(guide.markdown).toContain("opendaas site open");
     expect(guide.markdown).toContain("do not rerun `site open` or `status show` by default");
     expect(guide.markdown).toContain("## Inspect Only If Needed");
     expect(guide.markdown).toContain("## Refresh The Workspace First");
     expect(guide.markdown).toContain("opendaas init");
-    expect(guide.markdown).toContain("opendaas project show");
+    expect(guide.markdown).toContain('opendaas project set --name "Example Project"');
     expect(guide.markdown).not.toContain("opendaas diff");
   });
 });

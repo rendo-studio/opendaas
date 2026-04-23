@@ -403,6 +403,16 @@ function buildDocsFiles(
 function buildDocsTextFiles(): ManagedTextFile[] {
   return [
     {
+      relativePath: "docs/meta.json",
+      content: `${JSON.stringify(
+        {
+          pages: ["shared", "public", "internal"]
+        },
+        null,
+        2
+      )}\n`
+    },
+    {
       relativePath: "docs/public/.gitkeep",
       content: ""
     },

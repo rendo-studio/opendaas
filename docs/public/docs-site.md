@@ -52,6 +52,8 @@ Relevant fields:
 - `docsSite.sourcePath`
 - `docsSite.preferredPort`
 
+Within the docs package itself, `meta.json` can be used to make navigation order explicit. The default scaffold includes one at the package root to demonstrate a minimal top-level navigation configuration.
+
 ## What The Site Should Not Depend On
 
 The docs site should not depend on:
