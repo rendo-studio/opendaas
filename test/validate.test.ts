@@ -49,9 +49,6 @@ describe("workspace validation and repair", () => {
       ].join("\n"),
       "utf8"
     );
-    await fs.rm(path.join(root, "docs", "engineering", "agent.md"), { force: true });
-    await fs.rm(path.join(root, ".apcc", "agent", "SKILL.md"), { force: true });
-
     const before = await withWorkspaceRoot(root, async () => validateWorkspace());
     expect(before.repairNeeded).toBe(true);
     expect(before.schemaIssues.length).toBeGreaterThan(0);

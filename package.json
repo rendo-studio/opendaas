@@ -19,7 +19,8 @@
     "dev": "node --import tsx ./src/bin/apcc.ts",
     "test": "vitest run",
     "check": "tsc --noEmit",
-    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json"
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json",
+    "verify:site-lifecycle": "node --import tsx ./scripts/verify-site-lifecycle.ts"
   },
   "dependencies": {
     "@rendo-studio/aclip": "^0.3.0",

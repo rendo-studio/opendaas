@@ -56,6 +56,29 @@ describe("init", () => {
     expect(progressFileExists).toBe(false);
   });
 
+  it("persists the primary docs language and scaffolds localized shared docs when requested", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-zh-docs-"));
+    cleanups.push(root);
+
+    const result = await initWorkspace({
+      targetPath: root,
+      projectName: "示例项目",
+      docsLanguage: "zh-CN"
+    });
+
+    const config = await fs.readFile(path.join(root, ".apcc", "config", "workspace.yaml"), "utf8");
+    const meta = await fs.readFile(path.join(root, ".apcc", "meta", "workspace.yaml"), "utf8");
+    const overviewDoc = await fs.readFile(path.join(root, "docs", "shared", "概览.md"), "utf8");
+    const goalDoc = await fs.readFile(path.join(root, "docs", "shared", "目标.md"), "utf8");
+
+    expect(result.createdFiles).toContain("docs/shared/概览.md");
+    expect(result.createdFiles).toContain("docs/shared/目标.md");
+    expect(config).toContain("docsLanguage: zh-CN");
+    expect(meta).toContain("docsLanguage: zh-CN");
+    expect(overviewDoc).toContain("# 项目概览");
+    expect(goalDoc).toContain("# 项目目标");
+  });
+
   it("can initialize the current directory with provisional overview and end-goal anchors", async () => {
     const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-cwd-"));
     cleanups.push(root);

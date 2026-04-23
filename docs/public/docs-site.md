@@ -41,6 +41,19 @@ Remove the staged runtime:
 apcc site clean
 ```
 
+## Lifecycle Expectations
+
+APCC treats the local docs site runtime as a managed local service.
+
+Expected behavior:
+
+- `apcc site open` starts the runtime if it is not running yet
+- a second `apcc site open` reuses the healthy runtime instead of restarting it
+- `apcc site stop` stops the local runtime but preserves the staged runtime for a faster next start
+- `apcc site clean` stops the runtime and removes the staged runtime so the next start is cold
+
+The lifecycle commands should not mutate a healthy running runtime just to decide whether it can be reused.
+
 ## Source Path
 
 The docs site reads from the configured docs package root in:
@@ -49,10 +62,13 @@ The docs site reads from the configured docs package root in:
 
 Relevant fields:
 
+- `docsLanguage`
 - `docsSite.sourcePath`
 - `docsSite.preferredPort`
 
 Within the docs package itself, `meta.json` can be used to make navigation order explicit. The default scaffold includes one at the package root to demonstrate a minimal top-level navigation configuration.
+
+The docs site uses the workspace `docsLanguage` value as its default locale when opening `/docs` without an explicit language prefix.
 
 ## What The Site Should Not Depend On
 

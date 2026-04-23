@@ -19,6 +19,12 @@ apcc init
 
 Use `init` for both new directories and existing repositories.
 
+If the repository's primary authored docs language should not be English, set it explicitly during initialization:
+
+```bash
+apcc init --docs-language zh-CN
+```
+
 2. Review the two shared anchors:
 
 - project overview
@@ -30,6 +36,8 @@ Update them if the provisional values are not good enough:
 apcc project set --name "My Project" --summary "One-line project definition." --doc-path shared/overview.md
 apcc goal set --name "Ship My Project" --description "Long-lived project outcome." --doc-path shared/goal.md
 ```
+
+The default English scaffold uses `shared/overview.md` and `shared/goal.md`. If the primary docs language is different, the scaffold may use localized anchor filenames instead.
 
 3. Make the current execution tree explicit:
 

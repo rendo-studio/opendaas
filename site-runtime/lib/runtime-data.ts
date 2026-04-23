@@ -64,6 +64,7 @@ export interface ControlPlaneSnapshot {
     root: string | null;
     docsRoot: string;
     workspaceRoot: string | null;
+    docsLanguage: "en" | "zh-CN";
     hasWorkspace: boolean;
     activeChange: string | null;
     currentRoundId: string | null;
@@ -212,6 +213,7 @@ export async function loadControlPlaneSnapshot(): Promise<ControlPlaneSnapshot> 
       root: null,
       docsRoot: "",
       workspaceRoot: null,
+      docsLanguage: "en",
       hasWorkspace: false,
       activeChange: null,
       currentRoundId: null,

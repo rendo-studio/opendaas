@@ -40,3 +40,15 @@ npm run dev -- site build
 ```
 
 Add targeted runtime smoke checks when the change affects the site runtime, docs rendering, or CLI command behavior.
+
+## Embedded Docs Runtime Package Manager
+
+The embedded docs runtime stays on `npm` for now.
+
+Reason:
+
+- the runtime template already carries a `package-lock.json`
+- `npm ci` gives deterministic installs for the embedded runtime
+- switching to `pnpm` or `bun` would add extra runtime bootstrap branches, lockfile policy, and cross-platform verification surface without improving the core APCC workflow
+
+Revisit this only if the embedded runtime shows a concrete install-performance or reliability problem that npm cannot handle cleanly.

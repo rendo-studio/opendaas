@@ -39,15 +39,30 @@ function renderWrappedAgentsSection(template: string): string {
   return `${APCC_AGENTS_BEGIN}\n${template.trim()}\n${APCC_AGENTS_END}`;
 }
 
+function normalizeLineEndings(value: string): string {
+  return value.replace(/\r\n/g, "\n");
+}
+
 function mergeAgentsMd(current: string, template: string): string {
   const standalone = renderStandaloneAgentsMd(template).trim();
   const wrapped = renderWrappedAgentsSection(template);
-  const normalizedCurrent = current.trim();
-  if (current.trim() === standalone) {
+  const normalizedCurrent = normalizeLineEndings(current).trim();
+  const normalizedStandalone = normalizeLineEndings(standalone).trim();
+  const normalizedWrapped = normalizeLineEndings(wrapped).trim();
+  if (normalizedCurrent === normalizedStandalone) {
     return `${standalone}\n`;
   }
 
-  if (normalizedCurrent === `${standalone}\n\n${wrapped}`.trim()) {
+  if (
+    normalizedCurrent.startsWith("# AGENTS.md") &&
+    normalizedCurrent.includes("## APCC") &&
+    !normalizedCurrent.includes(APCC_AGENTS_BEGIN) &&
+    !normalizedCurrent.includes(APCC_AGENTS_END)
+  ) {
+    return `${standalone}\n`;
+  }
+
+  if (normalizedCurrent === `${normalizedStandalone}\n\n${normalizedWrapped}`.trim()) {
     return `${standalone}\n`;
   }
 

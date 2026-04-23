@@ -36,6 +36,7 @@ Current command groups:
 `init`
 
 - bring a new or existing repository under APCC control
+- choose the primary authored docs language with `--docs-language`
 
 `validate`
 
@@ -87,3 +88,11 @@ apcc <group> --help
 Default CLI output is Markdown for development agents.
 
 Use `--json` only when you need raw structured output for scripting or machine inspection.
+
+## Primary Docs Language
+
+APCC persists one primary docs language in `.apcc/config/workspace.yaml`.
+
+- `init` defaults it to `en`
+- use `apcc init --docs-language zh-CN` when the repository's main authored docs language should be Simplified Chinese
+- APCC does not require mirrored multilingual docs packages

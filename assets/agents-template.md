@@ -11,3 +11,5 @@ Mandatory:
 5. When plans change, refresh the workspace before resuming code work.
 6. If the project identity or long-lived end goal is unclear, clarify them before substantial implementation.
 7. Treat `docs/` as authored context and `.apcc/` as the structured control plane.
+8. When initializing or reinitializing APCC, prefer setting the primary docs language to match the current human conversation unless the repository already has an established docs language.
+9. When a new task, plan change, or execution boundary is confirmed, update `.apcc` first and only then start implementation work.

@@ -16,3 +16,15 @@ items:
     name: Finalize APCC public positioning
     summary: Rename the framework surfaces to APCC and align release-facing guidance, docs, and version records with the new public positioning.
     parentPlanId: null
+  - id: harden-workspace-first-and-docs-language-1
+    name: Harden workspace-first execution and docs-language defaults
+    summary: Make workspace-first updates explicit in agent guidance and persist the primary docs language without introducing multilingual content maintenance overhead.
+    parentPlanId: null
+  - id: harden-docs-site-lifecycle-1
+    name: Harden docs-site lifecycle management
+    summary: Make site open, stop, and clean reuse or terminate the local docs runtime predictably without mutating healthy runtimes or leaving stale Windows wrapper processes behind.
+    parentPlanId: null
+  - id: broaden-cross-platform-verification-1
+    name: Broaden cross-platform verification coverage
+    summary: Add automated multi-OS verification for the CLI and docs-site lifecycle so APCC has explicit evidence for Linux, macOS, and Windows behavior.
+    parentPlanId: null

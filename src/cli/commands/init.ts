@@ -1,6 +1,7 @@
 import { AclipApp, booleanArgument, stringArgument } from "@rendo-studio/aclip";
 
 import { initWorkspace } from "../../core/bootstrap.js";
+import { normalizeDocsLanguage } from "../../core/workspace-config.js";
 import { withGuideHint } from "../guide-hint.js";
 
 function assertProjectKind(value?: string): "general" | "frontend" | "library" | "service" | undefined {
@@ -25,6 +26,19 @@ function assertDocsMode(value?: string): "minimal" | "standard" | undefined {
   }
 
   return value as "minimal" | "standard";
+}
+
+function assertDocsLanguage(value?: string): "en" | "zh-CN" | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  if (!["en", "en-US", "zh", "zh-CN"].includes(value)) {
+    throw new Error(`Unsupported docsLanguage "${value}". Use en or zh-CN.`);
+  }
+
+  const normalized = normalizeDocsLanguage(value);
+  return normalized;
 }
 
 export function registerInitCommand(app: AclipApp) {
@@ -69,6 +83,11 @@ export function registerInitCommand(app: AclipApp) {
         description: "Optional docs mode: minimal or standard.",
         flag: "--docs-mode"
       }),
+      stringArgument("docsLanguage", {
+        required: false,
+        description: "Optional primary docs language: en or zh-CN. Defaults to en.",
+        flag: "--docs-language"
+      }),
       booleanArgument("force", {
         required: false,
         description: "Allow overwriting APCC-managed control-plane files.",
@@ -78,6 +97,7 @@ export function registerInitCommand(app: AclipApp) {
     examples: [
       "apcc init",
       "apcc init --project-name Example --project-summary 'CLI-first project context framework for a service repo.' --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
+      "apcc init --project-name 示例项目 --docs-language zh-CN --project-summary '面向开发代理的项目上下文框架。' --end-goal-name '完成首个稳定版本' --end-goal-summary '将示例项目推进到可持续迭代的稳定状态。'",
       "apcc init --target-path D:/project/existing --project-name Existing --project-summary 'Existing repo brought under APCC management.'",
       "apcc init --target-path D:/project/example --project-name Example --project-summary 'Frontend app managed through APCC.' --project-kind frontend --docs-mode standard"
     ],
@@ -90,6 +110,7 @@ export function registerInitCommand(app: AclipApp) {
         endGoalSummary: payload.endGoalSummary ? String(payload.endGoalSummary) : undefined,
         projectKind: assertProjectKind(payload.projectKind ? String(payload.projectKind) : undefined),
         docsMode: assertDocsMode(payload.docsMode ? String(payload.docsMode) : undefined),
+        docsLanguage: assertDocsLanguage(payload.docsLanguage ? String(payload.docsLanguage) : undefined),
         force: Boolean(payload.force)
       })
     })

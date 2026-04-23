@@ -1,15 +1,18 @@
 import { defineI18n } from "fumadocs-core/i18n";
 import { defineI18nUI } from "fumadocs-ui/i18n";
+import { DEFAULT_SITE_LOCALE } from "./generated-site-config";
+
+export type SiteLocale = "en" | "zh-CN";
+
+const languages: SiteLocale[] = ["en", "zh-CN"];
 
 export const i18n = defineI18n({
-  defaultLanguage: "zh-CN",
-  languages: ["zh-CN", "en"]
+  defaultLanguage: DEFAULT_SITE_LOCALE,
+  languages
 });
 
-export type SiteLocale = (typeof i18n.languages)[number];
-
 export function isSiteLocale(value: string): value is SiteLocale {
-  return i18n.languages.includes(value as SiteLocale);
+  return languages.includes(value as SiteLocale);
 }
 
 export const i18nUI = defineI18nUI(i18n, {

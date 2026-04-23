@@ -61,14 +61,15 @@ const defaultActive: WorkspaceState = {
 };
 
 const defaultMeta: WorkspaceMetaState = {
-  schemaVersion: 8,
+  schemaVersion: 9,
   workspaceName: "test-workspace",
   docsRoot: "docs",
   workspaceRoot: ".apcc",
-    bootstrapMode: "init",
+  bootstrapMode: "init",
   templateVersion: "test-template",
   projectKind: "general",
   docsMode: "standard",
+  docsLanguage: "en",
   createdAt: "2026-04-19T00:00:00Z",
   lastUpgradedAt: null
 };
@@ -78,12 +79,13 @@ const defaultConfig: WorkspaceConfigState = {
   packageManager: "npm",
   projectKind: "general",
   docsMode: "standard",
+  docsLanguage: "en",
   docsSite: {
     enabled: true,
     sourcePath: "docs",
     preferredPort: null
   },
-  workspaceSchemaVersion: 8
+  workspaceSchemaVersion: 9
 };
 
 async function writeYaml(filePath: string, value: unknown) {

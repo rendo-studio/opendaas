@@ -1,8 +1,8 @@
-import { createI18nMiddleware } from "fumadocs-core/i18n/middleware";
+import { NextResponse } from "next/server";
 
-import { i18n } from "./lib/i18n";
-
-export default createI18nMiddleware(i18n);
+export default function proxy() {
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"]

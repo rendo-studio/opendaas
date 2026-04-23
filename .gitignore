@@ -1,3 +1,4 @@
 node_modules/
 dist/
+.repositorys/
 package-lock.json

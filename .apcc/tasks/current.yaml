@@ -69,3 +69,87 @@ items:
     planRef: finalize-apcc-public-positioning-1
     parentTaskId: task-public-positioning
     countedForProgress: true
+  - id: task-workspace-first-and-docs-language
+    name: Harden workspace-first execution and docs-language defaults
+    summary: Update the framework so agents refresh `.apcc` before action and so new workspaces persist one primary docs language without multilingual maintenance overhead.
+    status: done
+    planRef: harden-workspace-first-and-docs-language-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-workspace-first-and-docs-language-1
+    name: Enforce workspace-first guidance
+    summary: Tighten the workflow guide and AGENTS guidance so agents update `.apcc` before implementation when a new task or plan shift is confirmed.
+    status: done
+    planRef: harden-workspace-first-and-docs-language-1
+    parentTaskId: task-workspace-first-and-docs-language
+    countedForProgress: true
+  - id: task-workspace-first-and-docs-language-2
+    name: Persist a primary docs language in new workspaces
+    summary: Add `docsLanguage` to init, workspace config, scaffold generation, and docs-site defaults without adding multilingual docs mapping complexity.
+    status: done
+    planRef: harden-workspace-first-and-docs-language-1
+    parentTaskId: task-workspace-first-and-docs-language
+    countedForProgress: true
+  - id: task-docs-site-lifecycle
+    name: Harden docs-site lifecycle management
+    summary: Fix local docs runtime lifecycle so repeated `site open` calls safely reuse healthy runtimes and `site stop` or `site clean` reliably terminate Windows wrapper processes.
+    status: done
+    planRef: harden-docs-site-lifecycle-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-docs-site-lifecycle-1
+    name: Stop mutating healthy runtimes during reuse checks
+    summary: Ensure `site open` decides reuse before rewriting runtime artifacts or clearing `.next`.
+    status: done
+    planRef: harden-docs-site-lifecycle-1
+    parentTaskId: task-docs-site-lifecycle
+    countedForProgress: true
+  - id: task-docs-site-lifecycle-2
+    name: Make site stop and clean terminate Windows wrapper processes
+    summary: Ensure `site stop` and `site clean` actually kill the hidden PowerShell wrapper and any runtime processes so stale runtimes cannot be falsely reused.
+    status: done
+    planRef: harden-docs-site-lifecycle-1
+    parentTaskId: task-docs-site-lifecycle
+    countedForProgress: true
+  - id: task-docs-site-lifecycle-3
+    name: Verify stable reuse and restart semantics
+    summary: Confirm first open starts a runtime, repeated open reuses it without resetting metadata, stop or clean forces the next open to start fresh, and `site build` still passes.
+    status: done
+    planRef: harden-docs-site-lifecycle-1
+    parentTaskId: task-docs-site-lifecycle
+    countedForProgress: true
+  - id: task-docs-site-lifecycle-4
+    name: Keep site build compatible with the runtime template
+    summary: Fix runtime template typing gaps exposed by `site build` so lifecycle work does not regress the production build check.
+    status: done
+    planRef: harden-docs-site-lifecycle-1
+    parentTaskId: task-docs-site-lifecycle
+    countedForProgress: true
+  - id: task-cross-platform-verification
+    name: Broaden cross-platform verification coverage
+    summary: Add automated cross-platform checks for the CLI and docs-site lifecycle and document the package-manager decision for the embedded docs runtime.
+    status: done
+    planRef: broaden-cross-platform-verification-1
+    parentTaskId: null
+    countedForProgress: false
+  - id: task-cross-platform-verification-1
+    name: Add a cross-platform docs-site lifecycle smoke check
+    summary: Create a serial lifecycle verification script that starts, reuses, stops, restarts, and cleans a temporary docs runtime without depending on the repository workspace.
+    status: done
+    planRef: broaden-cross-platform-verification-1
+    parentTaskId: task-cross-platform-verification
+    countedForProgress: true
+  - id: task-cross-platform-verification-2
+    name: Add multi-OS CI coverage
+    summary: Run check, test, build, docs-site build, and the lifecycle smoke script on Windows, Linux, and macOS in CI.
+    status: done
+    planRef: broaden-cross-platform-verification-1
+    parentTaskId: task-cross-platform-verification
+    countedForProgress: true
+  - id: task-cross-platform-verification-3
+    name: Record the docs-site package-manager decision
+    summary: Document why the embedded docs runtime stays on npm for now instead of switching to bun or pnpm.
+    status: done
+    planRef: broaden-cross-platform-verification-1
+    parentTaskId: task-cross-platform-verification
+    countedForProgress: true

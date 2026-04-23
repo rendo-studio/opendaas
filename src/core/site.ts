@@ -47,6 +47,7 @@ interface StageResult {
   siteId: string;
   sourceDocsRoot: string;
   sourceWorkspaceRoot: string | null;
+  docsLanguage: "en" | "zh-CN";
   runtimeBase: string;
   runtimeRoot: string;
   templateRoot: string;
@@ -806,6 +807,16 @@ async function ensureRuntimeTemplate(runtimeRoot: string): Promise<void> {
   }
 }
 
+async function writeGeneratedSiteConfig(
+  runtimeRoot: string,
+  docsLanguage: "en" | "zh-CN"
+): Promise<void> {
+  await writeText(
+    path.join(runtimeRoot, "lib", "generated-site-config.ts"),
+    `export const DEFAULT_SITE_LOCALE = ${JSON.stringify(docsLanguage)} as const;\n`
+  );
+}
+
 async function clearGeneratedSourceArtifacts(runtimeRoot: string): Promise<void> {
   const generatedSourceFiles = [
     path.join(runtimeRoot, ".source", "server.ts"),
@@ -885,6 +896,7 @@ export async function stageDocsForSiteRuntime(inputPath?: string, options: Stage
   const workspaceConfig = sourceWorkspaceRoot
     ? await loadWorkspaceConfig(sourceWorkspaceRoot).catch(() => null)
     : null;
+  const docsLanguage = workspaceConfig?.docsLanguage ?? "en";
   const runtimeBase = getRuntimeBase();
   const siteId = createSiteId(sourceDocsRoot, sourceWorkspaceRoot);
   const runtimeRoot = getRuntimeRoot(siteId, runtimeBase);
@@ -953,6 +965,7 @@ export async function stageDocsForSiteRuntime(inputPath?: string, options: Stage
     siteId,
     sourceDocsRoot,
     sourceWorkspaceRoot,
+    docsLanguage,
     runtimeBase,
     runtimeRoot,
     templateRoot,
@@ -1035,24 +1048,28 @@ async function ensureWatcher(stage: StageResult, registry: SiteRuntimeRegistry |
 }
 
 async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev") {
-  await ensureRuntimeTemplate(stage.runtimeRoot);
-  await clearGeneratedSourceArtifacts(stage.runtimeRoot);
-  await fs.rm(path.join(stage.runtimeRoot, ".next"), {
-    recursive: true,
-    force: true,
-    maxRetries: 3,
-    retryDelay: 200
-  });
-
   const existing = await readRegistry(stage.runtimeRoot);
   const configuredPort = stage.preferredPort;
   const preferredPort = existing && existing.port > 0 ? existing.port : configuredPort ?? 4310;
-  const reuseExisting = existing && processExists(existing.pid) && (await waitForPort(existing.port, 500));
+  const reuseExisting = Boolean(
+    existing && processExists(existing.pid) && (await waitForPort(existing.port, 500))
+  );
   let port = reuseExisting ? existing!.port : preferredPort;
   let pid = reuseExisting ? existing!.pid : null;
   let watcherPid = existing?.watcherPid ?? null;
+  const startedAt = reuseExisting ? (existing?.startedAt ?? new Date().toISOString()) : new Date().toISOString();
 
   if (!reuseExisting) {
+    await ensureRuntimeTemplate(stage.runtimeRoot);
+    await writeGeneratedSiteConfig(stage.runtimeRoot, stage.docsLanguage);
+    await clearGeneratedSourceArtifacts(stage.runtimeRoot);
+    await fs.rm(path.join(stage.runtimeRoot, ".next"), {
+      recursive: true,
+      force: true,
+      maxRetries: 3,
+      retryDelay: 200
+    });
+
     if (configuredPort !== null) {
       const configuredPortInUse = await waitForPort(configuredPort, 250);
       if (configuredPortInUse) {
@@ -1128,7 +1145,7 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
     sourceWorkspaceRoot: stage.sourceWorkspaceRoot,
     stagedDocsRoot: stage.stagedDocsRoot,
     logFile: stage.logFile,
-    startedAt: new Date().toISOString(),
+    startedAt,
     mode
   };
 
@@ -1169,6 +1186,7 @@ export async function buildSiteRuntime(inputPath?: string) {
   await stopSiteRuntime(inputPath).catch(() => undefined);
   const stage = await stageDocsForSiteRuntime(inputPath);
   await ensureRuntimeTemplate(stage.runtimeRoot);
+  await writeGeneratedSiteConfig(stage.runtimeRoot, stage.docsLanguage);
   await clearGeneratedSourceArtifacts(stage.runtimeRoot);
   await fs.rm(path.join(stage.runtimeRoot, ".next"), { recursive: true, force: true });
 

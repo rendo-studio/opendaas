@@ -7,14 +7,13 @@ description: Internal version note for the first APCC-named public baseline.
 
 ## Summary
 
-This version establishes APCC as the public-facing name and positioning for the framework.
+This version establishes the first public APCC baseline as a clean project context framework release.
 
 ## Highlights
 
-- renamed the framework, CLI, workspace root, and docs-site surfaces from OpenDaaS to APCC
-- clarified that APCC is a project context framework, while the control plane is the architectural role inside a repository
-- re-integrated the repository under the new `.apcc/` workspace root
-- aligned the public docs package, workflow guide, and agent-facing guidance with the new positioning
+- establishes APCC as a CLI-first project context framework with a clean `.apcc` workspace root and public docs package
+- clarifies that APCC is the framework, while the structured project context control plane is the role it gives a repository
+- persists one primary docs language per workspace and scaffolds the shared docs anchors in that language
 
 ## Validation
 

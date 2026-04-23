@@ -5,8 +5,9 @@ import { parse, stringify } from "yaml";
 
 import { inspectGuidanceArtifacts, syncGuidanceArtifacts } from "./guidance.js";
 import { writeText, writeYamlFile } from "./storage.js";
-import { normalizeWorkspaceConfig } from "./workspace-config.js";
+import { normalizeDocsLanguage, normalizeWorkspaceConfig } from "./workspace-config.js";
 import type {
+  DocsLanguage,
   GoalState,
   ProjectOverviewState,
   PlansState,
@@ -23,8 +24,8 @@ import { withWorkspaceRoot } from "./workspace.js";
 type ProjectKind = "general" | "frontend" | "library" | "service";
 type DocsMode = "minimal" | "standard";
 
-export const WORKSPACE_SCHEMA_VERSION = 8;
-export const WORKSPACE_TEMPLATE_VERSION = "2026-04-21.agent-first-derived-state-1";
+export const WORKSPACE_SCHEMA_VERSION = 9;
+export const WORKSPACE_TEMPLATE_VERSION = "2026-04-23.docs-language-1";
 
 interface BootstrapInput {
   targetPath?: string;
@@ -34,6 +35,7 @@ interface BootstrapInput {
   endGoalSummary?: string;
   projectKind?: ProjectKind;
   docsMode?: DocsMode;
+  docsLanguage?: DocsLanguage;
   force?: boolean;
   preserveExistingDocs?: boolean;
 }
@@ -96,6 +98,67 @@ async function listDirEntries(dirPath: string): Promise<string[]> {
   }
 }
 
+interface DocsLanguageProfile {
+  docsLanguage: DocsLanguage;
+  overviewDocPath: string;
+  goalDocPath: string;
+  overviewDocName: string;
+  overviewDocDescription: string;
+  overviewDocTitle: string;
+  overviewSummaryHeading: string;
+  overviewNarrativeHeading: string;
+  goalDocName: string;
+  goalDocDescription: string;
+  goalDocTitle: string;
+  goalHeading: string;
+  goalBackgroundHeading: string;
+  goalSuccessHeading: string;
+  goalNonGoalsHeading: string;
+  goalProgressHeading: string;
+}
+
+function getDocsLanguageProfile(docsLanguage: DocsLanguage): DocsLanguageProfile {
+  if (docsLanguage === "zh-CN") {
+    return {
+      docsLanguage,
+      overviewDocPath: "shared/概览.md",
+      goalDocPath: "shared/目标.md",
+      overviewDocName: "项目概览",
+      overviewDocDescription: "共享项目概览锚点。",
+      overviewDocTitle: "项目概览",
+      overviewSummaryHeading: "项目摘要",
+      overviewNarrativeHeading: "项目介绍、最终目标与当前计划",
+      goalDocName: "项目目标",
+      goalDocDescription: "共享项目目标锚点。",
+      goalDocTitle: "项目目标",
+      goalHeading: "最终目标",
+      goalBackgroundHeading: "背景与理由",
+      goalSuccessHeading: "完成标准",
+      goalNonGoalsHeading: "明确不做什么",
+      goalProgressHeading: "当前进度摘要"
+    };
+  }
+
+  return {
+    docsLanguage,
+    overviewDocPath: "shared/overview.md",
+    goalDocPath: "shared/goal.md",
+    overviewDocName: "Project Overview",
+    overviewDocDescription: "Shared project overview anchor.",
+    overviewDocTitle: "Project Overview",
+    overviewSummaryHeading: "Project Summary",
+    overviewNarrativeHeading: "Project Definition, End Goal, and Current Plan",
+    goalDocName: "Project Goal",
+    goalDocDescription: "Shared project goal anchor.",
+    goalDocTitle: "Project Goal",
+    goalHeading: "End Goal",
+    goalBackgroundHeading: "Background And Rationale",
+    goalSuccessHeading: "Success Criteria",
+    goalNonGoalsHeading: "Non-goals",
+    goalProgressHeading: "Current Progress Summary"
+  };
+}
+
 async function resolveInitStrategy(root: string): Promise<"new" | "existing"> {
   const entries = await listDirEntries(root);
 
@@ -113,82 +176,115 @@ async function resolveInitStrategy(root: string): Promise<"new" | "existing"> {
 
 function buildEndGoal(
   projectName: string,
-  input: Pick<BootstrapInput, "endGoalName" | "endGoalSummary">
+  input: Pick<BootstrapInput, "endGoalName" | "endGoalSummary">,
+  docsLanguage: DocsLanguage
 ): GoalState {
   const hasExplicitGoal = Boolean(input.endGoalName?.trim() && input.endGoalSummary?.trim());
-  const name = input.endGoalName?.trim() || "Unspecified end goal";
+  const docsProfile = getDocsLanguageProfile(docsLanguage);
+  const name = input.endGoalName?.trim() || (docsLanguage === "zh-CN" ? "未明确的最终目标" : "Unspecified end goal");
   const summary =
     input.endGoalSummary?.trim() ||
-    `${projectName} has not defined a long-lived end goal yet. Use \`apcc goal set\` when the target outcome becomes clear.`;
+    (docsLanguage === "zh-CN"
+      ? `${projectName} 还没有定义长期稳定的项目目标。请在目标清晰后使用 \`apcc goal set\` 补齐。`
+      : `${projectName} has not defined a long-lived end goal yet. Use \`apcc goal set\` when the target outcome becomes clear.`);
 
   return {
     goalId: `end-goal-${slugify(name) || "project"}`,
     name,
     summary,
-    docPath: "shared/goal.md",
+    docPath: docsProfile.goalDocPath,
     successCriteria: hasExplicitGoal
       ? [
-          `${projectName} exposes a stable project overview, end goal, plans, tasks, decisions, and version records as structured control-plane data`,
-          `${projectName} keeps shared docs, control-plane state, and local docs-site views aligned for human developers and development agents`,
-          `${projectName} supports a repeatable loop from project understanding to planning, implementation, validation, and version recording`
+          docsLanguage === "zh-CN"
+            ? `${projectName} 以结构化项目状态公开稳定的项目概览、最终目标、计划、任务、决策与版本记录`
+            : `${projectName} exposes a stable project overview, end goal, plans, tasks, decisions, and version records as structured project state`,
+          docsLanguage === "zh-CN"
+            ? `${projectName} 让共享文档、结构化工作区状态与本地文档站视图对人类开发者和开发代理保持一致`
+            : `${projectName} keeps shared docs, structured workspace state, and local docs-site views aligned for human developers and development agents`,
+          docsLanguage === "zh-CN"
+            ? `${projectName} 支持从项目理解、规划、实现、验证到版本记录的可重复工作循环`
+            : `${projectName} supports a repeatable loop from project understanding to planning, implementation, validation, and version recording`
         ]
       : [
-          `Define the long-lived end goal for ${projectName}.`,
-          `Turn the current workspace into an explicit plan and task tree once the destination is clear.`,
-          `${projectName} keeps shared docs and structured workspace state aligned while the project shape is still being discovered.`
+          docsLanguage === "zh-CN"
+            ? `为 ${projectName} 定义长期稳定的最终目标。`
+            : `Define the long-lived end goal for ${projectName}.`,
+          docsLanguage === "zh-CN"
+            ? `在目标清晰后，将当前工作区拆解为明确的计划树与任务树。`
+            : `Turn the current workspace into an explicit plan and task tree once the destination is clear.`,
+          docsLanguage === "zh-CN"
+            ? `${projectName} 在项目形态仍在探索时，也要让共享文档与结构化工作区状态保持一致。`
+            : `${projectName} keeps shared docs and structured workspace state aligned while the project shape is still being discovered.`
         ],
-    nonGoals: [
-      "public hosted docs platform",
-      "full SaaS control plane",
-      "multi-agent orchestration",
-      "cloud sync"
-    ]
+    nonGoals:
+      docsLanguage === "zh-CN"
+        ? ["公开托管文档平台", "完整 SaaS 控制面", "多代理编排平台", "云端同步"]
+        : ["public hosted docs platform", "full SaaS control plane", "multi-agent orchestration", "cloud sync"]
   };
 }
 
-function buildProjectOverview(projectName: string, projectSummary?: string): ProjectOverviewState {
+function buildProjectOverview(
+  projectName: string,
+  projectSummary: string | undefined,
+  docsLanguage: DocsLanguage
+): ProjectOverviewState {
+  const docsProfile = getDocsLanguageProfile(docsLanguage);
   return {
     name: projectName,
     summary:
       projectSummary?.trim() ||
-      `${projectName} has not defined a project overview yet. Use \`apcc project set\` when the project identity, scope, and narrative are clear enough to anchor explicitly.`,
-    docPath: "shared/overview.md"
+      (docsLanguage === "zh-CN"
+        ? `${projectName} 还没有定义项目概览。请在项目定位、范围和叙事足够清晰后使用 \`apcc project set\` 明确锚定。`
+        : `${projectName} has not defined a project overview yet. Use \`apcc project set\` when the project identity, scope, and narrative are clear enough to anchor explicitly.`),
+    docPath: docsProfile.overviewDocPath
   };
 }
 
-function buildPlans(endGoal: GoalState): PlansState {
+function buildPlans(endGoal: GoalState, docsLanguage: DocsLanguage): PlansState {
   return {
     endGoalRef: endGoal.goalId,
     items: [
       {
         id: "establish-shared-project-context-1",
-        name: "Establish shared project context",
-        summary: "Anchor the project overview, end goal, and authored docs before execution begins.",
+        name: docsLanguage === "zh-CN" ? "建立共享项目上下文" : "Establish shared project context",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "在进入正式执行前，先锚定项目概览、最终目标与 authored docs。"
+            : "Anchor the project overview, end goal, and authored docs before execution begins.",
         parentPlanId: null
       },
       {
         id: "translate-end-goal-into-plan-streams-1",
-        name: "Translate the end goal into plan streams",
-        summary: "Break the long-lived end goal into explicit execution streams and task structure.",
+        name: docsLanguage === "zh-CN" ? "将最终目标拆解为计划流" : "Translate the end goal into plan streams",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "把长期目标拆解为明确的执行流与任务结构。"
+            : "Break the long-lived end goal into explicit execution streams and task structure.",
         parentPlanId: null
       },
       {
         id: "deliver-and-validate-first-slice-1",
-        name: "Deliver and validate first slice",
-        summary: "Ship the first concrete slice and verify the framework state stays coherent.",
+        name: docsLanguage === "zh-CN" ? "交付并验证首个切片" : "Deliver and validate first slice",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "交付首个具体切片，并验证框架状态保持一致。"
+            : "Ship the first concrete slice and verify the framework state stays coherent.",
         parentPlanId: null
       }
     ]
   };
 }
 
-function buildTasks(): TasksState {
+function buildTasks(docsLanguage: DocsLanguage): TasksState {
   return {
     items: [
       {
         id: "task-project-context",
-        name: "Establish shared project context",
-        summary: "Create the initial shared-reality anchor for the workspace.",
+        name: docsLanguage === "zh-CN" ? "建立共享项目上下文" : "Establish shared project context",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "为工作区建立初始共享现实锚点。"
+            : "Create the initial shared-reality anchor for the workspace.",
         status: "pending",
         planRef: "establish-shared-project-context-1",
         parentTaskId: null,
@@ -196,8 +292,11 @@ function buildTasks(): TasksState {
       },
       {
         id: "task-project-context-1",
-        name: "Confirm project scope and constraints",
-        summary: "Capture the immediate scope, boundaries, and non-goals for the current round.",
+        name: docsLanguage === "zh-CN" ? "确认项目范围与约束" : "Confirm project scope and constraints",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "记录当前轮次的直接范围、边界与明确不做什么。"
+            : "Capture the immediate scope, boundaries, and non-goals for the current round.",
         status: "pending",
         planRef: "establish-shared-project-context-1",
         parentTaskId: "task-project-context",
@@ -205,8 +304,11 @@ function buildTasks(): TasksState {
       },
       {
         id: "task-breakdown",
-        name: "Translate the end goal into plan streams",
-        summary: "Translate the long-lived end goal into executable plans and tasks.",
+        name: docsLanguage === "zh-CN" ? "将最终目标拆解为计划流" : "Translate the end goal into plan streams",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "把长期目标拆解为可执行的计划与任务。"
+            : "Translate the long-lived end goal into executable plans and tasks.",
         status: "pending",
         planRef: "translate-end-goal-into-plan-streams-1",
         parentTaskId: null,
@@ -214,8 +316,11 @@ function buildTasks(): TasksState {
       },
       {
         id: "task-breakdown-1",
-        name: "Refine the plan tree and active change",
-        summary: "Refine the active plan tree so the next implementation slice is explicit.",
+        name: docsLanguage === "zh-CN" ? "细化计划树与当前变更" : "Refine the plan tree and active change",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "细化当前计划树，让下一个实现切片明确可执行。"
+            : "Refine the active plan tree so the next implementation slice is explicit.",
         status: "pending",
         planRef: "translate-end-goal-into-plan-streams-1",
         parentTaskId: "task-breakdown",
@@ -223,8 +328,11 @@ function buildTasks(): TasksState {
       },
       {
         id: "task-delivery",
-        name: "Deliver and validate first slice",
-        summary: "Implement the first meaningful slice and validate the workspace around it.",
+        name: docsLanguage === "zh-CN" ? "交付并验证首个切片" : "Deliver and validate first slice",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "实现首个有意义的切片，并验证围绕它的工作区状态。"
+            : "Implement the first meaningful slice and validate the workspace around it.",
         status: "pending",
         planRef: "deliver-and-validate-first-slice-1",
         parentTaskId: null,
@@ -232,8 +340,11 @@ function buildTasks(): TasksState {
       },
       {
         id: "task-delivery-1",
-        name: "Implement and validate the first concrete slice",
-        summary: "Deliver the first slice and verify the expected framework behavior.",
+        name: docsLanguage === "zh-CN" ? "实现并验证首个具体切片" : "Implement and validate the first concrete slice",
+        summary:
+          docsLanguage === "zh-CN"
+            ? "交付首个具体切片，并验证期望中的框架行为。"
+            : "Deliver the first slice and verify the expected framework behavior.",
         status: "pending",
         planRef: "deliver-and-validate-first-slice-1",
         parentTaskId: "task-delivery",
@@ -257,10 +368,11 @@ function buildWorkspaceFiles(
   projectName: string,
   projectSummary: string | undefined,
   projectKind: ProjectKind,
-  docsMode: DocsMode
+  docsMode: DocsMode,
+  docsLanguage: DocsLanguage
 ): ManagedWorkspaceFile[] {
   const createdAt = isoNow();
-  const projectOverview = buildProjectOverview(projectName, projectSummary);
+  const projectOverview = buildProjectOverview(projectName, projectSummary, docsLanguage);
   const initialDecisionState: DecisionState = {
     items: []
   };
@@ -279,6 +391,7 @@ function buildWorkspaceFiles(
     templateVersion: WORKSPACE_TEMPLATE_VERSION,
     projectKind,
     docsMode,
+    docsLanguage,
     createdAt,
     lastUpgradedAt: null
   };
@@ -286,6 +399,7 @@ function buildWorkspaceFiles(
     ...normalizeWorkspaceConfig(null, {
       projectKind,
       docsMode,
+      docsLanguage,
       workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
     }),
     workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
@@ -313,11 +427,11 @@ function buildWorkspaceFiles(
     },
     {
       relativePath: ".apcc/plans/current.yaml",
-      value: buildPlans(endGoal)
+      value: buildPlans(endGoal, docsLanguage)
     },
     {
       relativePath: ".apcc/tasks/current.yaml",
-      value: buildTasks()
+      value: buildTasks(docsLanguage)
     },
     {
       relativePath: ".apcc/tasks/archive.yaml",
@@ -347,52 +461,54 @@ function buildDocsFiles(
   projectName: string,
   projectSummary: string | undefined,
   endGoal: GoalState,
+  docsLanguage: DocsLanguage,
   options: {
     hasExplicitProjectSummary: boolean;
     hasExplicitEndGoal: boolean;
   }
 ): ManagedDocFile[] {
+  const docsProfile = getDocsLanguageProfile(docsLanguage);
   return [
     {
-      relativePath: "docs/shared/overview.md",
-      name: "Project Overview",
-      description: "Shared project overview anchor.",
-      title: "Project Overview",
+      relativePath: `docs/${docsProfile.overviewDocPath}`,
+      name: docsProfile.overviewDocName,
+      description: docsProfile.overviewDocDescription,
+      title: docsProfile.overviewDocTitle,
       sections: [
         {
-          heading: "项目摘要",
+          heading: docsProfile.overviewSummaryHeading,
           body: options.hasExplicitProjectSummary ? (projectSummary?.trim() ?? "") : ""
         },
         {
-          heading: "项目介绍、最终目标与当前计划",
+          heading: docsProfile.overviewNarrativeHeading,
           body: ""
         }
       ]
     },
     {
-      relativePath: "docs/shared/goal.md",
-      name: "Project Goal",
-      description: "Shared project goal anchor.",
-      title: "Project Goal",
+      relativePath: `docs/${docsProfile.goalDocPath}`,
+      name: docsProfile.goalDocName,
+      description: docsProfile.goalDocDescription,
+      title: docsProfile.goalDocTitle,
       sections: [
         {
-          heading: "最终目标",
+          heading: docsProfile.goalHeading,
           body: options.hasExplicitEndGoal ? `${endGoal.name}\n\n${endGoal.summary}` : ""
         },
         {
-          heading: "背景与理由",
+          heading: docsProfile.goalBackgroundHeading,
           body: ""
         },
         {
-          heading: "完成标准",
+          heading: docsProfile.goalSuccessHeading,
           body: ""
         },
         {
-          heading: "明确不做什么",
+          heading: docsProfile.goalNonGoalsHeading,
           body: ""
         },
         {
-          heading: "当前进度摘要",
+          heading: docsProfile.goalProgressHeading,
           body: ""
         }
       ]
@@ -554,17 +670,22 @@ async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResul
   const root = path.resolve(input.targetPath ?? process.cwd());
   const projectName = input.projectName?.trim() || path.basename(root);
   const projectSummary = input.projectSummary?.trim() || undefined;
-  const endGoal = buildEndGoal(projectName, {
-    endGoalName: input.endGoalName,
-    endGoalSummary: input.endGoalSummary
-  });
   const activeChangeId = `bootstrap-${slugify(projectName) || "project"}`;
   const force = Boolean(input.force);
   const preserveExistingDocs = Boolean(input.preserveExistingDocs);
   const projectKind = input.projectKind ?? "general";
   const docsMode = input.docsMode ?? "standard";
+  const docsLanguage = normalizeDocsLanguage(input.docsLanguage);
   const hasExplicitProjectSummary = Boolean(input.projectSummary?.trim());
   const hasExplicitEndGoal = Boolean(input.endGoalName?.trim() && input.endGoalSummary?.trim());
+  const endGoal = buildEndGoal(
+    projectName,
+    {
+      endGoalName: input.endGoalName,
+      endGoalSummary: input.endGoalSummary
+    },
+    docsLanguage
+  );
 
   await ensureDirectory(root);
   const initStrategy = await resolveInitStrategy(root);
@@ -581,13 +702,22 @@ async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResul
     skippedFiles: []
   };
 
-  for (const file of buildWorkspaceFiles(mode, activeChangeId, endGoal, projectName, projectSummary, projectKind, docsMode)) {
+  for (const file of buildWorkspaceFiles(
+    mode,
+    activeChangeId,
+    endGoal,
+    projectName,
+    projectSummary,
+    projectKind,
+    docsMode,
+    docsLanguage
+  )) {
     await writeManagedWorkspaceFile(root, file, force, result);
   }
 
   const allowMergeExistingDocs = false;
 
-  for (const doc of buildDocsFiles(projectName, projectSummary, endGoal, {
+  for (const doc of buildDocsFiles(projectName, projectSummary, endGoal, docsLanguage, {
     hasExplicitProjectSummary,
     hasExplicitEndGoal
   })) {

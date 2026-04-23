@@ -3,6 +3,7 @@ export type DecisionCategory = "goal" | "scope" | "change" | "architecture" | "v
 export type DecisionStatus = "pending" | "approved" | "rejected";
 export type VersionRecordStatus = "draft" | "recorded";
 export type PageBoundaryMode = "editable" | "projection" | "hybrid";
+export type DocsLanguage = "en" | "zh-CN";
 
 export interface GoalState {
   goalId: string;
@@ -114,6 +115,7 @@ export interface WorkspaceMetaState {
   templateVersion: string;
   projectKind: "general" | "frontend" | "library" | "service";
   docsMode: "minimal" | "standard";
+  docsLanguage: DocsLanguage;
   createdAt: string;
   lastUpgradedAt: string | null;
 }
@@ -129,6 +131,7 @@ export interface WorkspaceConfigState {
   packageManager: string;
   projectKind: "general" | "frontend" | "library" | "service";
   docsMode: "minimal" | "standard";
+  docsLanguage: DocsLanguage;
   docsSite: WorkspaceDocsSiteConfig;
   workspaceSchemaVersion: number;
 }

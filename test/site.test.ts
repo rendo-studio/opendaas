@@ -142,7 +142,8 @@ describe("site runtime staging", () => {
           sourcePath: "docs-pack",
           preferredPort: 4555
         },
-        workspaceSchemaVersion: 8
+        docsLanguage: "en",
+        workspaceSchemaVersion: 9
       }
     });
     restorers.push(fixture.use());

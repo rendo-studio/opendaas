@@ -19,6 +19,7 @@ The core rule is simple:
 - make the project identity and long-lived goal explicit before substantial implementation
 - do not spend tokens re-reading state you still trust
 - refresh the control plane when context is cold or possibly stale
+- update `.apcc` before implementation whenever a new task or plan shift is confirmed
 
 ## Operating States
 
@@ -166,8 +167,8 @@ Read the authored overview, goal, or internal docs only if:
 
 In repositories following the recommended docs package profile, this usually means:
 
-- `docs/shared/overview.md`
-- `docs/shared/goal.md`
+- the overview doc referenced by `.apcc/project/overview.yaml`
+- the goal doc referenced by `.apcc/goals/end.yaml`
 - files under `docs/internal/`
 
 Do not read both `.apcc` state and authored docs for the same question unless there is a mismatch you are actively resolving.
@@ -211,6 +212,8 @@ docs/
   internal/
 ```
 
+The tree above is the default English scaffold. Repositories using another primary docs language may use localized anchor filenames instead.
+
 Treat it as a best-practice reference, not a mandatory directory contract.
 
 Use:
@@ -239,6 +242,33 @@ This means:
 4. Re-open the docs site only if a human needs the refreshed projection.
 
 Do not let code move ahead of the control plane. Humans should always be able to open the site and see what happens next.
+
+## Update The Workspace Before Action
+
+Treat this as a hard execution rule, not a stylistic suggestion.
+
+When a new task, changed plan, new decision boundary, or new version boundary becomes clear:
+
+1. Update `.apcc` first.
+2. Confirm the next explicit task or plan state.
+3. Only then start code, docs, or runtime work.
+
+This applies even in warm continuation. Warm context means you can skip redundant re-sync, not that you can skip recording the new task boundary.
+
+Bad loop:
+
+1. Start coding immediately.
+2. Remember later that the plan changed.
+3. Patch `.apcc` after the implementation already moved.
+
+Correct loop:
+
+1. Confirm the new task or plan boundary.
+2. Write it into `.apcc` directly or through the CLI.
+3. Re-read the derived view only if needed.
+4. Start implementation with the control plane already aligned.
+
+If an agent repeatedly skips this ordering, the workflow guidance is not strong enough and should be tightened.
 
 ## CLI Versus Direct Workspace Edits
 
@@ -300,6 +330,12 @@ Use `apcc init` for both cases:
 
 Bootstrap defaults to the current directory when `--target-path` is omitted.
 
+APCC persists one primary docs language in `.apcc/config/workspace.yaml`.
+
+- `apcc init` defaults that language to `en`
+- when a development agent is initializing a repository for a human, it should usually set `--docs-language` to match the current human conversation language unless the repository already has an established docs language
+- APCC does not require multilingual mirrored docs packages
+
 Project overview and end goal can be provisional during bootstrap. If the project shape is still unclear, initialize first, then refine the anchors later with `apcc project set` and `apcc goal set`.
 
 When `init` targets an existing repository, it must stay non-invasive:
@@ -312,6 +348,7 @@ Examples:
 
 ```bash
 apcc init
+apcc init --docs-language zh-CN --project-name 示例项目 --project-summary "面向开发代理的项目上下文框架。" --end-goal-name "完成首个稳定版本" --end-goal-summary "将示例项目推进到可持续迭代的稳定状态。"
 apcc init --project-name Example --project-summary "CLI-first project context framework for Example." --end-goal-name "Ship Example" --end-goal-summary "Turn Example into a stable product with a clear delivery loop."
 apcc init --project-name Existing --project-summary "Existing repository brought under APCC management." --end-goal-name "Stabilize Existing Repo" --end-goal-summary "Bring the existing repository under a reliable APCC workflow."
 ```

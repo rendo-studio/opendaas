@@ -16,8 +16,6 @@ export interface WorkspacePaths {
   activeStateFile: string;
   decisionFile: string;
   versionFile: string;
-  docsSharedOverviewFile: string;
-  docsSharedGoalFile: string;
 }
 
 interface WorkspaceMetaLike {
@@ -96,9 +94,7 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
     taskArchiveFile: path.join(workspaceRoot, "tasks", "archive.yaml"),
     activeStateFile: path.join(workspaceRoot, "state", "active.yaml"),
     decisionFile: path.join(workspaceRoot, "decisions", "records.yaml"),
-    versionFile: path.join(workspaceRoot, "versions", "records.yaml"),
-    docsSharedOverviewFile: path.join(docsRoot, "shared", "overview.md"),
-    docsSharedGoalFile: path.join(docsRoot, "shared", "goal.md")
+    versionFile: path.join(workspaceRoot, "versions", "records.yaml")
   };
 }
 

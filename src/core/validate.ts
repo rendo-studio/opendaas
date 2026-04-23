@@ -50,6 +50,7 @@ async function loadMetaAndConfig() {
     config = normalizeWorkspaceConfig(rawConfig, {
       projectKind: meta?.projectKind ?? "general",
       docsMode: meta?.docsMode ?? "standard",
+      docsLanguage: meta?.docsLanguage ?? "en",
       workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
     });
   } catch {
@@ -116,6 +117,10 @@ export async function validateWorkspace() {
       schemaIssues.push("Workspace metadata is missing bootstrapMode");
       repairableIssues.push("Backfill workspace bootstrapMode");
     }
+    if (!meta.docsLanguage) {
+      schemaIssues.push("Workspace metadata is missing docsLanguage");
+      repairableIssues.push("Backfill workspace docsLanguage");
+    }
     if (!meta.templateVersion || meta.templateVersion !== WORKSPACE_TEMPLATE_VERSION) {
       warnings.push(
         `Workspace templateVersion is ${meta.templateVersion ?? "missing"}; current templateVersion is ${WORKSPACE_TEMPLATE_VERSION}`
@@ -141,6 +146,10 @@ export async function validateWorkspace() {
     if (!config.docsMode) {
       schemaIssues.push("Workspace config is missing docsMode");
       repairableIssues.push("Backfill workspace docsMode");
+    }
+    if (!config.docsLanguage) {
+      schemaIssues.push("Workspace config is missing docsLanguage");
+      repairableIssues.push("Backfill workspace docsLanguage");
     }
     if (!config.docsSite || config.docsSite.sourcePath === null) {
       schemaIssues.push("Workspace config is missing docsSite configuration");
@@ -183,6 +192,7 @@ export async function repairWorkspace() {
     endGoalSummary: endGoal.summary,
     projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
     docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",
+    docsLanguage: config?.docsLanguage ?? meta?.docsLanguage ?? "en",
     force: false,
     preserveExistingDocs: true
   });
@@ -197,6 +207,7 @@ export async function repairWorkspace() {
     templateVersion: WORKSPACE_TEMPLATE_VERSION,
     projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
     docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",
+    docsLanguage: config?.docsLanguage ?? meta?.docsLanguage ?? "en",
     createdAt: meta?.createdAt ?? new Date().toISOString(),
     lastUpgradedAt: new Date().toISOString()
   };
@@ -204,6 +215,7 @@ export async function repairWorkspace() {
     ...normalizeWorkspaceConfig(config, {
       projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
       docsMode: config?.docsMode ?? meta?.docsMode ?? "standard",
+      docsLanguage: config?.docsLanguage ?? meta?.docsLanguage ?? "en",
       workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION
     }),
     workspaceSchemaVersion: WORKSPACE_SCHEMA_VERSION

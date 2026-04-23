@@ -15,6 +15,7 @@ import { loadProjectOverview } from "./project-overview.js";
 import { derivePlanStatuses, loadPlans } from "./plans.js";
 import { computeProgress } from "./progress.js";
 import { loadVersionState } from "./version.js";
+import { loadWorkspaceConfig } from "./workspace-config.js";
 import { loadTaskArchive, sortArchivedTasks } from "./task-archive.js";
 import {
   buildTaskTree,
@@ -52,6 +53,7 @@ interface WorkspaceSiteSnapshot {
   root: string | null;
   docsRoot: string;
   workspaceRoot: string | null;
+  docsLanguage: "en" | "zh-CN";
   hasWorkspace: boolean;
   activeChange: string | null;
   currentRoundId: string | null;
@@ -255,6 +257,7 @@ async function loadWorkspaceSiteSnapshot(
 ): Promise<SiteControlPlaneSnapshot> {
   return withWorkspaceRoot(workspaceRoot, async () => {
     const paths = getWorkspacePaths();
+    const workspaceConfig = await loadWorkspaceConfig(paths.root).catch(() => null);
     const [project, endGoal, status, plansState, tasksState, archive, decisions, versions] = await Promise.all([
       loadProjectOverview(),
       loadEndGoal(),
@@ -280,6 +283,7 @@ async function loadWorkspaceSiteSnapshot(
         root: paths.root,
         docsRoot,
         workspaceRoot: paths.workspaceRoot,
+        docsLanguage: workspaceConfig?.docsLanguage ?? "en",
         hasWorkspace: true,
         activeChange: active.activeChange,
         currentRoundId: active.currentRoundId,
@@ -342,6 +346,7 @@ export async function buildSiteControlPlaneSnapshot(
       root: null,
       docsRoot,
       workspaceRoot: null,
+      docsLanguage: "en",
       hasWorkspace: false,
       activeChange: null,
       currentRoundId: null,

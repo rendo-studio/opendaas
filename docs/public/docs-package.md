@@ -19,6 +19,8 @@ docs/
   internal/
 ```
 
+This is the default English scaffold. If the repository's primary docs language is different, the shared anchor filenames may be localized while keeping the same structural roles.
+
 ## What Each Section Means
 
 `shared/`
