@@ -42,8 +42,8 @@ export function registerTaskGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas task add --name 'Wire local site runtime' --parent root --plan implement-local-docs-site-runtime-4",
-        "opendaas task add --name 'Add baseline registry' --parent task-site-runtime"
+        "apcc task add --name 'Wire local site runtime' --parent root --plan implement-local-docs-site-runtime-4",
+        "apcc task add --name 'Add baseline registry' --parent task-site-runtime"
       ],
       handler: async ({ name, parent, plan, summary }) => {
         return addTask({
@@ -90,9 +90,9 @@ export function registerTaskGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas task update --id task-2-1 --status in_progress",
-        "opendaas task update --id task-2-1 --summary 'Track the new console sync behavior.'",
-        "opendaas task update --id task-2-1 --status done --counted-for-progress false"
+        "apcc task update --id task-2-1 --status in_progress",
+        "apcc task update --id task-2-1 --summary 'Track the new console sync behavior.'",
+        "apcc task update --id task-2-1 --status done --counted-for-progress false"
       ],
       handler: async (input) => {
         if (
@@ -142,7 +142,7 @@ export function registerTaskGroup(app: AclipApp) {
           description: "Task id."
         })
       ],
-      examples: ["opendaas task delete --id task-2-1"],
+      examples: ["apcc task delete --id task-2-1"],
       handler: async ({ id }) => {
         return deleteTask({
           id: String(id)
@@ -152,7 +152,7 @@ export function registerTaskGroup(app: AclipApp) {
     .command("list", {
       summary: "List the current task tree.",
       description: withGuideHint("Inspect the current tree-shaped task structure."),
-      examples: ["opendaas task list"],
+      examples: ["apcc task list"],
       handler: async () => {
         const tasks = await loadTasks();
         const tree = buildTaskTree(tasks.items);

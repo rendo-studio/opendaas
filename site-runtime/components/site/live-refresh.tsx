@@ -12,7 +12,7 @@ export function LiveRefresh({ initialVersion }: { initialVersion: string }) {
   }, [initialVersion]);
 
   const checkVersion = useEffectEvent(async () => {
-    const response = await fetch("/api/opendaas/version", {
+    const response = await fetch("/api/apcc/version", {
       cache: "no-store"
     }).catch(() => null);
 

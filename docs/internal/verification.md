@@ -1,6 +1,6 @@
 ---
 name: Verification
-description: Verification expectations for changes made inside the OpenDaaS repository.
+description: Verification expectations for changes made inside the APCC repository.
 ---
 
 # Verification
@@ -35,7 +35,7 @@ Add `site open` smoke checks when the runtime lifecycle, docs rendering, or cons
 
 If the change affects workspace schema, bootstrap, or validation:
 
-- inspect the generated `.opendaas/` files
+- inspect the generated `.apcc/` files
 - inspect the generated docs package
 - verify the relevant command output directly
 

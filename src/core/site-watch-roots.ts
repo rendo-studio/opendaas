@@ -7,7 +7,7 @@ export function resolveSiteWatchRoots(sourceDocsRoot: string): string[] {
 
   try {
     const workspaceRoot = resolveWorkspaceRoot(path.dirname(sourceDocsRoot));
-    for (const relative of [".opendaas", ".agents"]) {
+    for (const relative of [".apcc", ".agents"]) {
       watchRoots.add(path.join(workspaceRoot, relative));
     }
   } catch {

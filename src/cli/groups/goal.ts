@@ -28,8 +28,8 @@ export function registerGoalGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas goal set --name 'Make OpenDaaS durable' --description 'Turn OpenDaaS into a stable project context control plane for human developers and development agents.'",
-        "opendaas goal set --doc-path shared/goal.md"
+        "apcc goal set --name 'Make APCC durable' --description 'Turn APCC into a stable project context framework for human developers and development agents.'",
+        "apcc goal set --doc-path shared/goal.md"
       ],
       handler: async ({ name, description, "doc-path": docPath }) => {
         if (!name && !description && !docPath) {
@@ -51,7 +51,7 @@ export function registerGoalGroup(app: AclipApp) {
     .command("show", {
       summary: "Show the end goal.",
       description: withGuideHint("Inspect the currently anchored end goal."),
-      examples: ["opendaas goal show"],
+      examples: ["apcc goal show"],
       handler: async () => ({
         goal: await loadEndGoal()
       })

@@ -29,9 +29,9 @@ function assertDocsMode(value?: string): "minimal" | "standard" | undefined {
 
 export function registerInitCommand(app: AclipApp) {
   app.command("init", {
-    summary: "Initialize a new OpenDaaS workspace.",
+    summary: "Initialize a new APCC workspace.",
     description: withGuideHint(
-      "Initialize OpenDaaS in the current directory or target path. Empty directories get a new workspace; existing projects are attached safely without rewriting existing authored docs."
+      "Initialize APCC in the current directory or target path. Empty directories get a new workspace; existing projects are attached safely without rewriting existing authored docs."
     ),
     arguments: [
       stringArgument("targetPath", {
@@ -46,17 +46,17 @@ export function registerInitCommand(app: AclipApp) {
       }),
       stringArgument("projectSummary", {
         required: false,
-        description: "Optional project overview summary. If omitted, OpenDaaS writes a provisional overview anchor.",
+        description: "Optional project overview summary. If omitted, APCC writes a provisional overview anchor.",
         flag: "--project-summary"
       }),
       stringArgument("endGoalName", {
         required: false,
-        description: "Optional long-lived end goal name. If omitted, OpenDaaS writes a provisional end goal anchor.",
+        description: "Optional long-lived end goal name. If omitted, APCC writes a provisional end goal anchor.",
         flag: "--end-goal-name"
       }),
       stringArgument("endGoalSummary", {
         required: false,
-        description: "Optional one-sentence end goal summary. If omitted, OpenDaaS writes a provisional end goal anchor.",
+        description: "Optional one-sentence end goal summary. If omitted, APCC writes a provisional end goal anchor.",
         flag: "--end-goal-summary"
       }),
       stringArgument("projectKind", {
@@ -71,15 +71,15 @@ export function registerInitCommand(app: AclipApp) {
       }),
       booleanArgument("force", {
         required: false,
-        description: "Allow overwriting OpenDaaS-managed control-plane files.",
+        description: "Allow overwriting APCC-managed control-plane files.",
         flag: "--force"
       })
     ],
     examples: [
-      "opendaas init",
-      "opendaas init --project-name Example --project-summary 'CLI-first project context control plane for a service repo.' --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
-      "opendaas init --target-path D:/project/existing --project-name Existing --project-summary 'Existing repo brought under OpenDaaS control.'",
-      "opendaas init --target-path D:/project/example --project-name Example --project-summary 'Frontend app managed through OpenDaaS.' --project-kind frontend --docs-mode standard"
+      "apcc init",
+      "apcc init --project-name Example --project-summary 'CLI-first project context framework for a service repo.' --end-goal-name 'Make Example reliable' --end-goal-summary 'Turn Example into a stable product with a clear delivery loop.'",
+      "apcc init --target-path D:/project/existing --project-name Existing --project-summary 'Existing repo brought under APCC management.'",
+      "apcc init --target-path D:/project/example --project-name Example --project-summary 'Frontend app managed through APCC.' --project-kind frontend --docs-mode standard"
     ],
     handler: async (payload) => ({
       init: await initWorkspace({

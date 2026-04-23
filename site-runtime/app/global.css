@@ -143,7 +143,7 @@ pre {
   box-shadow: var(--console-item-shadow);
 }
 
-.opendaas-sidebar-label {
+.apcc-sidebar-label {
   display: flex;
   min-width: 0;
   width: 100%;
@@ -152,7 +152,7 @@ pre {
   gap: 0.5rem;
 }
 
-.opendaas-sidebar-title {
+.apcc-sidebar-title {
   min-width: 0;
   flex: 1 1 auto;
   overflow: hidden;
@@ -160,7 +160,7 @@ pre {
   white-space: nowrap;
 }
 
-.opendaas-sidebar-dot {
+.apcc-sidebar-dot {
   flex: none;
   margin-inline-start: auto;
   height: 0.5rem;

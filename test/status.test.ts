@@ -50,7 +50,7 @@ describe("status snapshot", () => {
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
 
-    const planFile = path.join(fixture.root, ".opendaas", "plans", "current.yaml");
+    const planFile = path.join(fixture.root, ".apcc", "plans", "current.yaml");
     await fs.writeFile(
       planFile,
       [

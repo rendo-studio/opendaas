@@ -25,7 +25,7 @@ afterEach(async () => {
 
 describe("site runtime staging", () => {
   it("stages a freshly initialized minimal docs package without requiring docs/index.md", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-site-init-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-site-init-"));
     cleanups.push(async () => {
       await fs.rm(root, { recursive: true, force: true });
     });
@@ -52,7 +52,7 @@ describe("site runtime staging", () => {
     expect(stagedIndexExists).toBe(false);
   });
 
-  it("translates OpenDaaS doc frontmatter into Fumadocs-compatible title/description", async () => {
+  it("translates APCC doc frontmatter into Fumadocs-compatible title/description", async () => {
     const fixture = await createWorkspaceFixture();
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
@@ -102,15 +102,15 @@ describe("site runtime staging", () => {
   });
 
   it("keeps staged runtime roots isolated across different workspaces", async () => {
-    const runtimeBase = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-runtime-base-"));
-    const previousRuntimeBase = process.env.OPENDAAS_SITE_RUNTIME_BASE;
-    process.env.OPENDAAS_SITE_RUNTIME_BASE = runtimeBase;
+    const runtimeBase = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-runtime-base-"));
+    const previousRuntimeBase = process.env.APCC_SITE_RUNTIME_BASE;
+    process.env.APCC_SITE_RUNTIME_BASE = runtimeBase;
     restorers.push(() => {
       if (previousRuntimeBase === undefined) {
-        delete process.env.OPENDAAS_SITE_RUNTIME_BASE;
+        delete process.env.APCC_SITE_RUNTIME_BASE;
         return;
       }
-      process.env.OPENDAAS_SITE_RUNTIME_BASE = previousRuntimeBase;
+      process.env.APCC_SITE_RUNTIME_BASE = previousRuntimeBase;
     });
     cleanups.push(async () => {
       await fs.rm(runtimeBase, { recursive: true, force: true });
@@ -197,7 +197,7 @@ describe("site runtime staging", () => {
     const initialIndex = await fs.readFile(stagedIndexPath, "utf8");
 
     await fs.writeFile(
-      path.join(fixture.root, ".opendaas", "project", "overview.yaml"),
+      path.join(fixture.root, ".apcc", "project", "overview.yaml"),
       [
         "name: Test Project",
         "summary: Updated control-plane summary without touching authored docs.",
@@ -232,7 +232,7 @@ describe("site runtime staging", () => {
     });
     const overviewPage = snapshot.docs.pages.find((page) => page.path === "project/overview.md");
     const workspaceRevisionFileExists = await fs
-      .stat(path.join(fixture.root, ".opendaas", "state", "docs-revisions.json"))
+      .stat(path.join(fixture.root, ".apcc", "state", "docs-revisions.json"))
       .then(() => true)
       .catch(() => false);
     const runtimeRevisionFileExists = await fs
@@ -252,7 +252,7 @@ describe("site runtime staging", () => {
     cleanups.push(fixture.cleanup);
 
     await fs.writeFile(
-      path.join(fixture.root, ".opendaas", "decisions", "records.yaml"),
+      path.join(fixture.root, ".apcc", "decisions", "records.yaml"),
       [
         "items:",
         "  - id: define-version-policy",
@@ -275,7 +275,7 @@ describe("site runtime staging", () => {
       "utf8"
     );
     await fs.writeFile(
-      path.join(fixture.root, ".opendaas", "versions", "records.yaml"),
+      path.join(fixture.root, ".apcc", "versions", "records.yaml"),
       [
         "items:",
         "  - id: 0-2-0-baseline",
@@ -366,7 +366,7 @@ describe("site runtime staging", () => {
     const watchRoots = resolveSiteWatchRoots(path.join(fixture.root, "docs"));
 
     expect(watchRoots).toContain(path.join(fixture.root, "docs"));
-    expect(watchRoots).toContain(path.join(fixture.root, ".opendaas"));
+    expect(watchRoots).toContain(path.join(fixture.root, ".apcc"));
     expect(watchRoots).toContain(path.join(fixture.root, ".agents"));
   });
 });

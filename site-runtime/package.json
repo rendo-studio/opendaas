@@ -1,5 +1,5 @@
 {
-  "name": "opendaas-site-runtime",
+  "name": "apcc-site-runtime",
   "private": true,
   "version": "0.1.0",
   "type": "module",

@@ -22,9 +22,9 @@ export function registerSiteGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas site open",
-        "opendaas site open --path D:/project/example",
-        "opendaas site open --path D:/project/example/docs"
+        "apcc site open",
+        "apcc site open --path D:/project/example",
+        "apcc site open --path D:/project/example/docs"
       ],
       handler: async ({ path }) => {
         const runtime = await openSiteRuntime(path ? String(path) : undefined);
@@ -56,7 +56,7 @@ export function registerSiteGroup(app: AclipApp) {
           description: "Optional project root or docs-pack path. Defaults to the current workspace docs."
         })
       ],
-      examples: ["opendaas site build", "opendaas site build --path D:/project/example/docs"],
+      examples: ["apcc site build", "apcc site build --path D:/project/example/docs"],
       handler: async ({ path }) => ({
         site: await buildSiteRuntime(path ? String(path) : undefined)
       })
@@ -72,7 +72,7 @@ export function registerSiteGroup(app: AclipApp) {
           description: "Optional project root or docs-pack path. Defaults to the configured docs-site source path."
         })
       ],
-      examples: ["opendaas site stop", "opendaas site stop --path D:/project/example"],
+      examples: ["apcc site stop", "apcc site stop --path D:/project/example"],
       handler: async ({ path }) => ({
         site: await stopSiteRuntime(path ? String(path) : undefined)
       })
@@ -88,7 +88,7 @@ export function registerSiteGroup(app: AclipApp) {
           description: "Optional project root or docs-pack path. Defaults to the configured docs-site source path."
         })
       ],
-      examples: ["opendaas site clean", "opendaas site clean --path D:/project/example"],
+      examples: ["apcc site clean", "apcc site clean --path D:/project/example"],
       handler: async ({ path }) => ({
         site: await cleanSiteRuntime(path ? String(path) : undefined)
       })

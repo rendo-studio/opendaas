@@ -7,7 +7,7 @@ description: The recommended authored docs profile and the boundary between reco
 
 ## Recommended Minimum
 
-OpenDaaS recommends this minimal docs package profile:
+APCC recommends this minimal docs package profile:
 
 ```text
 docs/
@@ -49,7 +49,7 @@ This profile is a recommendation and a default scaffold.
 
 It is not a runtime requirement.
 
-A repository may choose a different docs package shape as long as OpenDaaS references authored pages through explicit `docPath` values.
+A repository may choose a different docs package shape as long as APCC references authored pages through explicit `docPath` values.
 
 The scaffold includes `docs/meta.json` because top-level navigation order is part of the human-facing reading experience, and it gives development agents a concrete minimal example of docs-site navigation configuration.
 

@@ -19,7 +19,7 @@ afterEach(async () => {
 
 describe("init", () => {
   it("initializes a new workspace and generates the expected control-plane files", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-"));
     cleanups.push(root);
 
     const first = await initWorkspace({
@@ -29,15 +29,15 @@ describe("init", () => {
       endGoalSummary: "Ship the first releasable slice of Example."
     });
 
-    expect(first.createdFiles).toContain(".opendaas/project/overview.yaml");
-    expect(first.createdFiles).toContain(".opendaas/goals/end.yaml");
+    expect(first.createdFiles).toContain(".apcc/project/overview.yaml");
+    expect(first.createdFiles).toContain(".apcc/goals/end.yaml");
     expect(first.createdFiles).toContain("docs/shared/overview.md");
     expect(first.createdFiles).toContain("docs/shared/goal.md");
     expect(first.createdFiles).toContain("docs/meta.json");
     expect(first.createdFiles).toContain("docs/public/.gitkeep");
     expect(first.createdFiles).toContain("docs/internal/.gitkeep");
     expect(first.createdFiles).toContain("AGENTS.md");
-    expect(first.createdFiles).toContain(".agents/skills/opendaas-workflow/SKILL.md");
+    expect(first.createdFiles).toContain(".agents/skills/apcc-workflow/SKILL.md");
 
     const second = await initWorkspace({
       targetPath: root,
@@ -47,24 +47,24 @@ describe("init", () => {
     });
 
     expect(second.skippedFiles.length).toBeGreaterThan(0);
-    const workspaceEntries = await fs.readdir(path.join(root, ".opendaas"));
+    const workspaceEntries = await fs.readdir(path.join(root, ".apcc"));
     expect(workspaceEntries).not.toContain(String.fromCharCode(100, 105, 102, 102));
     const progressFileExists = await fs
-      .stat(path.join(root, ".opendaas", "state", "progress.yaml"))
+      .stat(path.join(root, ".apcc", "state", "progress.yaml"))
       .then(() => true)
       .catch(() => false);
     expect(progressFileExists).toBe(false);
   });
 
   it("can initialize the current directory with provisional overview and end-goal anchors", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-cwd-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-cwd-"));
     cleanups.push(root);
     const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(root);
 
     try {
       const result = await initWorkspace({});
-      const overview = await fs.readFile(path.join(root, ".opendaas", "project", "overview.yaml"), "utf8");
-      const endGoal = await fs.readFile(path.join(root, ".opendaas", "goals", "end.yaml"), "utf8");
+      const overview = await fs.readFile(path.join(root, ".apcc", "project", "overview.yaml"), "utf8");
+      const endGoal = await fs.readFile(path.join(root, ".apcc", "goals", "end.yaml"), "utf8");
 
       expect(result.root).toBe(root);
       expect(overview).toContain("has not defined a project overview yet");
@@ -75,8 +75,8 @@ describe("init", () => {
     }
   });
 
-  it("generates neutral shared docs instead of injecting OpenDaaS framework narration", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-neutral-docs-"));
+  it("generates neutral shared docs instead of injecting APCC framework narration", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-neutral-docs-"));
     cleanups.push(root);
 
     await initWorkspace({
@@ -91,15 +91,15 @@ describe("init", () => {
     expect(JSON.parse(docsMeta)).toEqual({
       pages: ["shared", "public", "internal"]
     });
-    expect(overviewDoc).not.toContain(".opendaas/project/overview.yaml");
+    expect(overviewDoc).not.toContain(".apcc/project/overview.yaml");
     expect(overviewDoc).not.toContain("共享层只保留最稳定、最通用的项目上下文");
     expect(goalDoc).not.toContain("Console");
-    expect(goalDoc).not.toContain("opendaas status show");
+    expect(goalDoc).not.toContain("apcc status show");
     expect(goalDoc).not.toContain("共享控制面");
   });
 
   it("initializes an existing project without destroying existing docs content", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-existing-"));
     cleanups.push(root);
 
     await fs.writeFile(path.join(root, "README.md"), "# Existing project\n", "utf8");
@@ -118,11 +118,11 @@ describe("init", () => {
 
     const indexContent = await fs.readFile(path.join(root, "docs", "index.md"), "utf8");
     const endGoalFileExists = await fs
-      .stat(path.join(root, ".opendaas", "goals", "end.yaml"))
+      .stat(path.join(root, ".apcc", "goals", "end.yaml"))
       .then(() => true)
       .catch(() => false);
     const projectOverviewExists = await fs
-      .stat(path.join(root, ".opendaas", "project", "overview.yaml"))
+      .stat(path.join(root, ".apcc", "project", "overview.yaml"))
       .then(() => true)
       .catch(() => false);
     const agentsExists = await fs
@@ -130,10 +130,10 @@ describe("init", () => {
       .then(() => true)
       .catch(() => false);
     const workflowSkillExists = await fs
-      .stat(path.join(root, ".agents", "skills", "opendaas-workflow", "SKILL.md"))
+      .stat(path.join(root, ".agents", "skills", "apcc-workflow", "SKILL.md"))
       .then(() => true)
       .catch(() => false);
-    expect(result.createdFiles).toContain(".opendaas/goals/end.yaml");
+    expect(result.createdFiles).toContain(".apcc/goals/end.yaml");
     expect(endGoalFileExists).toBe(true);
     expect(projectOverviewExists).toBe(true);
     expect(agentsExists).toBe(true);
@@ -152,15 +152,15 @@ describe("init", () => {
   });
 
   it("can initialize the current directory when it is already an existing project", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-cwd-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-existing-cwd-"));
     cleanups.push(root);
     await fs.writeFile(path.join(root, "README.md"), "# Existing project\n", "utf8");
     const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(root);
 
     try {
       const result = await initWorkspace({});
-      const overview = await fs.readFile(path.join(root, ".opendaas", "project", "overview.yaml"), "utf8");
-      const endGoal = await fs.readFile(path.join(root, ".opendaas", "goals", "end.yaml"), "utf8");
+      const overview = await fs.readFile(path.join(root, ".apcc", "project", "overview.yaml"), "utf8");
+      const endGoal = await fs.readFile(path.join(root, ".apcc", "goals", "end.yaml"), "utf8");
 
       expect(result.root).toBe(root);
       expect(overview).toContain("has not defined a project overview yet");
@@ -171,7 +171,7 @@ describe("init", () => {
   });
 
   it("never rewrites existing docs when the target path already exists", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-docs-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-existing-docs-"));
     cleanups.push(root);
 
     await fs.mkdir(path.join(root, "docs", "shared"), { recursive: true });
@@ -190,8 +190,8 @@ describe("init", () => {
     expect(sharedOverview).toBe("# Existing shared overview\n\nDo not touch this file.\n");
   });
 
-  it("appends the OpenDaaS guidance block to an existing AGENTS.md instead of overwriting it", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-init-existing-agents-"));
+  it("appends the APCC guidance block to an existing AGENTS.md instead of overwriting it", async () => {
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-init-existing-agents-"));
     cleanups.push(root);
 
     await fs.writeFile(path.join(root, "README.md"), "# Existing project\n", "utf8");
@@ -206,7 +206,7 @@ describe("init", () => {
 
     expect(agents).toContain("# Existing AGENTS");
     expect(agents).toContain("Local rule.");
-    expect(agents).toContain("## OpenDaaS");
-    expect(agents).toContain("<!-- OPENDAAS:BEGIN -->");
+    expect(agents).toContain("## APCC");
+    expect(agents).toContain("<!-- APCC:BEGIN -->");
   });
 });

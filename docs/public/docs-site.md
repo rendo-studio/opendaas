@@ -7,45 +7,45 @@ description: How the local docs site works and what it is expected to show.
 
 ## Purpose
 
-The docs site is the default local collaboration surface for OpenDaaS.
+The docs site is the default local collaboration surface for APCC.
 
 It exists so a human can inspect:
 
 - the authored docs package
 - the current control-plane state
-- the live console views derived from `.opendaas/`
+- the live console views derived from `.apcc/`
 
 ## Runtime Commands
 
 Open the local site:
 
 ```bash
-opendaas site open
+apcc site open
 ```
 
 Stop the runtime without deleting it:
 
 ```bash
-opendaas site stop
+apcc site stop
 ```
 
 Run a production build check:
 
 ```bash
-opendaas site build
+apcc site build
 ```
 
 Remove the staged runtime:
 
 ```bash
-opendaas site clean
+apcc site clean
 ```
 
 ## Source Path
 
 The docs site reads from the configured docs package root in:
 
-`.opendaas/config/workspace.yaml`
+`.apcc/config/workspace.yaml`
 
 Relevant fields:
 
@@ -62,4 +62,4 @@ The docs site should not depend on:
 - hardcoded `project/changes` style conventions
 - implicit version or decision directories
 
-It should render authored docs from the configured package root and structured runtime state from `.opendaas`.
+It should render authored docs from the configured package root and structured runtime state from `.apcc`.

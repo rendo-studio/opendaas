@@ -24,7 +24,7 @@ afterEach(async () => {
 
 describe("first-hour workflow", () => {
   it("creates a workspace that already contains the minimum first-hour guidance loop", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-first-hour-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-first-hour-"));
     cleanups.push(root);
 
     await initWorkspace({
@@ -38,7 +38,7 @@ describe("first-hour workflow", () => {
     const validation = await withWorkspaceRoot(root, async () => validateWorkspace());
     const status = await withWorkspaceRoot(root, async () => getStatusSnapshot());
     const guidanceArtifacts = await withWorkspaceRoot(root, async () => inspectGuidanceArtifacts());
-    const workspaceEntries = await fs.readdir(path.join(root, ".opendaas"));
+    const workspaceEntries = await fs.readdir(path.join(root, ".apcc"));
 
     expect(validation.ok).toBe(true);
     expect(guide.markdown).toContain("## First-Hour Loop");

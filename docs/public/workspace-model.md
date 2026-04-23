@@ -1,16 +1,16 @@
 ---
 name: Workspace Model
-description: The public model for how OpenDaaS separates authored docs from structured control-plane state.
+description: The public model for how APCC separates authored docs from structured control-plane state.
 ---
 
 # Workspace Model
 
 ## Two Surfaces
 
-OpenDaaS is built around a strict separation between:
+APCC is built around a strict separation between:
 
 - `docs/` for authored context
-- `.opendaas/` for structured control-plane state
+- `.apcc/` for structured control-plane state
 
 This separation is not cosmetic. It prevents prose, execution state, and runtime artifacts from drifting into one another.
 
@@ -25,9 +25,9 @@ Put these in `docs/`:
 - maintainer notes
 - external documentation
 
-## What Belongs In `.opendaas/`
+## What Belongs In `.apcc/`
 
-Put these in `.opendaas/`:
+Put these in `.apcc/`:
 
 - project overview
 - end goal
@@ -39,7 +39,7 @@ Put these in `.opendaas/`:
 
 ## Derived State Rule
 
-OpenDaaS should persist explicit facts, not computed caches.
+APCC should persist explicit facts, not computed caches.
 
 That means progress and plan execution status are derived at read time instead of being stored as separate authoritative files.
 

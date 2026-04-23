@@ -43,7 +43,7 @@ function readYamlIfExists<T>(filePath: string): T | null {
 }
 
 function resolveDocsRoot(root: string): string {
-  const workspaceRoot = path.join(root, ".opendaas");
+  const workspaceRoot = path.join(root, ".apcc");
   const config = readYamlIfExists<WorkspaceConfigLike>(path.join(workspaceRoot, "config", "workspace.yaml"));
   const meta = readYamlIfExists<WorkspaceMetaLike>(path.join(workspaceRoot, "meta", "workspace.yaml"));
   const configuredSourcePath = config?.docsSite?.sourcePath?.trim();
@@ -54,7 +54,7 @@ function resolveDocsRoot(root: string): string {
 }
 
 export function resolveWorkspaceRoot(start = process.cwd()): string {
-  const explicitRoot = process.env.OPENDAAS_WORKSPACE_ROOT;
+  const explicitRoot = process.env.APCC_WORKSPACE_ROOT;
   if (explicitRoot) {
     return path.resolve(explicitRoot);
   }
@@ -62,7 +62,7 @@ export function resolveWorkspaceRoot(start = process.cwd()): string {
   let current = path.resolve(start);
 
   while (true) {
-    const hasWorkspace = existsSync(path.join(current, ".opendaas"));
+    const hasWorkspace = existsSync(path.join(current, ".apcc"));
 
     if (hasWorkspace) {
       return current;
@@ -71,7 +71,7 @@ export function resolveWorkspaceRoot(start = process.cwd()): string {
     const parent = path.dirname(current);
     if (parent === current) {
       throw new Error(
-        `Unable to locate an OpenDaaS workspace from ${start}. Expected a .opendaas workspace root.`
+        `Unable to locate an APCC workspace from ${start}. Expected a .apcc workspace root.`
       );
     }
     current = parent;
@@ -81,7 +81,7 @@ export function resolveWorkspaceRoot(start = process.cwd()): string {
 export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
   const root = resolveWorkspaceRoot(start);
   const docsRoot = resolveDocsRoot(root);
-  const workspaceRoot = path.join(root, ".opendaas");
+  const workspaceRoot = path.join(root, ".apcc");
 
   return {
     root,
@@ -103,16 +103,16 @@ export function getWorkspacePaths(start = process.cwd()): WorkspacePaths {
 }
 
 export async function withWorkspaceRoot<T>(root: string, work: () => Promise<T>): Promise<T> {
-  const previous = process.env.OPENDAAS_WORKSPACE_ROOT;
-  process.env.OPENDAAS_WORKSPACE_ROOT = path.resolve(root);
+  const previous = process.env.APCC_WORKSPACE_ROOT;
+  process.env.APCC_WORKSPACE_ROOT = path.resolve(root);
 
   try {
     return await work();
   } finally {
     if (previous === undefined) {
-      delete process.env.OPENDAAS_WORKSPACE_ROOT;
+      delete process.env.APCC_WORKSPACE_ROOT;
     } else {
-      process.env.OPENDAAS_WORKSPACE_ROOT = previous;
+      process.env.APCC_WORKSPACE_ROOT = previous;
     }
   }
 }

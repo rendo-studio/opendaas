@@ -1,20 +1,20 @@
 ---
 name: Quickstart
-description: The shortest correct path to initialize and operate an OpenDaaS workspace.
+description: The shortest correct path to initialize and operate an APCC workspace.
 ---
 
 # Quickstart
 
 ## Who This Is For
 
-This page is for developers who want to start using OpenDaaS in a repository with the fewest moving parts.
+This page is for developers who want to start using APCC in a repository with the fewest moving parts.
 
 ## Minimum Flow
 
 1. Initialize the repository:
 
 ```bash
-opendaas init
+apcc init
 ```
 
 Use `init` for both new directories and existing repositories.
@@ -27,29 +27,29 @@ Use `init` for both new directories and existing repositories.
 Update them if the provisional values are not good enough:
 
 ```bash
-opendaas project set --name "My Project" --summary "One-line project definition." --doc-path shared/overview.md
-opendaas goal set --name "Ship My Project" --description "Long-lived project outcome." --doc-path shared/goal.md
+apcc project set --name "My Project" --summary "One-line project definition." --doc-path shared/overview.md
+apcc goal set --name "Ship My Project" --description "Long-lived project outcome." --doc-path shared/goal.md
 ```
 
 3. Make the current execution tree explicit:
 
 ```bash
-opendaas plan add --name "First stream" --parent root --summary "Main execution stream."
-opendaas task add --name "First task" --parent root --plan first-stream-1 --summary "First concrete unit of work."
+apcc plan add --name "First stream" --parent root --summary "Main execution stream."
+apcc task add --name "First task" --parent root --plan first-stream-1 --summary "First concrete unit of work."
 ```
 
 4. Open the local docs site and inspect the current state:
 
 ```bash
-opendaas site open
-opendaas status show
+apcc site open
+apcc status show
 ```
 
 5. Start work only after the project overview, end goal, plans, and tasks are clear.
 
 ## What To Edit Directly
 
-Use direct `.opendaas/` edits when you already understand the schema and need to update multiple structured fields quickly.
+Use direct `.apcc/` edits when you already understand the schema and need to update multiple structured fields quickly.
 
 Use the CLI when you need:
 

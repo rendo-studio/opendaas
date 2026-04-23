@@ -15,11 +15,11 @@ import { withGuideHint } from "./guide-hint.js";
 
 export function createApp() {
   const app = new AclipApp({
-    name: "opendaas",
+    name: "apcc",
     version: "0.1.0",
-    summary: "OpenDaaS CLI.",
+    summary: "APCC CLI.",
     description: withGuideHint(
-      "A CLI-first project context control plane for human developers and development agents."
+      "A CLI-first project context framework for human developers and development agents."
     )
   });
 

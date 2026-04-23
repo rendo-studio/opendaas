@@ -6,7 +6,7 @@ export function registerValidateCommand(app: AclipApp) {
   app.command("validate", {
     summary: "Validate the current workspace.",
     description: withGuideHint(
-      "Run a validation pass over OpenDaaS anchors, metadata, migration state, and task-tree constraints. Use --repair when the workspace needs recovery or managed files/schema metadata must be backfilled."
+      "Run a validation pass over APCC anchors, metadata, migration state, and task-tree constraints. Use --repair when the workspace needs recovery or managed files/schema metadata must be backfilled."
     ),
     arguments: [
       booleanArgument("repair", {
@@ -15,7 +15,7 @@ export function registerValidateCommand(app: AclipApp) {
         flag: "--repair"
       })
     ],
-    examples: ["opendaas validate", "opendaas validate --repair"],
+    examples: ["apcc validate", "apcc validate --repair"],
     handler: async ({ repair }) =>
       repair
         ? {

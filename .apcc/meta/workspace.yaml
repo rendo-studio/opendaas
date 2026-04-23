@@ -1,0 +1,10 @@
+schemaVersion: 8
+workspaceName: apcc
+docsRoot: docs
+workspaceRoot: .apcc
+bootstrapMode: init
+templateVersion: 2026-04-21.agent-first-derived-state-1
+projectKind: general
+docsMode: standard
+createdAt: 2026-04-22T18:47:35.212Z
+lastUpgradedAt: null

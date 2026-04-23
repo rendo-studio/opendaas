@@ -103,7 +103,7 @@ async function resolveInitStrategy(root: string): Promise<"new" | "existing"> {
     return "new";
   }
 
-  const isExistingWorkspace = entries.includes(".opendaas") && entries.includes("docs");
+  const isExistingWorkspace = entries.includes(".apcc") && entries.includes("docs");
   if (isExistingWorkspace) {
     return "existing";
   }
@@ -119,7 +119,7 @@ function buildEndGoal(
   const name = input.endGoalName?.trim() || "Unspecified end goal";
   const summary =
     input.endGoalSummary?.trim() ||
-    `${projectName} has not defined a long-lived end goal yet. Use \`opendaas goal set\` when the target outcome becomes clear.`;
+    `${projectName} has not defined a long-lived end goal yet. Use \`apcc goal set\` when the target outcome becomes clear.`;
 
   return {
     goalId: `end-goal-${slugify(name) || "project"}`,
@@ -151,7 +151,7 @@ function buildProjectOverview(projectName: string, projectSummary?: string): Pro
     name: projectName,
     summary:
       projectSummary?.trim() ||
-      `${projectName} has not defined a project overview yet. Use \`opendaas project set\` when the project identity, scope, and narrative are clear enough to anchor explicitly.`,
+      `${projectName} has not defined a project overview yet. Use \`apcc project set\` when the project identity, scope, and narrative are clear enough to anchor explicitly.`,
     docPath: "shared/overview.md"
   };
 }
@@ -175,7 +175,7 @@ function buildPlans(endGoal: GoalState): PlansState {
       {
         id: "deliver-and-validate-first-slice-1",
         name: "Deliver and validate first slice",
-        summary: "Ship the first concrete slice and verify the project context control plane stays coherent.",
+        summary: "Ship the first concrete slice and verify the framework state stays coherent.",
         parentPlanId: null
       }
     ]
@@ -233,7 +233,7 @@ function buildTasks(): TasksState {
       {
         id: "task-delivery-1",
         name: "Implement and validate the first concrete slice",
-        summary: "Deliver the first slice and verify the expected control-plane behavior.",
+        summary: "Deliver the first slice and verify the expected framework behavior.",
         status: "pending",
         planRef: "deliver-and-validate-first-slice-1",
         parentTaskId: "task-delivery",
@@ -272,9 +272,9 @@ function buildWorkspaceFiles(
   };
   const meta: WorkspaceMetaState = {
     schemaVersion: WORKSPACE_SCHEMA_VERSION,
-    workspaceName: slugify(projectName) || "opendaas-project",
+    workspaceName: slugify(projectName) || "apcc-project",
     docsRoot: "docs",
-    workspaceRoot: ".opendaas",
+    workspaceRoot: ".apcc",
     bootstrapMode: mode,
     templateVersion: WORKSPACE_TEMPLATE_VERSION,
     projectKind,
@@ -292,43 +292,43 @@ function buildWorkspaceFiles(
   };
   return [
     {
-      relativePath: ".opendaas/meta/workspace.yaml",
+      relativePath: ".apcc/meta/workspace.yaml",
       value: meta
     },
     {
-      relativePath: ".opendaas/config/workspace.yaml",
+      relativePath: ".apcc/config/workspace.yaml",
       value: config
     },
     {
-      relativePath: ".opendaas/state/active.yaml",
+      relativePath: ".apcc/state/active.yaml",
       value: buildActiveState(activeChangeId)
     },
     {
-      relativePath: ".opendaas/goals/end.yaml",
+      relativePath: ".apcc/goals/end.yaml",
       value: endGoal
     },
     {
-      relativePath: ".opendaas/project/overview.yaml",
+      relativePath: ".apcc/project/overview.yaml",
       value: projectOverview
     },
     {
-      relativePath: ".opendaas/plans/current.yaml",
+      relativePath: ".apcc/plans/current.yaml",
       value: buildPlans(endGoal)
     },
     {
-      relativePath: ".opendaas/tasks/current.yaml",
+      relativePath: ".apcc/tasks/current.yaml",
       value: buildTasks()
     },
     {
-      relativePath: ".opendaas/tasks/archive.yaml",
+      relativePath: ".apcc/tasks/archive.yaml",
       value: initialTaskArchiveState
     },
     {
-      relativePath: ".opendaas/decisions/records.yaml",
+      relativePath: ".apcc/decisions/records.yaml",
       value: initialDecisionState
     },
     {
-      relativePath: ".opendaas/versions/records.yaml",
+      relativePath: ".apcc/versions/records.yaml",
       value: initialVersionState
     }
   ];
@@ -574,7 +574,7 @@ async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResul
     mode,
     root,
     docsRoot: path.join(root, "docs"),
-    workspaceRoot: path.join(root, ".opendaas"),
+    workspaceRoot: path.join(root, ".apcc"),
     activeChangeId,
     createdFiles: [],
     updatedFiles: [],
@@ -612,7 +612,7 @@ async function bootstrapWorkspace(input: BootstrapInput): Promise<BootstrapResul
         existed: beforeGuidanceArtifacts.agentsMdExists
       },
       {
-        relativePath: ".agents/skills/opendaas-workflow/SKILL.md",
+        relativePath: ".agents/skills/apcc-workflow/SKILL.md",
         existed: beforeGuidanceArtifacts.workflowSkillExists
       }
     ];

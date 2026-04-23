@@ -50,7 +50,7 @@ const DocsLiveContext = createContext<DocsLiveContextValue>({
 });
 
 function storageKey(prefix: string) {
-  return `opendaas-docs-${prefix}-v2`;
+  return `apcc-docs-${prefix}-v2`;
 }
 
 function readMap(key: string): Record<string, string> {
@@ -179,7 +179,7 @@ export function DocsLiveProvider({
           .map((page) => page.title)
           .join(" · ");
         toast(copy.toasts.docsUpdatedTitle, {
-          id: "opendaas-docs-updated",
+          id: "apcc-docs-updated",
           description:
             newlyUpdatedDocs.length > 3
               ? copy.toasts.docsUpdatedMany(preview, newlyUpdatedDocs.length)
@@ -193,7 +193,7 @@ export function DocsLiveProvider({
         browserState.knownWorkspaceDigest !== workspaceStateDigest
       ) {
         toast(copy.toasts.workspaceUpdatedTitle, {
-          id: "opendaas-workspace-updated",
+          id: "apcc-workspace-updated",
           description: copy.toasts.workspaceUpdatedDescription
         });
       }
@@ -215,7 +215,7 @@ export function DocsLiveProvider({
   }, [browserState, copy, latestByUrl, locale, pages, pathname, workspaceStateDigest]);
 
   const checkVersion = useEffectEvent(async () => {
-    const response = await fetch("/api/opendaas/version", {
+    const response = await fetch("/api/apcc/version", {
       cache: "no-store"
     }).catch(() => null);
 

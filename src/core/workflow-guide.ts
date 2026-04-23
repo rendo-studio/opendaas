@@ -15,7 +15,7 @@ export async function loadWorkflowGuide() {
   const assetPath = getWorkflowGuideAssetPath();
   const markdown = await readText(assetPath);
   return {
-    title: "OpenDaaS Workflow Guide",
+    title: "APCC Workflow Guide",
     description: "Canonical Agent-first workflow guidance distributed with the CLI.",
     assetPath,
     markdown

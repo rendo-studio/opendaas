@@ -1,0 +1,18 @@
+endGoalRef: end-goal-ship-apcc-as-a-stable-public-framework
+items:
+  - id: re-integrate-apcc-repository-1
+    name: Re-integrate the repository under a fresh APCC workspace
+    summary: Re-establish the repository as a clean APCC workspace without relying on archived control-plane or docs material.
+    parentPlanId: null
+  - id: author-formal-public-docs-package-1
+    name: Author a formal public docs package
+    summary: Replace scaffold docs with concise external documentation that explains how to use APCC without exposing repository-specific maintainer detail.
+    parentPlanId: null
+  - id: align-maintainer-docs-and-verification-1
+    name: Align maintainer docs and verification
+    summary: Keep internal maintainer guidance, validation rules, and docs-site checks aligned with the new clean integration.
+    parentPlanId: null
+  - id: finalize-apcc-public-positioning-1
+    name: Finalize APCC public positioning
+    summary: Rename the framework surfaces to APCC and align release-facing guidance, docs, and version records with the new public positioning.
+    parentPlanId: null

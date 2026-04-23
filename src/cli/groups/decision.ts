@@ -85,7 +85,7 @@ export function registerDecisionGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas decision new --name 'Define version record policy' --description 'Introduce low-frequency project-level version records.' --category version --context 'The framework needs a stable version-recording model that is not tied to external publish events.' --impact-of-no-action 'Version history stays ambiguous and mixed with delivery-event semantics.' --expected-outcome 'Project-level version records become explicit and low-frequency.' --boundary 'Only version-record semantics; no external publishing workflow.'"
+        "apcc decision new --name 'Define version record policy' --description 'Introduce low-frequency project-level version records.' --category version --context 'The framework needs a stable version-recording model that is not tied to external publish events.' --impact-of-no-action 'Version history stays ambiguous and mixed with delivery-event semantics.' --expected-outcome 'Project-level version records become explicit and low-frequency.' --boundary 'Only version-record semantics; no external publishing workflow.'"
       ],
       handler: async (payload) => ({
         decision: await createDecisionRecord({
@@ -104,7 +104,7 @@ export function registerDecisionGroup(app: AclipApp) {
     .command("list", {
       summary: "List important decisions.",
       description: withGuideHint("Show recorded decision entries and their current status."),
-      examples: ["opendaas decision list"],
+      examples: ["apcc decision list"],
       handler: async () => ({
         decision: await listDecisionRecords()
       })
@@ -118,7 +118,7 @@ export function registerDecisionGroup(app: AclipApp) {
           description: "Decision record id."
         })
       ],
-      examples: ["opendaas decision show --id introduce-public-alpha-install-path"],
+      examples: ["apcc decision show --id introduce-public-alpha-install-path"],
       handler: async ({ id }) => ({
         decision: await getDecisionRecord(String(id))
       })
@@ -146,7 +146,7 @@ export function registerDecisionGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas decision decide --id introduce-public-alpha-install-path --decision approve --summary 'The remaining risk is bounded and the action is now necessary for public alpha readiness.'"
+        "apcc decision decide --id introduce-public-alpha-install-path --decision approve --summary 'The remaining risk is bounded and the action is now necessary for public alpha readiness.'"
       ],
       handler: async (payload) => ({
         decision: await decideDecisionRecord({

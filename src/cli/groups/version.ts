@@ -32,7 +32,7 @@ export function registerVersionGroup(app: AclipApp) {
     .group("version", {
       summary: "Manage project-level version records.",
       description: withGuideHint(
-        "Persist low-frequency project-level version records in .opendaas and project them into authored internal docs."
+        "Persist low-frequency project-level version records in .apcc and bind them to authored docs through explicit docPath references."
       )
     })
     .command("new", {
@@ -65,7 +65,7 @@ export function registerVersionGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas version new --version 0.2.0 --title 'Stable control-plane baseline' --summary 'First version where the OpenDaaS control plane is considered stable for real project use.' --decision-refs define-version-record-policy"
+        "apcc version new --version 0.2.0 --title 'Stable framework baseline' --summary 'First version where APCC is considered stable enough for real project use.' --decision-refs define-version-record-policy"
       ],
       handler: async (payload) => ({
         version: await createVersionRecord({
@@ -80,7 +80,7 @@ export function registerVersionGroup(app: AclipApp) {
     .command("list", {
       summary: "List version records.",
       description: withGuideHint("Show project-level version records in descending creation order."),
-      examples: ["opendaas version list"],
+      examples: ["apcc version list"],
       handler: async () => ({
         version: await listVersionRecords()
       })
@@ -94,7 +94,7 @@ export function registerVersionGroup(app: AclipApp) {
           description: "Version record id."
         })
       ],
-      examples: ["opendaas version show --id 0-2-0-stable-control-plane-baseline"],
+      examples: ["apcc version show --id 0-2-0-stable-framework-baseline"],
       handler: async ({ id }) => ({
         version: await getVersionRecord(String(id))
       })
@@ -149,7 +149,7 @@ export function registerVersionGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas version update --id 0-2-0-stable-control-plane-baseline --highlights 'Removed persisted derived state,Made init safe for existing repos' --status recorded"
+        "apcc version update --id 0-2-0-stable-framework-baseline --highlights 'Removed persisted derived state,Made init safe for existing repos' --status recorded"
       ],
       handler: async (payload) => ({
         version: await updateVersionRecord({
@@ -180,7 +180,7 @@ export function registerVersionGroup(app: AclipApp) {
           description: "Version record id."
         })
       ],
-      examples: ["opendaas version record --id 0-2-0-stable-control-plane-baseline"],
+      examples: ["apcc version record --id 0-2-0-stable-framework-baseline"],
       handler: async ({ id }) => ({
         version: await updateVersionRecord({
           id: String(id),

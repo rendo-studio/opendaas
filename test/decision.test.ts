@@ -68,16 +68,16 @@ describe("decision control plane", () => {
     restorers.push(fixture.use());
     cleanups.push(fixture.cleanup);
 
-    await fs.mkdir(path.join(fixture.root, ".opendaas", "legacy"), { recursive: true });
+    await fs.mkdir(path.join(fixture.root, ".apcc", "legacy"), { recursive: true });
     await fs.writeFile(
-      path.join(fixture.root, ".opendaas", "legacy", "records.yaml"),
+      path.join(fixture.root, ".apcc", "legacy", "records.yaml"),
       [
         "items:",
         "  - id: introduce-public-alpha-install-path",
         "    name: Introduce public alpha install path",
         "    description: Add the minimum installation path required for external users.",
         "    proposedBy: agent",
-        "    notActingCost: External users cannot try OpenDaaS repeatably.",
+        "    notActingCost: External users cannot try APCC repeatably.",
         "    expectedValue: A real external trial path becomes possible.",
         "    boundary: Only the alpha installation path; no hosted control plane.",
         "    status: started",
@@ -87,12 +87,12 @@ describe("decision control plane", () => {
       ].join("\n"),
       "utf8"
     );
-    await fs.rm(path.join(fixture.root, ".opendaas", "decisions", "records.yaml"), { force: true });
+    await fs.rm(path.join(fixture.root, ".apcc", "decisions", "records.yaml"), { force: true });
 
     const migrated = await migrateDecisionState();
     const all = await listDecisionRecords();
     const legacyFileExists = await fs
-      .stat(path.join(fixture.root, ".opendaas", "legacy", "records.yaml"))
+      .stat(path.join(fixture.root, ".apcc", "legacy", "records.yaml"))
       .then(() => true)
       .catch(() => false);
 

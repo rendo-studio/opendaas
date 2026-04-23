@@ -27,7 +27,7 @@ interface WorkspaceFixtureInput {
 const defaultEndGoal: GoalState = {
   goalId: "end-goal-test",
   name: "Test end goal",
-  summary: "Exercise the OpenDaaS project context control plane in isolation.",
+  summary: "Exercise the APCC project context control plane in isolation.",
   docPath: "shared/goal.md",
   successCriteria: ["Persist and project control-plane state."],
   nonGoals: ["External deployment."]
@@ -35,7 +35,7 @@ const defaultEndGoal: GoalState = {
 
 const defaultProject: ProjectOverviewState = {
   name: "Test Workspace",
-  summary: "Test workspace for isolated OpenDaaS control-plane behavior.",
+  summary: "Test workspace for isolated APCC control-plane behavior.",
   docPath: "shared/overview.md"
 };
 
@@ -64,7 +64,7 @@ const defaultMeta: WorkspaceMetaState = {
   schemaVersion: 8,
   workspaceName: "test-workspace",
   docsRoot: "docs",
-  workspaceRoot: ".opendaas",
+  workspaceRoot: ".apcc",
     bootstrapMode: "init",
   templateVersion: "test-template",
   projectKind: "general",
@@ -108,7 +108,7 @@ function doc(name: string, description: string, body: string): string {
 }
 
 export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "opendaas-test-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "apcc-test-"));
   const project = input.project ?? defaultProject;
   const endGoal = input.endGoal ?? defaultEndGoal;
   const plans = input.plans ?? defaultPlans;
@@ -117,16 +117,16 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
   const config = input.config ?? defaultConfig;
   const meta = input.meta ?? defaultMeta;
 
-  await writeYaml(path.join(root, ".opendaas", "meta", "workspace.yaml"), meta);
-  await writeYaml(path.join(root, ".opendaas", "config", "workspace.yaml"), config);
-  await writeYaml(path.join(root, ".opendaas", "project", "overview.yaml"), project);
-  await writeYaml(path.join(root, ".opendaas", "goals", "end.yaml"), endGoal);
-  await writeYaml(path.join(root, ".opendaas", "plans", "current.yaml"), plans);
-  await writeYaml(path.join(root, ".opendaas", "tasks", "current.yaml"), tasks);
-  await writeYaml(path.join(root, ".opendaas", "tasks", "archive.yaml"), { items: [] });
-  await writeYaml(path.join(root, ".opendaas", "decisions", "records.yaml"), { items: [] });
-  await writeYaml(path.join(root, ".opendaas", "versions", "records.yaml"), { items: [] });
-  await writeYaml(path.join(root, ".opendaas", "state", "active.yaml"), active);
+  await writeYaml(path.join(root, ".apcc", "meta", "workspace.yaml"), meta);
+  await writeYaml(path.join(root, ".apcc", "config", "workspace.yaml"), config);
+  await writeYaml(path.join(root, ".apcc", "project", "overview.yaml"), project);
+  await writeYaml(path.join(root, ".apcc", "goals", "end.yaml"), endGoal);
+  await writeYaml(path.join(root, ".apcc", "plans", "current.yaml"), plans);
+  await writeYaml(path.join(root, ".apcc", "tasks", "current.yaml"), tasks);
+  await writeYaml(path.join(root, ".apcc", "tasks", "archive.yaml"), { items: [] });
+  await writeYaml(path.join(root, ".apcc", "decisions", "records.yaml"), { items: [] });
+  await writeYaml(path.join(root, ".apcc", "versions", "records.yaml"), { items: [] });
+  await writeYaml(path.join(root, ".apcc", "state", "active.yaml"), active);
 
   await writeText(
     path.join(root, "docs", "shared", "overview.md"),
@@ -220,7 +220,7 @@ export async function createWorkspaceFixture(input: WorkspaceFixtureInput = {}) 
       `
 # Engineering Development
 
-OpenDaaS test workspace.
+APCC test workspace.
 `
     )
   );
@@ -228,15 +228,15 @@ OpenDaaS test workspace.
   return {
     root,
     use() {
-      const previous = process.env.OPENDAAS_WORKSPACE_ROOT;
-      process.env.OPENDAAS_WORKSPACE_ROOT = root;
+      const previous = process.env.APCC_WORKSPACE_ROOT;
+      process.env.APCC_WORKSPACE_ROOT = root;
 
       return () => {
         if (previous === undefined) {
-          delete process.env.OPENDAAS_WORKSPACE_ROOT;
+          delete process.env.APCC_WORKSPACE_ROOT;
           return;
         }
-        process.env.OPENDAAS_WORKSPACE_ROOT = previous;
+        process.env.APCC_WORKSPACE_ROOT = previous;
       };
     },
     async cleanup() {

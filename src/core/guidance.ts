@@ -5,15 +5,15 @@ import { existsSync } from "node:fs";
 import { readText, writeText } from "./storage.js";
 import { loadWorkflowGuide } from "./workflow-guide.js";
 
-const OPENDAAS_AGENTS_BEGIN = "<!-- OPENDAAS:BEGIN -->";
-const OPENDAAS_AGENTS_END = "<!-- OPENDAAS:END -->";
+const APCC_AGENTS_BEGIN = "<!-- APCC:BEGIN -->";
+const APCC_AGENTS_END = "<!-- APCC:END -->";
 
 function packageRoot(): string {
   return path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 }
 
 function workflowSkillPath(root = process.cwd()): string {
-  return path.join(root, ".agents", "skills", "opendaas-workflow", "SKILL.md");
+  return path.join(root, ".agents", "skills", "apcc-workflow", "SKILL.md");
 }
 
 function agentsMdPath(root = process.cwd()): string {
@@ -36,7 +36,7 @@ ${template.trim()}
 }
 
 function renderWrappedAgentsSection(template: string): string {
-  return `${OPENDAAS_AGENTS_BEGIN}\n${template.trim()}\n${OPENDAAS_AGENTS_END}`;
+  return `${APCC_AGENTS_BEGIN}\n${template.trim()}\n${APCC_AGENTS_END}`;
 }
 
 function mergeAgentsMd(current: string, template: string): string {
@@ -51,9 +51,9 @@ function mergeAgentsMd(current: string, template: string): string {
     return `${standalone}\n`;
   }
 
-  if (current.includes(OPENDAAS_AGENTS_BEGIN) && current.includes(OPENDAAS_AGENTS_END)) {
+  if (current.includes(APCC_AGENTS_BEGIN) && current.includes(APCC_AGENTS_END)) {
     const next = current.replace(
-      new RegExp(`${OPENDAAS_AGENTS_BEGIN}[\\s\\S]*?${OPENDAAS_AGENTS_END}`, "m"),
+      new RegExp(`${APCC_AGENTS_BEGIN}[\\s\\S]*?${APCC_AGENTS_END}`, "m"),
       wrapped
     );
     if (next.trim() === `${standalone}\n\n${wrapped}`.trim()) {

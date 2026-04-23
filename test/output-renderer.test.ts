@@ -14,14 +14,14 @@ describe("output renderer", () => {
     const rendered = renderCapturedOutput(
       JSON.stringify({
         guide: {
-          markdown: "# OpenDaaS Workflow Guide\n\nRun `opendaas site open` first.\n"
+          markdown: "# APCC Workflow Guide\n\nRun `apcc site open` first.\n"
         }
       }),
       "stdout"
     );
 
-    expect(rendered).toContain("# OpenDaaS Workflow Guide");
-    expect(rendered).toContain("opendaas site open");
+    expect(rendered).toContain("# APCC Workflow Guide");
+    expect(rendered).toContain("apcc site open");
     expect(rendered).not.toContain('"guide"');
   });
 
@@ -30,8 +30,8 @@ describe("output renderer", () => {
       JSON.stringify({
         status: {
           endGoal: {
-            goalId: "end-goal-opendaas",
-            name: "OpenDaaS long-term end goal",
+            goalId: "end-goal-apcc",
+            name: "APCC long-term end goal",
             summary: "Keep project context durable.",
             successCriteria: ["Stable anchors."],
             nonGoals: ["Hosted SaaS."]
@@ -62,7 +62,7 @@ describe("output renderer", () => {
         error: {
           message: "Plan does not exist.",
           code: "not_found",
-          hint: "Run `opendaas plan show` first."
+          hint: "Run `apcc plan show` first."
         }
       }),
       "stderr"

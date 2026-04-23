@@ -14,7 +14,7 @@ export function registerProjectGroup(app: AclipApp) {
     .command("show", {
       summary: "Show the current project overview.",
       description: withGuideHint("Read the current project name, summary, and overview doc path."),
-      examples: ["opendaas project show"],
+      examples: ["apcc project show"],
       handler: async () => ({
         project: await loadProjectOverview()
       })
@@ -39,8 +39,8 @@ export function registerProjectGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas project set --name OpenDaaS --summary 'CLI-first project context control plane for development agents.'",
-        "opendaas project set --summary 'Shared control-plane workspace for a service repo.' --doc-path shared/overview.md"
+        "apcc project set --name APCC --summary 'CLI-first project context framework for development agents.'",
+        "apcc project set --summary 'Shared project context workspace for a service repo.' --doc-path shared/overview.md"
       ],
       handler: async (input) => {
         if (!input.name && !input.summary && !input["doc-path"]) {

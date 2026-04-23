@@ -1,0 +1,23 @@
+items:
+  - id: 0-1-0-apcc-public-baseline
+    version: 0.1.0
+    title: APCC public baseline
+    summary: Renamed the framework from OpenDaaS to APCC and aligned the CLI, workspace, docs package, and docs-site around the new public positioning.
+    docPath: internal/versions/0-1-0-apcc-public-baseline.md
+    status: recorded
+    decisionRefs: []
+    highlights:
+      - Renamed the framework, CLI, workspace root, docs-site routes, and agent guidance surfaces to APCC/apcc/.apcc.
+      - Clarified that APCC is a project context framework and that the control plane is the architectural role inside a repository.
+      - Re-integrated the repository under a clean APCC workspace and formal public docs package.
+    breakingChanges:
+      - CLI name changed from opendaas to apcc.
+      - Workspace root changed from .opendaas to .apcc.
+      - Generated workflow skill path changed from .agents/skills/opendaas-workflow to .agents/skills/apcc-workflow.
+    migrationNotes:
+      - Rename existing .opendaas directories to .apcc before using the new CLI.
+      - Update any local scripts, docs, or prompts that still invoke opendaas commands.
+      - Regenerate AGENTS.md and the workflow skill so local guidance points at apcc commands.
+    validationSummary: npm run check, npm run test, npm run build, npm run dev -- validate, npm run dev -- site build
+    createdAt: 2026-04-23T00:00:00.000Z
+    recordedAt: 2026-04-23T00:00:00.000Z

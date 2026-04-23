@@ -32,9 +32,9 @@ describe("workflow guidance artifacts", () => {
     const inspection = await inspectGuidanceArtifacts(fixture.root);
 
     expect(workflowSkill).toBe(guide.markdown);
-    expect(agents).toContain("It is identical to `opendaas guide`");
+    expect(agents).toContain("It is identical to `apcc guide`");
     expect(agents).toContain("cold round or the workspace may be desynced");
-    expect(agents).toContain("`opendaas site open`");
+    expect(agents).toContain("`apcc site open`");
     expect(agents).toContain("continue without rerunning the full round-start sequence");
     expect(agents).toContain("refresh the workspace");
     expect(agents).toContain("If the project identity or long-lived end goal is unclear");
@@ -55,8 +55,8 @@ describe("workflow guidance artifacts", () => {
     expect(getAgentsTemplateAssetPath()).toContain("assets");
     expect(agents).toContain("# Existing AGENTS");
     expect(agents).toContain("Custom repository rule.");
-    expect(agents).toContain("## OpenDaaS");
-    expect(agents).toContain("<!-- OPENDAAS:BEGIN -->");
-    expect(agents).toContain("<!-- OPENDAAS:END -->");
+    expect(agents).toContain("## APCC");
+    expect(agents).toContain("<!-- APCC:BEGIN -->");
+    expect(agents).toContain("<!-- APCC:END -->");
   });
 });

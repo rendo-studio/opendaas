@@ -111,7 +111,7 @@ const copy: Record<SiteLocale, SiteCopy> = {
       noRecentCompletion: "尚未记录已完成工作。",
       blockers: "阻塞项",
       noActiveBlockers: "当前没有活跃阻塞项。",
-      noExplicitBlocker: "暂无明确 blocker",
+      noExplicitBlocker: "No explicit blocker",
       projectVersions: "项目版本",
       noProjectVersions: "当前还没有项目级版本记录。",
       versionEmptyHint: "当项目进入新的整体成熟状态并值得长期保留时，再创建版本记录。",

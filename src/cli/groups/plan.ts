@@ -52,8 +52,8 @@ export function registerPlanGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas plan add --name 'Harden workspace refresh' --parent root",
-        "opendaas plan add --name 'Add console mutation coverage' --parent harden-workspace-refresh-1"
+        "apcc plan add --name 'Harden workspace refresh' --parent root",
+        "apcc plan add --name 'Add console mutation coverage' --parent harden-workspace-refresh-1"
       ],
       handler: async ({ name, parent, summary }) => {
         const result = await addPlan({
@@ -93,7 +93,7 @@ export function registerPlanGroup(app: AclipApp) {
         })
       ],
       examples: [
-        "opendaas plan update --id harden-workspace-refresh-1 --name 'Harden workspace refresh and console sync'"
+        "apcc plan update --id harden-workspace-refresh-1 --name 'Harden workspace refresh and console sync'"
       ],
       handler: async ({ id, name, summary, parent }) => {
         const result = await updatePlan({
@@ -113,7 +113,7 @@ export function registerPlanGroup(app: AclipApp) {
     .command("show", {
       summary: "Show the current plan tree.",
       description: withGuideHint("Inspect the current structured plan tree."),
-      examples: ["opendaas plan show"],
+      examples: ["apcc plan show"],
       handler: async () => {
         const plans = await loadDerivedPlansForView();
         const tree = buildPlanTree(plans.items);
@@ -136,7 +136,7 @@ export function registerPlanGroup(app: AclipApp) {
           description: "Plan id."
         })
       ],
-      examples: ["opendaas plan delete --id harden-workspace-refresh-1"],
+      examples: ["apcc plan delete --id harden-workspace-refresh-1"],
       handler: async ({ id }) => {
         const result = await deletePlan({
           id: String(id)

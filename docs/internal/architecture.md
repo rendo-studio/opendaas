@@ -1,6 +1,6 @@
 ---
 name: Architecture
-description: High-level repository structure for OpenDaaS maintainers.
+description: High-level repository structure for APCC maintainers.
 ---
 
 # Architecture

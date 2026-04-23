@@ -7,7 +7,7 @@ description: The public command surface and the intended role of each command gr
 
 ## Design Principle
 
-The CLI is a control-plane tool, not the only valid editor for an OpenDaaS workspace.
+The CLI is a control-plane tool, not the only valid editor for an APCC workspace.
 
 Its job is to provide safe entrypoints, validation, and structured mutations where they are most useful.
 
@@ -35,7 +35,7 @@ Current command groups:
 
 `init`
 
-- bring a new or existing repository under OpenDaaS control
+- bring a new or existing repository under APCC control
 
 `validate`
 
@@ -78,8 +78,8 @@ Current command groups:
 If you do not fully understand a command, inspect help before acting:
 
 ```bash
-opendaas --help
-opendaas <group> --help
+apcc --help
+apcc <group> --help
 ```
 
 ## Output Contract

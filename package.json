@@ -1,9 +1,9 @@
 {
-  "name": "opendaas",
+  "name": "apcc",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "OpenDaaS CLI-first project context control plane for human developers and development agents.",
+  "description": "APCC is a CLI-first project context framework for human developers and development agents.",
   "files": [
     "dist",
     "site-runtime",
@@ -13,10 +13,10 @@
     "!site-runtime/content"
   ],
   "bin": {
-    "opendaas": "./dist/bin/opendaas.js"
+    "apcc": "./dist/bin/apcc.js"
   },
   "scripts": {
-    "dev": "node --import tsx ./src/bin/opendaas.ts",
+    "dev": "node --import tsx ./src/bin/apcc.ts",
     "test": "vitest run",
     "check": "tsc --noEmit",
     "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json"

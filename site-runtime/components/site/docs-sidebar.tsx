@@ -103,9 +103,9 @@ function SidebarLabel({
   unreadLabel: string;
 }) {
   return (
-    <span className="opendaas-sidebar-label">
-      <span className="opendaas-sidebar-title">{children}</span>
-      {unread ? <span className="opendaas-sidebar-dot" aria-label={unreadLabel} /> : null}
+    <span className="apcc-sidebar-label">
+      <span className="apcc-sidebar-title">{children}</span>
+      {unread ? <span className="apcc-sidebar-dot" aria-label={unreadLabel} /> : null}
     </span>
   );
 }

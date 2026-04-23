@@ -14,7 +14,7 @@ export function registerStatusGroup(app: AclipApp) {
     .command("show", {
       summary: "Show the current status snapshot.",
       description: withGuideHint("Read the current control-plane summary without mutating files."),
-      examples: ["opendaas status show"],
+      examples: ["apcc status show"],
       handler: async () => ({
         status: await getStatusSnapshot()
       })

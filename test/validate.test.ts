@@ -20,29 +20,29 @@ afterEach(async () => {
 
 describe("workspace validation and repair", () => {
   it("repairs missing metadata, config, and managed docs anchors in the current schema", async () => {
-    const root = path.join(process.env.TEMP ?? process.cwd(), `opendaas-validate-${Date.now()}`);
+    const root = path.join(process.env.TEMP ?? process.cwd(), `apcc-validate-${Date.now()}`);
     cleanups.push(root);
 
     await initWorkspace({
       targetPath: root,
       projectName: "Legacy Workspace",
       endGoalName: "Modernize legacy workspace",
-      endGoalSummary: "Bring the workspace forward to the current OpenDaaS schema."
+      endGoalSummary: "Bring the workspace forward to the current APCC schema."
     });
 
     await fs.writeFile(
-      path.join(root, ".opendaas", "meta", "workspace.yaml"),
+      path.join(root, ".apcc", "meta", "workspace.yaml"),
       [
         "workspaceName: legacy-workspace",
         "docsRoot: docs",
-        "workspaceRoot: .opendaas",
+        "workspaceRoot: .apcc",
         "createdAt: 2026-04-17T00:00:00Z",
         ""
       ].join("\n"),
       "utf8"
     );
     await fs.writeFile(
-      path.join(root, ".opendaas", "config", "workspace.yaml"),
+      path.join(root, ".apcc", "config", "workspace.yaml"),
       [
         "docsSiteEnabled: true",
         ""
@@ -50,7 +50,7 @@ describe("workspace validation and repair", () => {
       "utf8"
     );
     await fs.rm(path.join(root, "docs", "engineering", "agent.md"), { force: true });
-    await fs.rm(path.join(root, ".opendaas", "agent", "SKILL.md"), { force: true });
+    await fs.rm(path.join(root, ".apcc", "agent", "SKILL.md"), { force: true });
 
     const before = await withWorkspaceRoot(root, async () => validateWorkspace());
     expect(before.repairNeeded).toBe(true);

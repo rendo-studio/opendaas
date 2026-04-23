@@ -325,14 +325,14 @@ async function injectRuntimeConsoleDocs(stagedDocsRoot: string): Promise<void> {
   await writeText(
     path.join(consoleRoot, "index.md"),
     convertForFumadocs(
-      renderRuntimeConsoleDoc("Overview", "OpenDaaS runtime console overview."),
+      renderRuntimeConsoleDoc("Overview", "APCC runtime console overview."),
       "Overview"
     )
   );
   await writeText(
     path.join(consoleRoot, "tasks.md"),
     convertForFumadocs(
-      renderRuntimeConsoleDoc("Tasks", "OpenDaaS runtime task console."),
+      renderRuntimeConsoleDoc("Tasks", "APCC runtime task console."),
       "Tasks"
     )
   );
@@ -345,20 +345,20 @@ function getTemplateRoot(): string {
 }
 
 function getRuntimeBase(): string {
-  const override = process.env.OPENDAAS_SITE_RUNTIME_BASE;
+  const override = process.env.APCC_SITE_RUNTIME_BASE;
   if (override) {
     return path.resolve(override);
   }
 
   if (process.platform === "win32") {
-    return path.join(process.env.LOCALAPPDATA ?? path.join(os.homedir(), "AppData", "Local"), "OpenDaaS", "runtime");
+    return path.join(process.env.LOCALAPPDATA ?? path.join(os.homedir(), "AppData", "Local"), "APCC", "runtime");
   }
 
   if (process.platform === "darwin") {
-    return path.join(os.homedir(), "Library", "Application Support", "OpenDaaS", "runtime");
+    return path.join(os.homedir(), "Library", "Application Support", "APCC", "runtime");
   }
 
-  return path.join(process.env.XDG_STATE_HOME ?? path.join(os.homedir(), ".local", "state"), "opendaas", "runtime");
+  return path.join(process.env.XDG_STATE_HOME ?? path.join(os.homedir(), ".local", "state"), "apcc", "runtime");
 }
 
 function tryResolveWorkspaceRootFromDocsRoot(sourceDocsRoot: string): string | null {
@@ -691,7 +691,7 @@ async function findAvailablePort(startPort = 4310): Promise<number> {
     }
   }
 
-  throw new Error("Unable to find an available port for the OpenDaaS site runtime.");
+  throw new Error("Unable to find an available port for the APCC site runtime.");
 }
 
 async function terminateProcessTree(pid: number): Promise<void> {
@@ -1057,7 +1057,7 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
       const configuredPortInUse = await waitForPort(configuredPort, 250);
       if (configuredPortInUse) {
         throw new Error(
-          `Configured docs-site port ${configuredPort} is already in use. Update .opendaas/config/workspace.yaml or free the port.`
+          `Configured docs-site port ${configuredPort} is already in use. Update .apcc/config/workspace.yaml or free the port.`
         );
       }
       port = configuredPort;
@@ -1083,9 +1083,9 @@ async function ensureSiteRuntimeServer(stage: StageResult, mode: "open" | "dev")
         logFile: stage.logFile,
         mirrorLogsToConsole: true,
         bannerLines: [
-          "[OpenDaaS] Starting Next.js docs runtime",
-          `[OpenDaaS] URL: http://127.0.0.1:${port}/docs`,
-          `[OpenDaaS] Log file: ${stage.logFile}`
+          "[APCC] Starting Next.js docs runtime",
+          `[APCC] URL: http://127.0.0.1:${port}/docs`,
+          `[APCC] Log file: ${stage.logFile}`
         ]
       });
       pid = startHiddenWindowsScript(serverScript);

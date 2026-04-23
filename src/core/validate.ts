@@ -76,7 +76,7 @@ export async function validateWorkspace() {
     paths.decisionFile,
     paths.versionFile,
     path.join(paths.root, "AGENTS.md"),
-    path.join(paths.root, ".agents", "skills", "opendaas-workflow", "SKILL.md")
+    path.join(paths.root, ".agents", "skills", "apcc-workflow", "SKILL.md")
   ];
   const referencedDocPaths = [
     resolveDocPath(paths.docsRoot, projectOverview?.docPath),
@@ -103,7 +103,7 @@ export async function validateWorkspace() {
   const warnings: string[] = [];
 
   if (!meta) {
-    schemaIssues.push("Missing .opendaas/meta/workspace.yaml");
+    schemaIssues.push("Missing .apcc/meta/workspace.yaml");
     repairableIssues.push("Backfill workspace metadata");
   } else {
     if ((meta.schemaVersion ?? 0) < WORKSPACE_SCHEMA_VERSION) {
@@ -125,7 +125,7 @@ export async function validateWorkspace() {
   }
 
   if (!config) {
-    schemaIssues.push("Missing .opendaas/config/workspace.yaml");
+    schemaIssues.push("Missing .apcc/config/workspace.yaml");
     repairableIssues.push("Backfill workspace config");
   } else {
     if ((config.workspaceSchemaVersion ?? 0) < WORKSPACE_SCHEMA_VERSION) {
@@ -192,7 +192,7 @@ export async function repairWorkspace() {
     schemaVersion: WORKSPACE_SCHEMA_VERSION,
     workspaceName: meta?.workspaceName ?? path.basename(paths.root),
     docsRoot: meta?.docsRoot ?? "docs",
-    workspaceRoot: meta?.workspaceRoot ?? ".opendaas",
+    workspaceRoot: meta?.workspaceRoot ?? ".apcc",
     bootstrapMode: "init",
     templateVersion: WORKSPACE_TEMPLATE_VERSION,
     projectKind: config?.projectKind ?? meta?.projectKind ?? "general",
